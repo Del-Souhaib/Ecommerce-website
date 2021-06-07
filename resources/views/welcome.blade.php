@@ -62,7 +62,52 @@
             -moz-box-shadow: -1px 2px 17px 0px rgba(32, 79, 140, 0.65);
         }
 
+        .swiper-container-article-info {
+            width: 100%;
+            height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
 
+        .swiper-container-article-info1 {
+            width: 100%;
+            height: 300px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .swiper-slide-article-info {
+            background-size: cover;
+            background-position: center;
+        }
+
+        .swiper-container-article-info2 {
+            height: 80%;
+            width: 100%;
+        }
+
+        .swiper-container-article-info1 {
+            height: 20%;
+            box-sizing: border-box;
+            padding: 10px 0;
+        }
+
+        .swiper-container-article-info1 .swiper-slide {
+            width: 25%;
+            height: 100%;
+            opacity: 0.4;
+        }
+
+        .swiper-container-article-info1 .swiper-slide-thumb-active {
+            opacity: 1;
+        }
+
+        .swiper-slide-article-info img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
     </style>
 
 </head>
@@ -256,6 +301,77 @@
                 <div class="row">
                     <div class="col-5">
                         <img src="{{asset('media/products/product1.jpg')}}" class="img-fluid"/>
+                        <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
+                            class="swiper-container mySwiper2 swiper-container-article-info1">
+                            <div class="swiper-wrapper swiper-wrapper-article-info">
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-6.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-7.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-8.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-9.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-10.jpg"/>
+                                </div>
+                            </div>
+                            <div class="swiper-button-next swiper-button-next-article-info"></div>
+                            <div class="swiper-button-prev swiper-button-prev-article-info"></div>
+                        </div>
+                        <div thumbsSlider="" class="swiper-container swiper-container-article-info2 mySwiper">
+                            <div class="swiper-wrapper swiper-wrapper-article-info">
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-6.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-7.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-8.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-9.jpg"/>
+                                </div>
+                                <div class="swiper-slide swiper-slide-article-info">
+                                    <img src="https://swiperjs.com/demos/images/nature-10.jpg"/>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                     <div class="col-7">
                         <p class="mb-1" style="color: #204f8c;font-size: 22px;font-weight: 300">
@@ -271,7 +387,8 @@
                         </p>
                         <p><b>Etat : </b>Neuf</p>
                         <div class="">
-                            <p class="d-flex align-items-center justify-content-end" style="color: #559f45;font-size: 13px">
+                            <p class="d-flex align-items-center justify-content-end"
+                               style="color: #559f45;font-size: 13px">
                                 <img src="{{asset('media/icons/clock.svg')}}" class="me-2" style="width: 12px">
                                 Produit en stock <b> (1 article)</b>
                             </p>
@@ -312,8 +429,8 @@
 
         $('.addbuttontype2').hover(function () {
             $(this).parent().children('.addbutton4').hide()
-            $width=$(this).parent().children('.addbutton3').outerWidth()+$(this).parent().children('.addbutton4').outerWidth()+'px'
-            $(this).parent().children('.addbutton3').css('width',$width)
+            $width = $(this).parent().children('.addbutton3').outerWidth() + $(this).parent().children('.addbutton4').outerWidth() + 'px'
+            $(this).parent().children('.addbutton3').css('width', $width)
         })
         $('.addbuttontype2').mouseout(function () {
             $(this).parent().children('.addbutton4').show()
@@ -341,6 +458,27 @@
         },
         mousewheel: true,
         keyboard: true,
+    });
+
+
+    var swiper = new Swiper(".swiper-container-article-info1", {
+        loop: true,
+        spaceBetween: 10,
+        slidesPerView: 4,
+        freeMode: true,
+        watchSlidesVisibility: true,
+        watchSlidesProgress: true,
+    });
+    var swiper2 = new Swiper(".swiper-container-article-info2", {
+        loop: true,
+        spaceBetween: 10,
+        navigation: {
+            nextEl: ".swiper-button-next-article-info",
+            prevEl: ".swiper-button-prev-article-info",
+        },
+        thumbs: {
+            swiper: swiper,
+        },
     });
 </script>
 </body>

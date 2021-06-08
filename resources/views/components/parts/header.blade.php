@@ -91,16 +91,39 @@
         </div>
         <div class="col-4 text-end pe-5" style="border-right: solid 1px #204F8C">
             <p class="mb-0" style="font-size: 18px;font-weight: 600;color:#204F8C ">Votre compte</p>
-            <div style="font-size: 14px">
+            <div class="d-flex justify-content-end mt-1" style="font-size: 14px">
                 <span class="pe-3" style="border-right: solid 1px #c6c2c2">Bienvenue</span>
-                <a class="ps-3" href="" >Identifiez-vous</a>
+                @if(\Illuminate\Support\Facades\Auth::check())
+                    <div class="dropdown ps-3">
+                        <p class="mb-0" data-bs-toggle="dropdown"
+                           aria-expanded="false" style="cursor: pointer">
+                            {{ Auth::user()->name }}
+                        </p>
+                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                            <li>
+                                <a class="dropdown-item" href="{{url('/dashboard')}}">Profile</a>
+                            </li>
+                            <li>
+                                <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
+                                    @csrf
+                                    <button style="background-color: transparent;border:none">
+                                        {{ __('Se déconnecter ') }}
+                                    </button>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+
+                @else
+                    <a class="ps-3" href="{{url('/register')}}">Identifiez-vous</a>
+                @endif
             </div>
         </div>
         <div class="col-2 text-end ps-5">
             <div class="d-flex align-items-center">
                 <div>
                     <p class="mb-0 me-1" style="font-size: 18px;font-weight: 600;color:#204F8C ">Panier</p>
-                   <p class="mb-0" style="font-size: 14px"> (vide)</p>
+                    <p class="mb-0" style="font-size: 14px"> (vide)</p>
                 </div>
                 <img src="{{asset('media/icons/panier.svg')}}" style="height:40px;">
             </div>
@@ -108,7 +131,7 @@
     </div>
 </div>
 <nav class="navbar navbar-expand-lg  pt-0 pb-0 "
-     style="background-color: #204F8C !important;border-radius: 0!important;">
+     style="background-color: #204F8C !important;border-radius: 0!important;border: none!important;">
     <div class="container-fluid ps-0">
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent"
@@ -134,13 +157,15 @@
 
             </ul>
             <div class="d-flex">
-                <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="#" style="background-color: #f69c14 !important;border-right: solid 1px rgb(255,255,255,0.5)">
+                <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="#"
+                   style="background-color: #f69c14 !important;border-right: solid 1px rgb(255,255,255,0.5);border-top: solid 1px orange;">
                     <img src="{{asset('media/icons/new.svg')}}" class="me-2" style="height: 15px">
-                    <span >Neuf </span>
+                    <span>Neuf </span>
                 </a>
-                <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="#" style="background-color: #f69c14 !important;">
+                <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="#"
+                   style="background-color: #f69c14 !important;border-top: solid 1px orange;">
                     <img src="{{asset('media/icons/occasion.svg')}}" class="me-2" style="height: 15px">
-                    <span >Occasion</span>
+                    <span>Occasion</span>
                 </a>
             </div>
 

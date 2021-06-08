@@ -11,3 +11,8 @@
 
 <script src="{{asset('swipper/swiper-bundle.js')}}"></script>
 <script src="{{asset('swipper/swiper-bundle.min.js')}}"></script>
+<style>
+    * {
+        font-family: 'Noto Sans', sans-serif;
+    }
+</style>

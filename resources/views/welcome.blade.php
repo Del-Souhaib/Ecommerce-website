@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <x-parts.files/>
-    <title>Home</title>
+    <title>Dashboard</title>
     <style>
         * {
             font-family: 'Noto Sans', sans-serif;

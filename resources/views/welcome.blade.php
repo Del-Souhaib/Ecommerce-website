@@ -62,47 +62,72 @@
             -moz-box-shadow: -1px 2px 17px 0px rgba(32, 79, 140, 0.65);
         }
 
-        .swiper-container-article-info {
+        .swiper-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .swiper-slide {
+            text-align: center;
+            font-size: 18px;
+            background: #fff;
+
+            /* Center slide text vertically */
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: -webkit-flex;
+            display: flex;
+            -webkit-box-pack: center;
+            -ms-flex-pack: center;
+            -webkit-justify-content: center;
+            justify-content: center;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            -webkit-align-items: center;
+            align-items: center;
+        }
+
+        .swiper-slide img {
+            display: block;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .swiper-container {
             width: 100%;
             height: 300px;
             margin-left: auto;
             margin-right: auto;
         }
 
-        .swiper-container-article-info1 {
-            width: 100%;
-            height: 300px;
-            margin-left: auto;
-            margin-right: auto;
-        }
-
-        .swiper-slide-article-info {
+        .swiper-slide {
             background-size: cover;
             background-position: center;
         }
 
-        .swiper-container-article-info2 {
+        .mySwiper2 {
             height: 80%;
             width: 100%;
         }
 
-        .swiper-container-article-info1 {
+        .mySwiper {
             height: 20%;
             box-sizing: border-box;
             padding: 10px 0;
         }
 
-        .swiper-container-article-info1 .swiper-slide {
+        .mySwiper .swiper-slide {
             width: 25%;
             height: 100%;
             opacity: 0.4;
         }
 
-        .swiper-container-article-info1 .swiper-slide-thumb-active {
+        .mySwiper .swiper-slide-thumb-active {
             opacity: 1;
         }
 
-        .swiper-slide-article-info img {
+        .swiper-slide img {
             display: block;
             width: 100%;
             height: 100%;
@@ -141,7 +166,7 @@
         <div class="col-3">
             <div class="pt-3 " style="border: solid 1px rgb(238,228,228)">
                 <p class="mb-0 ps-2" style="font-size:20px;font-weight: 600;color: #204f8c;">Neuf</p>
-                <p style="border: solid 2px #204f8c"></p>
+                <p style="border: solid 2px #204f8c;background-color: #204f8c"></p>
                 @for($i=0;$i<=2;$i++)
                     <a href="" class="row pb-3 pt-3 ps-2"
                        style="text-decoration: none;border-bottom: solid 1px rgb(238,228,228)">
@@ -163,7 +188,7 @@
             </div>
             <div class="mt-4 pt-3" style="border: solid 1px rgb(238,228,228)">
                 <p class="mb-0 ps-2" style="font-size:20px;font-weight: 600;color: #204f8c;">Occasion</p>
-                <p style="border: solid 2px #204f8c"></p>
+                <p style="border: solid 2px #204f8c;background-color: #204f8c"></p>
                 @for($i=0;$i<=2;$i++)
                     <a href="" class="row pb-3 pt-3 ps-2"
                        style="text-decoration: none;border-bottom: solid 1px rgb(238,228,228)">
@@ -185,7 +210,7 @@
             </div>
             <div class="mt-4 pt-3" style="border: solid 1px rgb(238,228,228)">
                 <p class="mb-0 ps-2" style="font-size:20px;font-weight: 600;color: #204f8c;">Meilleures ventes</p>
-                <p style="border: solid 2px #204f8c"></p>
+                <p style="border: solid 2px #204f8c;background-color: #204f8c"></p>
                 @for($i=0;$i<=3;$i++)
                     <a href="" class="row pb-3 pt-3 ps-2"
                        style="text-decoration: none;border-bottom: solid 1px rgb(238,228,228)">
@@ -264,6 +289,10 @@
                         <img src="{{asset('media/products/product1.jpg')}}" class="img-fluid"/>
                     </div>
                     <div class="col-7">
+                        <div class="d-flex align-items-center mb-5">
+                            <img src="{{asset('media/icons/correct3.svg')}}" style="height: 20px">
+                            <p style="color: #f69c14" class="mb-0 ms-2">Produit ajouté au panier avec succès</p>
+                        </div>
                         <p class="mb-1" style="color: #204f8c;font-size: 17px;font-weight: 600">PC Gamer UltraPC Ryzen5
                             GEN5-III</p>
                         <p class="mb-1" style="color: #f69c14;font-size: 18px;font-weight: 550">1800 MAD</p>
@@ -300,75 +329,77 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-5">
-                        <img src="{{asset('media/products/product1.jpg')}}" class="img-fluid"/>
-                        <div style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
-                            class="swiper-container mySwiper2 swiper-container-article-info1">
-                            <div class="swiper-wrapper swiper-wrapper-article-info">
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg"/>
+{{--                        <img src="{{asset('media/products/product1.jpg')}}" class="img-fluid"/>--}}
+                        <div
+                            style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
+                            class="swiper-container mySwiper2"
+                        >
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-6.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-7.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-8.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-9.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-10.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
                                 </div>
                             </div>
-                            <div class="swiper-button-next swiper-button-next-article-info"></div>
-                            <div class="swiper-button-prev swiper-button-prev-article-info"></div>
+                            <div class="swiper-button-next"></div>
+                            <div class="swiper-button-prev"></div>
                         </div>
-                        <div thumbsSlider="" class="swiper-container swiper-container-article-info2 mySwiper">
-                            <div class="swiper-wrapper swiper-wrapper-article-info">
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg"/>
+                        <div thumbsSlider="" class="swiper-container mySwiper">
+                            <div class="swiper-wrapper">
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-6.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-7.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-8.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-9.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
                                 </div>
-                                <div class="swiper-slide swiper-slide-article-info">
-                                    <img src="https://swiperjs.com/demos/images/nature-10.jpg"/>
+                                <div class="swiper-slide">
+                                    <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
                                 </div>
                             </div>
                         </div>
@@ -414,6 +445,7 @@
     </div>
 </div>
 
+<x-parts.footer/>
 <script>
     $(document).ready(function () {
         $('.addbutton').hover(function () {
@@ -447,34 +479,18 @@
             $(this).parent().children('.rapide').hide()
         })
     })
-    var swiper = new Swiper(".header-swiper-container", {
-        cssMode: true,
-        navigation: {
-            nextEl: ".header-swiper-button-next",
-            prevEl: ".header-swiper-button-prev",
-        },
-        pagination: {
-            el: ".header-swiper-pagination",
-        },
-        mousewheel: true,
-        keyboard: true,
-    });
-
-
-    var swiper = new Swiper(".swiper-container-article-info1", {
-        loop: true,
+    var swiper = new Swiper(".mySwiper", {
         spaceBetween: 10,
         slidesPerView: 4,
         freeMode: true,
         watchSlidesVisibility: true,
         watchSlidesProgress: true,
     });
-    var swiper2 = new Swiper(".swiper-container-article-info2", {
-        loop: true,
+    var swiper2 = new Swiper(".mySwiper2", {
         spaceBetween: 10,
         navigation: {
-            nextEl: ".swiper-button-next-article-info",
-            prevEl: ".swiper-button-prev-article-info",
+            nextEl: ".swiper-button-next",
+            prevEl: ".swiper-button-prev",
         },
         thumbs: {
             swiper: swiper,

@@ -90,35 +90,29 @@
             </button>
         </div>
         <div class="col-4 text-end pe-5" style="border-right: solid 1px #204F8C">
-            <p class="mb-0" style="font-size: 18px;font-weight: 600;color:#204F8C ">Votre compte</p>
+            @if(\Illuminate\Support\Facades\Auth::check())
+                <a href="{{url('/dashboard')}}" class="mb-0 " style="font-size: 18px;font-weight: 600;color:#204F8C ">Votre
+                    compte</a>
+            @else
+                <p class="mb-0 " style="font-size: 18px;font-weight: 600;color:#204F8C ">Votre compte</p>
+            @endif
             <div class="d-flex justify-content-end mt-1" style="font-size: 14px">
-                <span class="pe-3" style="border-right: solid 1px #c6c2c2">Bienvenue</span>
                 @if(\Illuminate\Support\Facades\Auth::check())
-                    <div class="dropdown ps-3">
-                        <p class="mb-0" data-bs-toggle="dropdown"
-                           aria-expanded="false" style="cursor: pointer">
-                            {{ Auth::user()->name }}
-                        </p>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li>
-                                <a class="dropdown-item" href="{{url('/dashboard')}}">Profile</a>
-                            </li>
-                            <li>
-                                <form method="POST" action="{{ route('logout') }}" class="dropdown-item">
-                                    @csrf
-                                    <button style="background-color: transparent;border:none">
-                                        {{ __('Se déconnecter ') }}
-                                    </button>
-                                </form>
-                            </li>
-                        </ul>
-                    </div>
-
+                    <a href="{{url('/dashboard')}}" class="mb-0 pe-3 pb-0" style="border-right: solid 1px #c6c2c2; ">
+                        {{ Auth::user()->name }}
+                    </a>
+                    <form method="post" action="{{url('logout')}}" class="ps-3 mb-0 pb-0">
+                        @csrf
+                        <button class="p-0" style="background-color: transparent;border: none;color: #6c6767">Déconnexion</button>
+                    </form>
                 @else
-                    <a class="ps-3" href="{{url('/register')}}">Identifiez-vous</a>
+                    <span class="pe-3" style="border-right: solid 1px #c6c2c2;font-size: 14px">Bienvenue</span>
+                    <a class="ps-3" href="{{url('/register')}}" style="font-size: 14px">Identifiez-vous</a>
                 @endif
+
             </div>
         </div>
+
         <div class="col-2 text-end ps-5">
             <div class="d-flex align-items-center">
                 <div>

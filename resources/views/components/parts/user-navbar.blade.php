@@ -5,7 +5,7 @@
             <a href="{{url('/dashboard')}}" class="ms-2" style="color: white;text-decoration: none">Profile</a>
         </li>
         <li class="d-flex align-items-center" style="list-style: none">
-            <img src="{{asset('media/icons/user.svg')}}" style="width: 20px"/>
+            <img src="{{asset('media/icons/panier2.svg')}}" style="width: 20px"/>
             <a href="{{url('/dashboard')}}" class="ms-2" style="color: white;text-decoration: none">Panier</a>
         </li>
         <li class="d-flex align-items-center" style="list-style: none">

@@ -5,7 +5,10 @@
                 style="font-weight:600;color: #204f8c">
                 {{ __('Produits') }}
             </h2>
-
+            <a href="{{url('admin/addproductpage')}}" class="btn ps-5 pe-5 text-light"
+               style="background-color: #204f8c;border-radius: 0">
+                Ajouter
+            </a>
         </div>
     </x-slot>
     <style>

@@ -187,4 +187,7 @@ class AdminController extends Controller
         $products=Product::with(['childcategory','company','images','colors'])->get()->all();
         return view('admin.products.products',compact('products'));
     }
+    public function  addproductpage(){
+        return view('admin.products.add');
+    }
 }

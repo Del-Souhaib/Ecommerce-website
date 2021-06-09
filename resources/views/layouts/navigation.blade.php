@@ -35,6 +35,8 @@
 
                     <x-slot name="content">
                         <!-- Authentication -->
+                        <a class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" href="{{'/admin/profile'}}">Profile</a>
+
                         <form method="POST" action="{{ route('logout') }}">
                             @csrf
 
@@ -74,9 +76,8 @@
                 <div class="font-medium text-base text-gray-800">{{ Auth::user()->name }}</div>
                 <div class="font-medium text-sm text-gray-500">{{ Auth::user()->email }}</div>
             </div>
-
             <div class="mt-3 space-y-1">
-                <a href="{{'/admin/profile'}}">Profile</a>
+                <a class="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 transition duration-150 ease-in-out" href="{{'/admin/profile'}}">Profile</a>
                 <!-- Authentication -->
                 <form method="POST" action="{{ route('logout') }}">
                     @csrf

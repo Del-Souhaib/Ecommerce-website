@@ -64,7 +64,6 @@ Route::prefix('/admin')->group(function () {
         ->middleware('auth')
         ->name('logout');
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth'])->name('dashboard');
+
+
 });

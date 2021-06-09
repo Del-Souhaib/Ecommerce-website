@@ -22,7 +22,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="container-fluid ">
                 <div class="row p-6 list">
-                    <a href="" class="list-item col-3 mt-3 d-flex justify-content-center align-items-center pt-3 pb-3 bg-white border-b border-gray-200">
+                    <a href="{{url('admin/profile')}}" class="list-item col-3 mt-3 d-flex justify-content-center align-items-center pt-3 pb-3 bg-white border-b border-gray-200">
                         <img src="{{asset('media/icons/user.svg')}}" class="" style="height: 45px" >
                         <p class="mb-0 text-center ms-4" style="font-size: 20px;color: #204f8c">Profile</p>
                     </a>
@@ -38,7 +38,7 @@
                         <img src="{{asset('media/icons/company.svg')}}" class="" style="height: 45px" >
                         <p class="mb-0 text-center ms-4" style="font-size: 20px;color: #204f8c">Companie</p>
                     </a>
-                    <a href="" class="list-item col-3 mt-3 d-flex justify-content-center align-items-center pt-3 pb-3 bg-white border-b border-gray-200">
+                    <a href="{{url('admin/products')}}" class="list-item col-3 mt-3 d-flex justify-content-center align-items-center pt-3 pb-3 bg-white border-b border-gray-200">
                         <img src="{{asset('media/icons/box.svg')}}" class="" style="height: 45px" >
                         <p class="mb-0 text-center ms-4" style="font-size: 20px;color: #204f8c">Produits</p>
                     </a>

@@ -23,7 +23,6 @@ class CreateProductsTable extends Migration
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->text('specification');
             $table->text('Technical_sheet')->nullable();
-            $table->text('colors')->nullable();
             $table->integer('quantity');
             $table->float('price');
             $table->timestamps();

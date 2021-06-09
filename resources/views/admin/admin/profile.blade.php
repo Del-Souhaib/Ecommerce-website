@@ -12,48 +12,83 @@
     </style>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="container-fluid ">
+            <form method="post" action="{{url('/admin/updateprofile')}}" class="container-fluid ">
+                @csrf
                 <div class="row">
                     @if(session()->get('statut')=='updated')
-                        <p class="alert  " style="background-color: #204f8c;border-radius: 0">
+                        <p class="alert  text-light" style="background-color: #204f8c;border-radius: 0">
                             Votre compte a ete mise à jour
                         </p>
                     @endif
                     <div class="col-12">
-                        <p style="color: #204f8c;font-size: 20px;font-weight: 550">Compte information</p>
+                        <p style="color: #204f8c;font-size: 22px;font-weight: 550">Compte information</p>
                     </div>
-
                 </div>
-            </div>
-        </div>
-    </div>
-
-    <div class="modal fade" id="deleteconfirmation" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-            <form method="post" action="{{url('admin/deletecompanies')}}" class="modal-content" style="border-radius: 0">
-                @csrf
-                <div class="modal-header border-bottom-0" >
-                    <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="row align-items-center">
+                    <div class="col-1">
+                        <x-label for="name" :value="__('Nom')"/>
+                    </div>
+                    <div class="col-3">
+                        <x-input class="form-control" type="text" name="name" id="name" value="{{$admin->name}}"/>
+                    </div>
+                    <div class="col-1">
+                        <x-label for="email" :value="__('Email')"/>
+                    </div>
+                    <div class="col-3">
+                        <x-input class="form-control" type="email" name="email" id="email" value="{{$admin->email}}"/>
+                    </div>
                 </div>
-                <div class="modal-body d-flex align-items-center">
-                    <input type="hidden" name="modalcompanyid" id="modalcompanyid" value="">
-                    <img src="{{asset('media/icons/warning.svg')}}" style="height: 40px">
-                    <span class="ms-2 text-center">êtes-vous sûr de vouloir supprimer cette companie</span>
+                <div class="row align-items-center " style="margin-top: 50px">
+                    <div class="col-12 ">
+                        <x-input type="checkbox" id="modifypasswpord" name="modifypasswpord"/>
+                        <label for="modifypasswpord">Modifier mot de passe</label>
+                    </div>
                 </div>
-                <div class="modal-footer border-top-0">
-                    <button  class="btn btn-danger text-light pe-3 ps-3" style="border-radius: 0;">
-                        Supprimer
-                    </button>
+                <div class="row align-items-center passwpordarea mt-4" style="display: none">
+                    <div class="col-2">
+                        <label for="currentpasswpord">Actuel mot de passe</label>
+                    </div>
+                    <div class="col-3">
+                        <x-input type="password" id="currentpasswpord" name="currentpasswpord"/>
+                    </div>
+                </div>
+                <div class="row align-items-center mt-4 passwpordarea " style="display: none">
+                    <div class="col-2">
+                        <label for="nepassword">Nouveau mot de passe</label>
+                    </div>
+                    <div class="col-3">
+                        <x-input type="password" id="nepassword" name="nepassword"/>
+                    </div>
+                    <div class="col-2">
+                        <label for="nepassword2">Nouveau mot de passe</label>
+                    </div>
+                    <div class="col-3">
+                        <x-input type="password" id="nepassword2" name="nepassword2"/>
+                    </div>
+                </div>
+                <div class="col-12 mt-4">
+                    <x-button class="me-2 ms-2" style="background-color: #204f8c;border-radius:0 ">Enregistrer
+                    </x-button>
+                </div>
+                <div class="col-12 mt-4">
+                    @if ($errors->any())
+                        @foreach ($errors->all() as $error)
+                            <p class="text-danger">{{ $error }}</p>
+                        @endforeach
+                    @endif
                 </div>
             </form>
         </div>
     </div>
+
     <script>
-        $(document).ready(function (){
-            $('.delete').click(function (){
-                $('#modalcompanyid').val($(this).attr('companyid'))
-                $('#deleteconfirmation').modal('show')
+        $(document).ready(function () {
+            $('#modifypasswpord').click(function () {
+                if (this.checked) {
+                    $('.passwpordarea').show()
+                } else {
+                    $('.passwpordarea').hide()
+                }
             })
         })
     </script>

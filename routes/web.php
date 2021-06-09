@@ -22,6 +22,10 @@ Route::prefix('admin')->group(function (){
         return view('dashboard');
     })->middleware(['auth'])->name('dashboard');
 
+    Route::get('/', function () {
+        return redirect('admin/dashboard');
+    });
+
     Route::get('/categories',[\App\Http\Controllers\AdminController::class,'categories']);
     Route::get('/addcategorypage',[\App\Http\Controllers\AdminController::class,'addcategorypage']);
     Route::post('/addcategory',[\App\Http\Controllers\AdminController::class,'addcategory']);
@@ -45,6 +49,14 @@ Route::prefix('admin')->group(function (){
     Route::post('/deletecompanies',[\App\Http\Controllers\AdminController::class,'deletecompanies']);
 
     Route::get('/profile',[\App\Http\Controllers\AdminController::class,'profile']);
+    Route::post('/updateprofile',[\App\Http\Controllers\AdminController::class,'updateprofile']);
+
+    Route::get('/products',[\App\Http\Controllers\AdminController::class,'products']);
+    Route::get('/addproductpage',[\App\Http\Controllers\AdminController::class,'addproductpage']);
+    Route::post('/addproduct',[\App\Http\Controllers\AdminController::class,'addproduct']);
+    Route::get('/modifyproductpage/{id}',[\App\Http\Controllers\AdminController::class,'modifyproductpage']);
+    Route::post('/modifyproduct',[\App\Http\Controllers\AdminController::class,'modifyproduct']);
+    Route::post('/deleteproduct',[\App\Http\Controllers\AdminController::class,'deletecompanies']);
 });
 
 require __DIR__.'/auth.php';

@@ -57,6 +57,8 @@ Route::prefix('admin')->group(function (){
     Route::get('/modifyproductpage/{id}',[\App\Http\Controllers\AdminController::class,'modifyproductpage']);
     Route::post('/modifyproduct',[\App\Http\Controllers\AdminController::class,'modifyproduct']);
     Route::post('/deleteproduct',[\App\Http\Controllers\AdminController::class,'deletecompanies']);
+
+    Route::post('/filtercategory',[\App\Http\Controllers\AdminController::class,'filtercategory']);
 });
 
 require __DIR__.'/auth.php';

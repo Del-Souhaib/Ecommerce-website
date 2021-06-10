@@ -11,6 +11,10 @@
 
 <script src="{{asset('swipper/swiper-bundle.js')}}"></script>
 <script src="{{asset('swipper/swiper-bundle.min.js')}}"></script>
+
+
+<script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script>
+
 <style>
     * {
         font-family: 'Noto Sans', sans-serif;

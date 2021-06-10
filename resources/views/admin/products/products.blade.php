@@ -21,7 +21,7 @@
                     produit supprimé
                 </p>
             @elseif(session()->get('statut')=='updated')
-                <p class="alert  "  style="border-radius: 0;background-color:#204f8c ">
+                <p class="alert  " style="border-radius: 0;background-color:#204f8c ">
                     produit mise a jour
                 </p>
             @endif
@@ -29,29 +29,37 @@
                 <thead>
                 <tr>
                     <th scope="col" style="width: 10%">Titre</th>
+                    <th scope="col" style="width: 10%">Statut</th>
                     <th scope="col" style="width: 13%">Categorie</th>
                     <th scope="col" style="width: 10%">Companie</th>
-                    <th scope="col" style="width: 10%">Statut</th>
                     <th scope="col" style="width: 10%">Description</th>
                     <th scope="col" style="width: 27%">Fiche technique</th>
                     <th scope="col" style="width: 10%">Coleurs</th>
-                    <th scope="col" style="width: 10%">Quiantite</th>
+                    <th scope="col" style="width: 10%">Quantite</th>
                     <th scope="col" style="width: 10%">Prix</th>
+                    <th scope="col" style="width: 10%">Created at</th>
                     <th scope="col" style="width: 10%">Action</th>
                 </tr>
                 </thead>
                 <tbody>
                 @foreach($products as $product)
                     <tr>
-                        <td>{{$product->name}}</td>
-                        <td>{{$product->email}}</td>
-                        <td>{{$product->telephone}}</td>
-                        <td>{{$product->subject}}</td>
-                        <td>{{$product->message}}</td>
-                        <td>{{$product->file}}</td>
+                        <td>{{$product->title}}</td>
+                        <td>{{$product->statut}}</td>
+                        <td>{{$product->childcategory->name }}</td>
+                        <td>{{$product->company->name }}</td>
+                        <td>{{$product->specification}}</td>
+                        <td>{{$product->Technical_sheet}}</td>
+                        <td class="d-flex">
+                            @foreach($product->colors as $color)
+                                <div class="me-1" style="border-radius:100px;height: 25px;width: 25px;background-color:{{$color->name}};"></div>
+                            @endforeach
+                        </td>
+                        <td>{{$product->quantity}}</td>
+                        <td>{{$product->price}}</td>
                         <td>{{$product->created_at}}</td>
                         <td>
-                            <button class="btn btn-danger delete" messageid="{{$message->id}}">Supprimer</button>
+                            <button class="btn btn-danger delete" productid="{{$product->id}}">Supprimer</button>
                         </td>
                     </tr>
                 @endforeach

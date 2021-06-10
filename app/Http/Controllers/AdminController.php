@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use App\Models\Child_category;
 use App\Models\Client;
+use App\Models\Color;
 use App\Models\Company;
 use App\Models\Message;
 use App\Models\Product;
@@ -13,9 +14,15 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
+use Psy\Util\Json;
 
 class AdminController extends Controller
 {
+    public function __construct()
+    {
+        return $this->middleware(['auth']);
+    }
+
     /********category*******/
     public function categories()
     {
@@ -183,11 +190,50 @@ class AdminController extends Controller
     }
 
     /******products*******/
-    public function products(){
-        $products=Product::with(['childcategory','company','images','colors'])->get()->all();
-        return view('admin.products.products',compact('products'));
+    public function products()
+    {
+        $products = Product::with(['childcategory', 'company', 'images', 'colors'])->get()->all();
+        return view('admin.products.products', compact('products'));
     }
-    public function  addproductpage(){
-        return view('admin.products.add');
+
+    public function addproductpage()
+    {
+        $categoris = Category::get()->all();
+        $childcategoris = Child_category::where('category_id', $categoris[0]->id)->get()->all();
+        $companies = Company::get()->all();
+
+        return view('admin.products.add', compact(['categoris', 'childcategoris', 'companies']));
+    }
+
+    public function addproduct(Request $req)
+    {
+        $product = Product::create([
+            'child_category_id' => $req->childcategory,
+            'statut' => $req->Etat,
+            'title' => $req->title,
+            'company_id' => $req->company,
+            'specification' => $req->Description,
+            'Technical_sheet' => $req->technicalfile,
+            'quantity' => $req->Quantite,
+            'price' => $req->price,
+            'created_at' => date('Y-m-d h:i:s'),
+
+        ]);
+        $colors = explode('|', $req->selectedcolors);
+
+        for ($i = 0; $i < (count($colors) - 1); $i++) {
+            Color::create([
+                'product_id' => $product->id,
+                'name' => $colors[$i],
+                'created_at' => date('Y-m-d h:i:s'),
+            ]);
+        }
+        return redirect('admin/products')->with('statut','updated');
+    }
+
+    public function filtercategory(Request $req)
+    {
+        $categories = Child_category::where('category_id', $req->category_id)->get()->all();
+        return $categories;
     }
 }

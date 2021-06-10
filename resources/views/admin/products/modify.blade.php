@@ -3,7 +3,7 @@
         <div class="d-flex align-items-center justify-content-between">
             <h2 class="font-semibold text-xl mb-0 text-gray leading-tight align-items-center"
                 style="font-weight:600;color: #204f8c">
-                {{ __('Ajouter produit') }}
+                {{ __('Modifier produit') }}
             </h2>
             <a href="{{url('/admin/products')}}" class="btn ps-5 pe-5 text-light"
                style="background-color: #204f8c;border-radius: 0">
@@ -16,14 +16,16 @@
     </style>
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <form method="post" action="{{'/admin/addproduct'}}" enctype="multipart/form-data" class="container-fluid ">
+            <form method="post" action="{{'/admin/modifyproduct/'.$product->id}}" enctype="multipart/form-data"
+                  class="container-fluid ">
                 @csrf
                 <div class="row align-items-center">
                     <div class="col-1 mt-4">
                         <x-label for="title" :value="__('Titre')"/>
                     </div>
                     <div class="col-3 mt-4">
-                        <x-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')"
+                        <x-input id="title" class="block mt-1 w-full" type="text" name="title"
+                                 value="{{$product->title}}"
                                  required autofocus/>
                     </div>
                     <div class="col-1 mt-4">
@@ -31,8 +33,8 @@
                     </div>
                     <div class="col-3 mt-4">
                         <select name="Etat" id="Etat" class="form-control">
-                            <option value="Neuf">Neuf</option>
-                            <option value="Occaion">Occaion</option>
+                            <option value="Neuf" @if($product->statut=='Neuf') selected @endif>Neuf</option>
+                            <option value="Occaion" @if($product->statut=='Occaion') selected @endif>Occaion</option>
                         </select>
                     </div>
                     <div class="col-1 mt-4">
@@ -41,7 +43,8 @@
                     <div class="col-3 mt-4">
                         <select id="company" name="company" value="old('company')" required class="form-control">
                             @foreach($companies as $company)
-                                <option value="{{$company->id}}">
+                                <option value="{{$company->id}}"
+                                        @if($product->company_id==$company->id) selected @endif>
                                     {{$company->name}}
                                 </option>
                             @endforeach
@@ -53,7 +56,10 @@
                     <div class="col-3 mt-4">
                         <select name="category" id="category" class="form-control">
                             @foreach($categoris as $category)
-                                <option value="{{$category->id}}">{{$category->name}}</option>
+                                <option value="{{$category->id}}"
+                                        @if($product->childcategory->category_id==$category->id) selected @endif>
+                                    {{$category->name}}
+                                </option>
                             @endforeach
                         </select>
 
@@ -64,7 +70,10 @@
                     <div class="col-3 mt-4">
                         <select id="childcategory" name="childcategory" required class="form-control">
                             @foreach($childcategoris as $childcategory)
-                                <option value="{{$childcategory->id}}">{{$childcategory->name}}</option>
+                                <option value="{{$childcategory->id}}"
+                                        @if($product->child_category_id==$childcategory->id) selected @endif>
+                                    {{$childcategory->name}}
+                                </option>
                             @endforeach
                         </select>
                     </div>
@@ -72,31 +81,47 @@
                         <x-label for="price" :value="__('Pirx')"/>
                     </div>
                     <div class="col-3 mt-4">
-                        <input type="text" id="price" name="price" value="{{old('price')}}" required
-                               class="form-control"/>
+                        <input type="text" id="price" name="price" required
+                               class="form-control" value="{{$product->price}}"/>
                     </div>
                     <div class="col-1 mt-4">
                         <x-label for="Quantite" :value="__('Quantite')"/>
                     </div>
                     <div class="col-3 mt-4">
-                        <input type="number" min="0" id="Quantite" name="Quantite" value="{{old('Quantite')}}" required
+                        <input type="number" min="0" id="Quantite" name="Quantite" value="{{$product->quantity}}"
+                               required
                                class="form-control"/>
                     </div>
                     <div class="col-1 mt-4">
                         <x-label for="colors" :value="__('Coleurs')"/>
                     </div>
                     <div class="col-3 mt-4 d-flex align-items-center flex-wrap">
-                        <input type="hidden" name="selectedcolors" id="selectedcolors" value="">
+                        <input type="hidden" name="selectedcolors" id="selectedcolors"
+                               value="@foreach($product->colors as $color){{$color->name.'|'}}@endforeach">
                         <input type="color" min="0" id="colors" name="colors" value="{{old('colors')}}" required/>
                         <img class="ms-3 addcolor" src="{{asset('media/icons/add.svg')}}"
                              style="height: 25px;cursor: pointer"/>
                         <div class="colorarea d-flex flex-wrap ms-3"></div>
+                        <div class="d-flex">
+                            @foreach($product->colors as $color)
+                                <span color="{{$color->name}}"
+                                      style="border-radius:100px;height: 23px;width: 23px;background-color: {{$color->name}}"></span>
+                                <img class="deletecolor me-2" color="{{$color->name}}"
+                                     style="height:25px;cursor:pointer" src="{{asset('media/icons/remove.svg')}} ">
+                            @endforeach
+                        </div>
                     </div>
                     <div class="col-1 mt-4">
                         <x-label for="images" :value="__('Images')"/>
                     </div>
-                    <div class="col-3 mt-4 d-flex align-items-center flex-wrap">
-                        <input type="file" class="form-control" name="images[]" id="images" multiple="multiple" value="{{old('images[]')}}">
+                    <div class="col-3 mt-4 ">
+                        <input type="file" class="form-control" name="images[]" id="images" multiple="multiple">
+                        <div class="d-flex">
+                            @foreach($product->images as $image)
+                                <img src="{{asset('storage/products/'.$image->name)}}" style="height: 30px"
+                                     class="img-fluid">
+                            @endforeach
+                        </div>
                     </div>
                 </div>
                 <div class="row">
@@ -105,7 +130,7 @@
                     </div>
                     <div class="col-11 mt-4">
                         <textarea id="Description" name="Description">
-                            {{old('Description')}}
+{{$product->specification}}
                         </textarea>
                     </div>
                     <div class="col-1 mt-4">
@@ -113,14 +138,14 @@
                     </div>
                     <div class="col-11 mt-4">
                         <textarea id="technicalfile" name="technicalfile">
-                                                        {{old('technicalfile')}}
+{{$product->Technical_sheet}}
                         </textarea>
                     </div>
                 </div>
                 <div class="row mt-4">
                     <div class="col-4">
                         <x-button class="ml-3 ms-0 " style="background-color: #204f8c ;border-radius: 0">
-                            {{ __('Ajouter') }}
+                            {{ __('Enregistrer') }}
                         </x-button>
                     </div>
                 </div>
@@ -139,7 +164,7 @@
     <script>
         $(document).ready(function () {
             $('.addcolor').click(function () {
-                $('.colorarea').append('<span color="' + $('#colors').val() + '" class="me-2 " style="border-radius:100px;height:30px;width:30px;background-color:' + $('#colors').val() + '"></span><img class="deletecolor me-2" color="' + $('#colors').val() + '" style="height:25px;cursor:pointer" src="{{asset('media/icons/remove.svg')}} ">')
+                $('.colorarea').append('<span color="' + $('#colors').val() + '" class="me-2 " style="border-radius:100px;height:23px;width:44px;background-color:' + $('#colors').val() + '"></span><img class="deletecolor me-2" color="' + $('#colors').val() + '" style="height:25px;cursor:pointer" src="{{asset('media/icons/remove.svg')}} ">')
                 $('#selectedcolors').val(function () {
                     return $(this).val() + $('#colors').val() + '|'
                 })

@@ -55,10 +55,15 @@ Route::prefix('admin')->group(function (){
     Route::get('/addproductpage',[\App\Http\Controllers\AdminController::class,'addproductpage']);
     Route::post('/addproduct',[\App\Http\Controllers\AdminController::class,'addproduct']);
     Route::get('/modifyproductpage/{id}',[\App\Http\Controllers\AdminController::class,'modifyproductpage']);
-    Route::post('/modifyproduct',[\App\Http\Controllers\AdminController::class,'modifyproduct']);
-    Route::post('/deleteproduct',[\App\Http\Controllers\AdminController::class,'deletecompanies']);
-
+    Route::post('/modifyproduct/{id}',[\App\Http\Controllers\AdminController::class,'modifyproduct']);
+    Route::post('/deleteproduct',[\App\Http\Controllers\AdminController::class,'deleteproduct']);
     Route::post('/filtercategory',[\App\Http\Controllers\AdminController::class,'filtercategory']);
+
+    Route::get('/bestproducts',[\App\Http\Controllers\AdminController::class,'bestproducts']);
+    Route::get('/addbestproductpage',[\App\Http\Controllers\AdminController::class,'addbestproductpage']);
+    Route::post('/addbestproduct',[\App\Http\Controllers\AdminController::class,'addbestproduct']);
+    Route::post('/deletebestproduct',[\App\Http\Controllers\AdminController::class,'deletebestproduct']);
+
 });
 
 require __DIR__.'/auth.php';

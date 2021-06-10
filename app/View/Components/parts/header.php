@@ -23,6 +23,8 @@ class header extends Component
      */
     public function render()
     {
-        return view('components.parts.header');
+        $categories=\App\Models\Category::with('child_categories')->get()->all();
+
+        return view('components.parts.header',compact('categories'));
     }
 }

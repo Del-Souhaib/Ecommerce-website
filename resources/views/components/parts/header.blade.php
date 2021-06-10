@@ -39,9 +39,11 @@
     }
 
     header .part1 li:hover a {
-        color: #f69c14;
+        color: #3265ac;
     }
-
+.navbar .dropdown-menu .dropdown-item:hover{
+    background-color: #3c66bb;
+}
 </style>
 <div class="container-fluid part1 mt-1 pt-2 pb-2" style="background-color: #ffffff;">
     <div class="row align-items-center">
@@ -103,7 +105,9 @@
                     </a>
                     <form method="post" action="{{url('logout')}}" class="ps-3 mb-0 pb-0">
                         @csrf
-                        <button class="p-0" style="background-color: transparent;border: none;color: #6c6767">Déconnexion</button>
+                        <button class="p-0" style="background-color: transparent;border: none;color: #6c6767">
+                            Déconnexion
+                        </button>
                     </form>
                 @else
                     <span class="pe-3" style="border-right: solid 1px #c6c2c2;font-size: 14px">Bienvenue</span>
@@ -139,15 +143,20 @@
                         <img src="{{asset('media/icons/home.svg')}}" style="height: 25px">
                     </a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pc gamer</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pc gamer</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="#">Pc gamer</a>
-                </li>
+                @foreach($categories as $category)
+                    <li class="nav-item dropdown">
+                        <a class="nav-link" href="{{url('Category/'.$category->id)}}" role="button"
+                           data-bs-toggle="dropdown" aria-expanded="false">{{$category->name}}</a>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #204f8c !important;border-radius: 0 !important;">
+                            <li><a class="dropdown-item" href="{{url('Category/'.$category->name)}}">Tous</a></li>
+
+                        @foreach($category->child_categories as $childcategory)
+                                <li><a class="dropdown-item" href="#">{{$childcategory->name}}</a></li>
+                            @endforeach
+                        </ul>
+                    </li>
+                @endforeach
+
 
             </ul>
             <div class="d-flex">

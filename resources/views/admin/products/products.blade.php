@@ -36,6 +36,7 @@
                     <th scope="col" style="width: 10%">Statut</th>
                     <th scope="col" style="width: 13%">Categorie</th>
                     <th scope="col" style="width: 10%">Companie</th>
+                    <th scope="col" style="width: 10%">Sous titre</th>
                     <th scope="col" style="width: 10%">images</th>
                     <th scope="col" style="width: 10%">Description</th>
                     <th scope="col" style="width: 27%">Fiche technique</th>
@@ -53,6 +54,7 @@
                         <td>{{$product->statut}}</td>
                         <td>{{$product->childcategory->name }}</td>
                         <td>{{$product->company->name }}</td>
+                        <td>{{$product->presentation }}</td>
                         <td>
                             @foreach($product->images as $image)
                                 <img src="{{asset('storage/products/'.$image->name)}}" class="img-fluid">

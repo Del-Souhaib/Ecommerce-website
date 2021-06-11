@@ -216,6 +216,8 @@ class AdminController extends Controller
     public function addproduct(Request $req)
     {
         $validator = $req->validate([
+            'title' => ['required'],
+            'presentation' => ['required'],
             'childcategory' => ['required'],
             'Etat' => ['required'],
             'price' => ['required', 'Numeric'],
@@ -227,6 +229,7 @@ class AdminController extends Controller
             'child_category_id' => $req->childcategory,
             'statut' => $req->Etat,
             'title' => $req->title,
+            'presentation'=>$req->presentation,
             'company_id' => $req->company,
             'specification' => $req->Description,
             'Technical_sheet' => $req->technicalfile,
@@ -282,6 +285,8 @@ class AdminController extends Controller
     public function modifyproduct(Request $req, $id)
     {
         $validator = $req->validate([
+            'title'=>['required'],
+            'presentation'=>['required'],
             'childcategory' => ['required'],
             'Etat' => ['required'],
             'price' => ['required', 'Numeric'],
@@ -292,6 +297,7 @@ class AdminController extends Controller
             'child_category_id' => $req->childcategory,
             'statut' => $req->Etat,
             'title' => $req->title,
+            'presentation'=>$req->presentation,
             'company_id' => $req->company,
             'specification' => $req->Description,
             'Technical_sheet' => $req->technicalfile,

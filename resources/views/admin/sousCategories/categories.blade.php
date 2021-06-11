@@ -5,7 +5,7 @@
                 style="font-weight:600;color: #204f8c">
                 {{ __('Sous Categories') }}
             </h2>
-            <a href="{{url('admin/addcategorypage')}}" class="btn ps-5 pe-5 text-light"
+            <a href="{{url('admin/addsouscategorypage')}}" class="btn ps-5 pe-5 text-light"
                style="background-color: #204f8c;border-radius: 0">
                 Ajouter
             </a>

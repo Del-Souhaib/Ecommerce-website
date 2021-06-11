@@ -126,6 +126,14 @@
                 </div>
                 <div class="row">
                     <div class="col-1 mt-4">
+                        <x-label for="presentation" :value="__('Presentation')"/>
+                    </div>
+                    <div class="col-11 mt-4">
+                         <textarea id="presentation" name="presentation">
+                            {{$product->presentation}}
+                        </textarea>
+                    </div>
+                    <div class="col-1 mt-4">
                         <x-label for="Description" :value="__('Description')"/>
                     </div>
                     <div class="col-11 mt-4">
@@ -209,6 +217,10 @@
             .catch(error => {
                 console.error(error);
             });
-
+        ClassicEditor
+            .create(document.querySelector('#presentation'))
+            .catch(error => {
+                console.error(error);
+            });
     </script>
 </x-app-layout>

@@ -17,7 +17,8 @@ Route::get('/', [\App\Http\Controllers\UserController::class,'Home']);
 /**message***/
 Route::get('/message',[\App\Http\Controllers\UserController::class,'messagepage']);
 Route::post('/sendmessage',[\App\Http\Controllers\UserController::class,'sendmessage']);
-
+/**product**/
+Route::get('/product/{id}',[\App\Http\Controllers\UserController::class,'product']);
 
 //Route::get('/Category/{name}');
 Route::prefix('admin')->group(function (){
@@ -35,7 +36,7 @@ Route::prefix('admin')->group(function (){
     Route::post('/deletecategory',[\App\Http\Controllers\AdminController::class,'deletecategory']);
 
     Route::get('/souscategories',[\App\Http\Controllers\AdminController::class,'souscategories']);
-    Route::get('/addcategorypage',[\App\Http\Controllers\AdminController::class,'addsouscategoriespage']);
+    Route::get('/addsouscategorypage',[\App\Http\Controllers\AdminController::class,'addsouscategoriespage']);
     Route::post('/addsouscategories',[\App\Http\Controllers\AdminController::class,'addsouscategories']);
     Route::post('/deletesouscategories',[\App\Http\Controllers\AdminController::class,'deletesouscategories']);
 

@@ -83,6 +83,12 @@
                                class="form-control"/>
                     </div>
                     <div class="col-1 mt-4">
+                        <x-label for="images" :value="__('Images')"/>
+                    </div>
+                    <div class="col-3 mt-4 d-flex align-items-center flex-wrap">
+                        <input type="file" class="form-control" name="images[]" id="images" multiple="multiple" value="{{old('images[]')}}">
+                    </div>
+                    <div class="col-1 mt-4">
                         <x-label for="colors" :value="__('Coleurs')"/>
                     </div>
                     <div class="col-3 mt-4 d-flex align-items-center flex-wrap">
@@ -92,14 +98,16 @@
                              style="height: 25px;cursor: pointer"/>
                         <div class="colorarea d-flex flex-wrap ms-3"></div>
                     </div>
-                    <div class="col-1 mt-4">
-                        <x-label for="images" :value="__('Images')"/>
-                    </div>
-                    <div class="col-3 mt-4 d-flex align-items-center flex-wrap">
-                        <input type="file" class="form-control" name="images[]" id="images" multiple="multiple" value="{{old('images[]')}}">
-                    </div>
                 </div>
                 <div class="row">
+                    <div class="col-1 mt-4">
+                        <x-label for="presentation" :value="__('Presentation')"/>
+                    </div>
+                    <div class="col-11 mt-4">
+                         <textarea id="presentation" name="presentation">
+                            {{old('presentation')}}
+                        </textarea>
+                    </div>
                     <div class="col-1 mt-4">
                         <x-label for="Description" :value="__('Description')"/>
                     </div>
@@ -181,6 +189,11 @@
             });
         ClassicEditor
             .create(document.querySelector('#Description'))
+            .catch(error => {
+                console.error(error);
+            });
+        ClassicEditor
+            .create(document.querySelector('#presentation'))
             .catch(error => {
                 console.error(error);
             });

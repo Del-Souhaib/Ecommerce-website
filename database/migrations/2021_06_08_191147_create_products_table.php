@@ -19,6 +19,7 @@ class CreateProductsTable extends Migration
             $table->foreign('child_category_id')->references('id')->on('child_categories')->onDelete('cascade')->onUpdate('cascade');
             $table->string('statut');
             $table->string('title');
+            $table->string('presentation');
             $table->bigInteger('company_id')->unsigned()->nullable();
             $table->foreign('company_id')->references('id')->on('companies')->onDelete('cascade')->onUpdate('cascade');
             $table->text('specification');

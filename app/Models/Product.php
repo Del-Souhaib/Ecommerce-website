@@ -9,7 +9,7 @@ class Product extends Model
 {
     use HasFactory;
 
-    public $fillable = ['id', 'child_category_id', 'statut', 'title', 'company_id', 'specification',
+    public $fillable = ['id', 'child_category_id', 'statut', 'title','presentation' ,'company_id', 'specification',
         'Technical_sheet', 'colors', 'quantity', 'price', 'created_at'];
 
     public function childcategory()

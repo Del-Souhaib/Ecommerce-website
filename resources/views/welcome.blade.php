@@ -160,30 +160,45 @@
 </header>
 <div class="container mt-2">
     <div class="row">
-        <x-parts.client_navbar/>
+        <x-parts.clientnavbar/>
         <div class="col-9 mt-3">
             <p style="color: #204f8c;font-size: 22px;font-weight: 600">PRODUITS POPULAIRES</p>
             <div class="row">
-                @for($i=0;$i<=11;$i++)
+                @foreach($products as $product)
                     <div class="col-3 card text-center mb-4 pb-2">
                         <div>
-                            <img src="{{asset('media/products/product1.jpg')}}" class="img-fluid articleimage"/>
+                            @foreach($product->product->images as $img)
+                                @if($loop->first)
+                                    <a href="{{url('product/'.$product->product->id)}}">
+                                    <img src="{{asset('storage/products/'.$img->name)}}"
+                                         class="img-fluid articleimage"/>
+                                    </a>
+                                @endif
+                            @endforeach
                             <button class="btn btn-sm rapide" data-bs-toggle="modal"
                                     data-bs-target="#articleinfo"
                                     style="display:none;left:25%;z-index:100;top:10%;position:absolute;background-color:#f0f0f0;color:rgb(29,28,28);border-radius: 0;border: solid 1px #f0f0f0 ">
                                 Aperçu rapide
                             </button>
                         </div>
-                        <a href="" class="mt-1" style="font-size: 13px;text-decoration: none;color: #6c6767">
-                            PC Gamer UltraPC Ryzen5 GEN5-III
+                        <a href="{{url('product/'.$product->product->id)}}" class="mt-1" style="font-size: 14px;text-decoration: none;color: #6c6767">
+                            {{$product->product->title}}
                         </a>
                         <span class="mt-1" style="color:#204f8c;font-size: 20px ">
-                            270000 MAD
+                            {{$product->product->price}} MAD
                         </span>
-                        <span style="color: #559f45;font-size: 12.5px">
+                        @if($product->product->quantity>=1)
+
+                            <span style="color: #559f45;font-size: 12.5px">
                             <img src="{{asset('media/icons/correct.svg')}}" style="width: 10px">
-                            Produit en stock(2)
+                                Produit en stock ({{$product->product->quantity}})
                         </span>
+                        @else
+                            <span class="text-danger" style=font-size: 12.5px">
+                            <img src="{{asset('media/icons/wrong.svg')}}" style="width: 10px">
+                            Produit n'est pas en stock
+                            </span>
+                        @endif
                         <div class="d-flex">
                             <button class="btn addbutton addbutton1" data-bs-toggle="modal"
                                     data-bs-target="#addedtopanesuccess"
@@ -197,7 +212,9 @@
                             </button>
                         </div>
                     </div>
-                @endfor
+
+                @endforeach
+
             </div>
 
         </div>
@@ -258,41 +275,41 @@
             <div class="modal-body">
                 <div class="row">
                     <div class="col-5">
-{{--                        <img src="{{asset('media/products/product1.jpg')}}" class="img-fluid"/>--}}
+                        {{--                        <img src="{{asset('media/products/product1.jpg')}}" class="img-fluid"/>--}}
                         <div
                             style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
                             class="swiper-container mySwiper2"
                         >
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-6.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-7.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-8.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-9.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-10.jpg"/>
                                 </div>
                             </div>
                             <div class="swiper-button-next"></div>
@@ -301,34 +318,34 @@
                         <div thumbsSlider="" class="swiper-container mySwiper">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-1.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-2.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-3.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-4.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-5.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-6.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-6.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-7.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-7.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-8.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-8.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-9.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-9.jpg"/>
                                 </div>
                                 <div class="swiper-slide">
-                                    <img src="https://swiperjs.com/demos/images/nature-10.jpg" />
+                                    <img src="https://swiperjs.com/demos/images/nature-10.jpg"/>
                                 </div>
                             </div>
                         </div>

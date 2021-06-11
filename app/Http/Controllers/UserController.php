@@ -49,4 +49,8 @@ class UserController extends Controller
          $relatedproducts=Product::where('child_category_id',$product->child_category_id)->with(['images'])->limit(8)->get();
         return view('products.product',compact(['product','relatedproducts']));
     }
+
+    public function getproductinfo(Request $req){
+        return Product::with(['images','company','colors'])->where('id',$req->productid)->first();
+    }
 }

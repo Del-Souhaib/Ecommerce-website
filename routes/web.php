@@ -19,7 +19,7 @@ Route::get('/message',[\App\Http\Controllers\UserController::class,'messagepage'
 Route::post('/sendmessage',[\App\Http\Controllers\UserController::class,'sendmessage']);
 /**product**/
 Route::get('/product/{id}',[\App\Http\Controllers\UserController::class,'product']);
-
+Route::post('/getproductinfo',[\App\Http\Controllers\UserController::class,'getproductinfo']);
 //Route::get('/Category/{name}');
 Route::prefix('admin')->group(function (){
     Route::get('/dashboard', function () {

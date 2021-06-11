@@ -50,10 +50,10 @@
         <div class="col-6 side1">
             <ul class="d-flex pb-0 mb-0" style="list-style: none">
                 <li>
-                    <a href="">Accueil</a>
+                    <a href="{{url('/')}}">Accueil</a>
                 </li>
                 <li>
-                    <a href="">Contact</a>
+                    <a href="{{url('/message')}}">Contact</a>
                 </li>
                 <li>
                     <a href="">Plan du site</a>
@@ -80,9 +80,9 @@
 </div>
 <div class="container-fluid part2" style="background-color: #f6f6f6 !important;">
     <div class="row d-flex align-items-center">
-        <div class="col-3">
+        <a href="{{url('/')}}" class="col-3">
             <img src="{{asset('media/icons/logo.jpg')}}" style="height: 120px">
-        </div>
+        </a>
         <div class="col-3 d-flex ">
             <input type="text" class="form-control"
                    style="border-radius: 0 !important;background-color: #f3f1f1;font-size: 13px!important;"
@@ -92,14 +92,14 @@
             </button>
         </div>
         <div class="col-4 text-end pe-5" style="border-right: solid 1px #204F8C">
-            @if(\Illuminate\Support\Facades\Auth::check())
+            @if(\Illuminate\Support\Facades\Auth::guard('client')->check())
                 <a href="{{url('/dashboard')}}" class="mb-0 " style="font-size: 18px;font-weight: 600;color:#204F8C ">Votre
                     compte</a>
             @else
                 <p class="mb-0 " style="font-size: 18px;font-weight: 600;color:#204F8C ">Votre compte</p>
             @endif
             <div class="d-flex justify-content-end mt-1" style="font-size: 14px">
-                @if(\Illuminate\Support\Facades\Auth::check())
+                @if(\Illuminate\Support\Facades\Auth::guard('client')->check())
                     <a href="{{url('/dashboard')}}" class="mb-0 pe-3 pb-0" style="border-right: solid 1px #c6c2c2; ">
                         {{ Auth::user()->name }}
                     </a>

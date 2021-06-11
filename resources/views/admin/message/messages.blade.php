@@ -36,7 +36,7 @@
                     <tr>
                         <td>{{$message->name}}</td>
                         <td>{{$message->email}}</td>
-                        <td>{{$message->telephone}}</td>
+                        <td>{{$message->phone}}</td>
                         <td>{{$message->subject}}</td>
                         <td>{{$message->message}}</td>
                         <td>{{$message->file}}</td>

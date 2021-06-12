@@ -11,6 +11,6 @@ class Child_category extends Model
     public $table="child_categories";
     public $fillable=['id','name','category_id','created_at'];
     public function Category(){
-        return $this->belongsTo(Category::class,'category_id');
+        return $this->hasOne(Category::class,'category_id');
     }
 }

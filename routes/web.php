@@ -20,7 +20,12 @@ Route::post('/sendmessage',[\App\Http\Controllers\UserController::class,'sendmes
 /**product**/
 Route::get('/product/{id}',[\App\Http\Controllers\UserController::class,'product']);
 Route::post('/getproductinfo',[\App\Http\Controllers\UserController::class,'getproductinfo']);
-//Route::get('/Category/{name}');
+/**categories**/
+Route::get('/Category/{id}',[\App\Http\Controllers\UserController::class,'categoryproductd']);
+Route::get('/SousCategory/{id}',[\App\Http\Controllers\UserController::class,'childCategory']);
+
+
+/**admin**/
 Route::prefix('admin')->group(function (){
     Route::get('/dashboard', function () {
         return view('dashboard');

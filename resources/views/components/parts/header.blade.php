@@ -41,9 +41,10 @@
     header .part1 li:hover a {
         color: #3265ac;
     }
-.navbar .dropdown-menu .dropdown-item:hover{
-    background-color: #3c66bb;
-}
+
+    .navbar .dropdown-menu .dropdown-item:hover {
+        background-color: #3c66bb;
+    }
 </style>
 <div class="container-fluid part1 mt-1 pt-2 pb-2" style="background-color: #ffffff;">
     <div class="row align-items-center">
@@ -147,11 +148,14 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="{{url('Category/'.$category->id)}}" role="button"
                            data-bs-toggle="dropdown" aria-expanded="false">{{$category->name}}</a>
-                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown" style="background-color: #204f8c !important;border-radius: 0 !important;">
-                            <li><a class="dropdown-item" href="{{url('Category/'.$category->name)}}">Tous</a></li>
+                        <ul class="dropdown-menu" aria-labelledby="navbarDropdown"
+                            style="background-color: #204f8c !important;border-radius: 0 !important;">
+                            <li>
+                                <a class="dropdown-item" href="{{url('Category/'.$category->id)}}">Tous</a>
+                            </li>
 
-                        @foreach($category->child_categories as $childcategory)
-                                <li><a class="dropdown-item" href="#">{{$childcategory->name}}</a></li>
+                            @foreach($category->child_categories as $childcategory)
+                                <li><a class="dropdown-item" href="{{url('SousCategory/'.$childcategory->id)}}">{{$childcategory->name}}</a></li>
                             @endforeach
                         </ul>
                     </li>

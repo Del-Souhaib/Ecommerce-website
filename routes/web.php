@@ -29,6 +29,13 @@ Route::post('/filterproductbytype/{id?}/{name?}',[\App\Http\Controllers\UserCont
 /**search**/
 Route::get('/searchsuggestion',[\App\Http\Controllers\UserController::class,'searchsuggestion']);
 Route::get('/search',[\App\Http\Controllers\UserController::class,'search']);
+Route::post('/filtersearch',[\App\Http\Controllers\UserController::class,'filtersearch']);
+/**client register**/
+Route::get('/connexion',[\App\Http\Controllers\ClientAuthController::class,'connexion']);
+Route::post('/connexioncheck',[\App\Http\Controllers\ClientAuthController::class,'connexioncheck']);
+
+Route::get('/inscrire ',[\App\Http\Controllers\ClientAuthController::class,'inscrire']);
+Route::post('/inscrirecheck',[\App\Http\Controllers\ClientAuthController::class,'inscrirecheck']);
 
 /**admin**/
 Route::prefix('admin')->group(function (){

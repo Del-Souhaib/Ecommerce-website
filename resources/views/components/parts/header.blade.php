@@ -92,9 +92,9 @@
         <a href="{{url('/')}}" class="col-3">
             <img src="{{asset('media/icons/logo.jpg')}}" style="height: 120px">
         </a>
-        <div class="col-3 d-flex dropdown" style="color: #6c6767;">
+        <form method="get" action="{{url('/search')}}" class="col-3 d-flex dropdown" style="color: #6c6767;">
             <input type="text" class="form-control searchinput" data-bs-toggle="dropdown" aria-expanded="false"
-                   style="border-radius: 0 !important;background-color: #f3f1f1;font-size: 13px!important;"
+                   style="border-radius: 0 !important;background-color: #f3f1f1;font-size: 13px!important;" name="inputdata"
                    placeholder="Rechercher un produit..." autocomplete="false">
             <ul class="dropdown-menu searchsuggestions" aria-labelledby="dropdownMenuButton1" style="font-size: 13px;width: 93%;border-radius: 0;background-color: #f3f1f1 !important;">
 
@@ -102,7 +102,7 @@
             <button class="btn" style="background-color: #f69c14;border-radius: 0 !important;">
                 <img src="{{asset('media/icons/search.svg')}}" style="height: 20px">
             </button>
-        </div>
+        </form>
         <div class="col-4 text-end pe-5" style="border-right: solid 1px #204F8C">
             @if(\Illuminate\Support\Facades\Auth::guard('client')->check())
                 <a href="{{url('/dashboard')}}" class="mb-0 " style="font-size: 18px;font-weight: 600;color:#204F8C ">Votre

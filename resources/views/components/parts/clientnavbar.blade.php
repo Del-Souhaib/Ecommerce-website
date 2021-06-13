@@ -19,7 +19,7 @@
             </a>
         @endforeach
         <div class="text-center">
-            <a href="" class="btn btn-sm hoverbutton "
+            <a href="{{url('/statut/Neuf')}}" class="btn btn-sm hoverbutton "
                style="border-color: #204f8c;color:#204f8c;border-radius: 0 !important;width:90%">
                 Tous les produits Neuf
             </a>
@@ -45,7 +45,7 @@
             </a>
         @endforeach
         <div class="text-center">
-            <a href="" class="btn btn-sm hoverbutton"
+            <a href="{{url('/statut/Occasion')}}" class="btn btn-sm hoverbutton"
                style="border-color: #204f8c;color:#204f8c;border-radius: 0 !important;width: 90%">
                 Tous les produits Occasion
             </a>
@@ -71,7 +71,7 @@
             </a>
         @endforeach
         <div class="text-center">
-            <a href="" class="btn btn-sm hoverbutton"
+            <a href="{{url('/meilleures_ventes')}}" class="btn btn-sm hoverbutton"
                style="border-color: #204f8c;color:#204f8c;border-radius: 0 !important;width: 90%">
                 Toutes les meilleures ventes
             </a>

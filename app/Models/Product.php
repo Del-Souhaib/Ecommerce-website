@@ -28,4 +28,7 @@ class Product extends Model
     {
         return $this->hasMany(Color::class,'product_id');
     }
+    public function topproducts(){
+        return $this->hasOne(Best_product::class,'products_id');
+    }
 }

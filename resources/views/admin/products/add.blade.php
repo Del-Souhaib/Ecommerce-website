@@ -32,7 +32,7 @@
                     <div class="col-3 mt-4">
                         <select name="Etat" id="Etat" class="form-control">
                             <option value="Neuf">Neuf</option>
-                            <option value="Occaion">Occaion</option>
+                            <option value="Occasion">Occasion</option>
                         </select>
                     </div>
                     <div class="col-1 mt-4">

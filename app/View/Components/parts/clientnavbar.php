@@ -26,7 +26,7 @@ class clientnavbar extends Component
     public function render()
     {
         $newproudcts = Product::with('images')->where('statut', 'Neuf')->limit(4)->get();
-        $usedproudcts = Product::with('images')->where('statut', 'Occaion')->limit(4)->get();
+        $usedproudcts = Product::with('images')->where('statut', 'Occasion')->limit(4)->get();
         $bestproducts = Best_product::with(['product' => function ($query) {
             return $query->with('images');
         }])->limit(4)->get();

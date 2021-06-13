@@ -23,7 +23,12 @@ Route::post('/getproductinfo',[\App\Http\Controllers\UserController::class,'getp
 /**categories**/
 Route::get('/Category/{id}',[\App\Http\Controllers\UserController::class,'categoryproductd']);
 Route::get('/SousCategory/{id}',[\App\Http\Controllers\UserController::class,'childCategory']);
-
+Route::get('/statut/{name}',[\App\Http\Controllers\UserController::class,'bystatutproducts']);
+Route::get('/meilleures_ventes',[\App\Http\Controllers\UserController::class,'meilleures_ventes']);
+Route::post('/filterproductbytype/{id?}/{name?}',[\App\Http\Controllers\UserController::class,'filterproductbytype']);
+/**search**/
+Route::get('/searchsuggestion',[\App\Http\Controllers\UserController::class,'searchsuggestion']);
+Route::get('/search',[\App\Http\Controllers\UserController::class,'search']);
 
 /**admin**/
 Route::prefix('admin')->group(function (){

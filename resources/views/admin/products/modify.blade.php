@@ -34,7 +34,7 @@
                     <div class="col-3 mt-4">
                         <select name="Etat" id="Etat" class="form-control">
                             <option value="Neuf" @if($product->statut=='Neuf') selected @endif>Neuf</option>
-                            <option value="Occaion" @if($product->statut=='Occaion') selected @endif>Occaion</option>
+                            <option value="Occasion" @if($product->statut=='Occasion') selected @endif>Occasion</option>
                         </select>
                     </div>
                     <div class="col-1 mt-4">

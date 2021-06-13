@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Best_product;
 use App\Models\Category;
+use App\Models\Child_category;
 use App\Models\Message;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -62,14 +63,126 @@ class UserController extends Controller
     /*****Categories******/
     public function categoryproductd($id)
     {
-        return $products=Product::has(['childcategory'=>function($q,$id){
-            return $q->where('Category.first.id',$id);
-        }])->with('images', 'company', 'colors', 'childcategory')->get()->all();
-        $title=Category::where('id',$id)->first()->name;
-        return view('products.products',compact('products'));
+        $products = Product::wherehas('childcategory', function ($query) use ($id) {
+            $query->wherehas('Category', function ($q) use ($id) {
+                return $q->where('id', $id);
+            });
+        })->with('images')->get()->all();
+        $title = Category::where('id', $id)->first();
+        $type = 'categorie';
+        $url=$id.'/categorie';
+        if ($title) {
+            $title = $title->name;
+        }
+        return view('products.products', compact(['products', 'title', 'type','url']));
+
     }
+
     public function childCategory($id)
     {
-        return view( 'products.products');
+        $products = Product::where('child_category_id', $id)->with('images')->get()->all();
+        $title = Child_category::where('id', $id)->first();
+        if ($title) {
+            $title = $title->name;
+        }
+        $type = 'childcategorie';
+        $url=$id.'/souscategory';
+        return view('products.products', compact(['products', 'title', 'type','id']));
+    }
+
+    public function bystatutproducts($name)
+    {
+        $products = Product::where('statut', $name)->with('images')->get()->all();
+        $title = $name;
+        $type = 'statut';
+        $url='1/'.$name;
+        return view('products.products', compact(['products', 'title', 'type','url']));
+    }
+
+    public function meilleures_ventes()
+    {
+        $products = Product::wherehas('topproducts')->with('images')->get()->all();
+        $title = 'Meilleures ventes';
+        $type = 'bestproducts';
+        $url='/1/meilleures_ventes';
+        return view('products.products', compact(['products', 'title', 'type','url']));
+    }
+
+    public function filterproductbytype(Request $req, $id, $name)
+    {
+        if ($req->type == 'categorie') {
+            if ($req->filtertype == 'atoz') {
+                $products = Product::wherehas('childcategory', function ($query) use ($id) {
+                    $query->wherehas('Category', function ($q) use ($id) {
+                        return $q->where('id', $id);
+                    });
+                })->orderBy('title','asc')->with('images')->get()->all();
+            } else if ($req->filtertype == 'ztoa') {
+                $products = Product::wherehas('childcategory', function ($query) use ($id) {
+                    $query->wherehas('Category', function ($q) use ($id) {
+                        return $q->where('id', $id);
+                    });
+                })->orderBy('title','desc')->with('images')->get()->all();
+            }
+            if ($req->filtertype == 'croissant') {
+                $products = Product::wherehas('childcategory', function ($query) use ($id) {
+                    $query->wherehas('Category', function ($q) use ($id) {
+                        return $q->where('id', $id);
+                    });
+                })->orderBy('price','asc')->with('images')->get()->all();
+            }
+            if ($req->filtertype == 'decroissant') {
+                $products = Product::wherehas('childcategory', function ($query) use ($id) {
+                    $query->wherehas('Category', function ($q) use ($id) {
+                        return $q->where('id', $id);
+                    });
+                })->orderBy('price','desc')->with('images')->get()->all();
+            }
+        } else if ($req->type == 'childcategorie') {
+            if ($req->filtertype == 'atoz') {
+                $products = Product::where('child_category_id', $id)->orderBy('title','asc')->with('images')->get()->all();
+            } else if ($req->filtertype == 'ztoa') {
+                $products = Product::where('child_category_id', $id)->orderBy('title','desc')->with('images')->get()->all();
+            }
+            if ($req->filtertype == 'croissant') {
+                $products = Product::where('child_category_id', $id)->orderBy('price','asc')->with('images')->get()->all();
+            }
+            if ($req->filtertype == 'decroissant') {
+                $products = Product::where('child_category_id', $id)->orderBy('price','desc')->with('images')->get()->all();
+            }
+        } else if ($req->type == 'statut') {
+            if ($req->filtertype == 'atoz') {
+                $products = Product::where('statut', $name)->orderBy('title','asc')->with('images')->get()->all();
+            } else if ($req->filtertype == 'ztoa') {
+                $products = Product::where('statut', $name)->orderBy('title','desc')->with('images')->get()->all();
+            }
+            if ($req->filtertype == 'croissant') {
+                $products = Product::where('statut', $name)->orderBy('price','asc')->with('images')->get()->all();
+            }
+            if ($req->filtertype == 'decroissant') {
+                $products = Product::where('statut', $name)->orderBy('price','desc')->with('images')->get()->all();
+            }
+        } else if ($req->type == 'bestproducts') {
+            if ($req->filtertype == 'atoz') {
+                $products = Product::wherehas('topproducts')->orderBy('title','asc')->with('images')->get()->all();
+            } else if ($req->filtertype == 'ztoa') {
+                $products = Product::wherehas('topproducts')->orderBy('title','desc')->with('images')->get()->all();
+            }
+            if ($req->filtertype == 'croissant') {
+                $products = Product::wherehas('topproducts')->orderBy('price','asc')->with('images')->get()->all();
+            }
+            if ($req->filtertype == 'decroissant') {
+                $products = Product::wherehas('topproducts')->orderBy('price','desc')->with('images')->get()->all();
+            }
+        }
+        return $products;
+    }
+
+    public function searchsuggestion(Request $req){
+        $products=Product::where('title','like','%'.$req->inputdata.'%')->limit(5)->get();
+        return $products;
+    }
+    public function search(){
+        return 'good';
     }
 }

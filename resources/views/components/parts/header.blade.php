@@ -45,6 +45,14 @@
     .navbar .dropdown-menu .dropdown-item:hover {
         background-color: #3c66bb;
     }
+    .searchsuggestions li{
+        cursor: pointer;
+    }
+    .form-control:focus{
+        box-shadow: none !important;
+        -webkit-box-shadow: none !important;
+        border-color: #ced4da;
+    }
 </style>
 <div class="container-fluid part1 mt-1 pt-2 pb-2" style="background-color: #ffffff;">
     <div class="row align-items-center">
@@ -84,10 +92,13 @@
         <a href="{{url('/')}}" class="col-3">
             <img src="{{asset('media/icons/logo.jpg')}}" style="height: 120px">
         </a>
-        <div class="col-3 d-flex ">
-            <input type="text" class="form-control"
+        <div class="col-3 d-flex dropdown" style="color: #6c6767;">
+            <input type="text" class="form-control searchinput" data-bs-toggle="dropdown" aria-expanded="false"
                    style="border-radius: 0 !important;background-color: #f3f1f1;font-size: 13px!important;"
-                   placeholder="Rechercher un produit...">
+                   placeholder="Rechercher un produit..." autocomplete="false">
+            <ul class="dropdown-menu searchsuggestions" aria-labelledby="dropdownMenuButton1" style="font-size: 13px;width: 93%;border-radius: 0;background-color: #f3f1f1 !important;">
+
+            </ul>
             <button class="btn" style="background-color: #f69c14;border-radius: 0 !important;">
                 <img src="{{asset('media/icons/search.svg')}}" style="height: 20px">
             </button>
@@ -153,29 +164,52 @@
                             <li>
                                 <a class="dropdown-item" href="{{url('Category/'.$category->id)}}">Tous</a>
                             </li>
-
                             @foreach($category->child_categories as $childcategory)
-                                <li><a class="dropdown-item" href="{{url('SousCategory/'.$childcategory->id)}}">{{$childcategory->name}}</a></li>
+                                <li><a class="dropdown-item"
+                                       href="{{url('SousCategory/'.$childcategory->id)}}">{{$childcategory->name}}</a>
+                                </li>
                             @endforeach
                         </ul>
                     </li>
                 @endforeach
-
-
             </ul>
             <div class="d-flex">
-                <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="#"
+                <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="{{url('/statut/Neuf')}}"
                    style="background-color: #f69c14 !important;border-right: solid 1px rgb(255,255,255,0.5);border-top: solid 1px orange;">
                     <img src="{{asset('media/icons/new.svg')}}" class="me-2" style="height: 15px">
                     <span>Neuf </span>
                 </a>
-                <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="#"
+                <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="{{url('/statut/Occasion')}}"
                    style="background-color: #f69c14 !important;border-top: solid 1px orange;">
                     <img src="{{asset('media/icons/occasion.svg')}}" class="me-2" style="height: 15px">
                     <span>Occasion</span>
                 </a>
             </div>
-
         </div>
     </div>
 </nav>
+
+<script>
+    $('.searchinput').keyup(function (){
+        $.ajax({
+            url:'/searchsuggestion',
+            method:'get',
+            data:{
+                inputdata:$(this).val()
+            },
+            success:function (e){
+                console.log(e)
+                $('.searchsuggestions').html('')
+                if(e.length==0){
+                    $('.searchsuggestions').html('<li><a class="dropdown-item">0 resulte pour ce recherche</a></li>')
+                }else{
+                    for($i=0;$i<e.length;$i++){
+                        $('.searchsuggestions').append('<li><a href="{{url('product')}}/'+e[$i].id+'" class="dropdown-item">'+e[$i].title+'</a></li>')
+                    }
+                }
+
+
+            }
+        })
+    })
+</script>

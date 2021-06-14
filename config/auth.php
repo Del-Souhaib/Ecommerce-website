@@ -108,7 +108,7 @@ return [
         'clients' => [
             'provider' => 'clients',
             'table' => 'client_password_resets',
-            'expire' => 60,
+            'expire' => 5,
             'throttle' => 60,
         ],
     ],

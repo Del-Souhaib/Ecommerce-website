@@ -113,7 +113,7 @@
             <div class="d-flex justify-content-end mt-1" style="font-size: 14px">
                 @if(\Illuminate\Support\Facades\Auth::guard('client')->check())
                     <a href="{{url('/dashboard')}}" class="mb-0 pe-3 pb-0" style="border-right: solid 1px #c6c2c2; ">
-                        {{ Auth::user()->name }}
+                        {{ \Illuminate\Support\Facades\Auth::guard('client')->user()->user_name }}
                     </a>
                     <form method="post" action="{{url('logout')}}" class="ps-3 mb-0 pb-0">
                         @csrf

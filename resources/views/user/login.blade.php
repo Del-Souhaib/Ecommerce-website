@@ -44,7 +44,7 @@
             <div class="row">
                 <div class="col-4"></div>
                 <div class="col-8 mt-3">
-                    <a href="" style="color: #8b8888;text-decoration: none;font-size: 15px">Mot de passe oublié?</a>
+                    <a href="{{url('forgetpassword')}}" style="color: #8b8888;text-decoration: none;font-size: 15px">Mot de passe oublié?</a>
                 </div>
                 <div class="col-4"></div>
                 <div class="col-8 mt-3">

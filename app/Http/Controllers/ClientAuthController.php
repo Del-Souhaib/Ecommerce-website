@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Password;
+use Illuminate\Support\Str;
 use Illuminate\Testing\Fluent\Concerns\Has;
 
 class ClientAuthController extends Controller
@@ -70,6 +73,54 @@ class ClientAuthController extends Controller
 
     }
 
+    public function forgetpassword()
+    {
+        return view('user.forgetpassword');
+    }
+
+    public function forgetpasswordcheck(Request $req)
+    {
+        $req->validate(['email' => 'required|email']);
+
+        $status = Password::sendResetLink(
+            $req->only('email')
+        );
+        return $status === Password::RESET_LINK_SENT
+            ? back()->with(['status' => __($status)])
+            : back()->withErrors(['email' => __($status)]);
+    }
+
+    public function changepassword($token)
+    {
+        return view('user.changepassword', ['token' => $token]);
+    }
+
+    public function changepasswpordcheck(Request $request)
+    {
+        $request->validate([
+            'token' => 'required',
+            'email' => 'required|email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        $status = Password::reset(
+            $request->only('email', 'password', 'password_confirmation', 'token'),
+            function ($user, $password) {
+                $user->forceFill([
+                    'password' => Hash::make($password)
+                ])->setRememberToken(Str::random(60));
+
+                $user->save();
+
+                event(new PasswordReset($user));
+            }
+        );
+
+        return $status === Password::PASSWORD_RESET
+            ? redirect()->route('login')->with('status', __($status))
+            : back()->withErrors(['email' => [__($status)]]);
+    }
+
     public function logout()
     {
         Auth::guard('client')->logout();
@@ -84,7 +135,7 @@ class ClientAuthController extends Controller
 
     public function informationcheck(Request $req)
     {
-        if($req->modifypassword) {
+        if ($req->modifypassword) {
             $validated = $req->validate([
                 'name' => 'required|min:3|max:100',
                 'email' => 'required|min:3|max:100',
@@ -92,7 +143,7 @@ class ClientAuthController extends Controller
                 'newpassword1' => 'required|min:8|max:100',
                 'newpassword2' => 'required|min:8|max:100|same:newpassword1',
             ]);
-        }else{
+        } else {
             $validated = $req->validate([
                 'name' => 'required|min:3|max:100',
                 'email' => 'required|min:3|max:100',
@@ -104,31 +155,35 @@ class ClientAuthController extends Controller
             'email' => $req->email,
             'telephone' => $req->telephone
         ]);
-        if($req->modifypassword){
-            if (! Hash::check($req->password, $req->user()->password)) {
+        if ($req->modifypassword) {
+            if (!Hash::check($req->password, $req->user()->password)) {
                 return back()->withErrors([
                     'password' => ['actuel mot de passe est inccorect.']
                 ]);
-            }else{
+            } else {
                 $user = Client::where('id', Auth::guard('client')->id())->update([
-                   'password'=>Hash::make($req->newpassword1)
+                    'password' => Hash::make($req->newpassword1)
                 ]);
             }
         }
         return redirect('/information');
     }
-    public function adresses(){
+
+    public function adresses()
+    {
         $user = Client::where('id', Auth::guard('client')->id())->first();
-        return view('client.adresses',compact('user'));
+        return view('client.adresses', compact('user'));
     }
-    public function adressecheck(Request $req){
-        $validator=$req->validate([
-            'adresse'=>'required',
-            'city'=>'required'
+
+    public function adressecheck(Request $req)
+    {
+        $validator = $req->validate([
+            'adresse' => 'required',
+            'city' => 'required'
         ]);
         $user = Client::where('id', Auth::guard('client')->id())->update([
-            'adresse'=>$req->adresse,
-            'city'=>$req->city,
+            'adresse' => $req->adresse,
+            'city' => $req->city,
         ]);
         return redirect('/adresses');
     }

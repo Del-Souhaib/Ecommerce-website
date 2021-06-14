@@ -42,7 +42,10 @@ Route::get('/information',[\App\Http\Controllers\ClientAuthController::class,'in
 Route::post('/informationcheck',[\App\Http\Controllers\ClientAuthController::class,'informationcheck'])->middleware('auth:client');
 Route::get('/adresses',[\App\Http\Controllers\ClientAuthController::class,'adresses'])->middleware('auth:client');
 Route::post('/adressecheck',[\App\Http\Controllers\ClientAuthController::class,'adressecheck'])->middleware('auth:client');
-
+Route::get('/forgetpassword',[\App\Http\Controllers\ClientAuthController::class,'forgetpassword']);
+Route::post('/forgetpasswordcheck',[\App\Http\Controllers\ClientAuthController::class,'forgetpasswordcheck']);
+Route::get('/changepassword/{token}',[\App\Http\Controllers\ClientAuthController::class,'changepassword']);
+Route::post('/changepasswpordcheck',[\App\Http\Controllers\ClientAuthController::class,'changepasswpordcheck']);
 
 
 

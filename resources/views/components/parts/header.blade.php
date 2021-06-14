@@ -123,9 +123,8 @@
                     </form>
                 @else
                     <span class="pe-3" style="border-right: solid 1px #c6c2c2;font-size: 14px">Bienvenue</span>
-                    <a class="ps-3" href="{{url('/register')}}" style="font-size: 14px">Identifiez-vous</a>
+                    <a class="ps-3" href="{{url('/connexion')}}" style="font-size: 14px">Identifiez-vous</a>
                 @endif
-
             </div>
         </div>
 

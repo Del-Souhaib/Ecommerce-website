@@ -30,7 +30,7 @@
                     <label for="email" style="font-weight: 600">Email</label>
                 </div>
                 <div class="col-8">
-                    <input type="email" name="email" id="name" class="form-control" style="border-radius: 0">
+                    <input type="email" name="email" required id="name" class="form-control" style="border-radius: 0">
                 </div>
             </div>
             <div class="row align-items-center mt-3">
@@ -38,7 +38,7 @@
                     <label for="password" style="font-weight: 600">Mot de passe</label>
                 </div>
                 <div class="col-8">
-                    <input type="password" name="password" id="password" class="form-control" style="border-radius: 0">
+                    <input type="password" name="password" required id="password" class="form-control" style="border-radius: 0">
                 </div>
             </div>
             <div class="row">

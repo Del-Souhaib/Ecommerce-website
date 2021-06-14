@@ -13,7 +13,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', [\App\Http\Controllers\UserController::class,'Home']);
+Route::get('/', [\App\Http\Controllers\UserController::class,'Home'])->name('homepage');
 /**message***/
 Route::get('/message',[\App\Http\Controllers\UserController::class,'messagepage']);
 Route::post('/sendmessage',[\App\Http\Controllers\UserController::class,'sendmessage']);
@@ -36,6 +36,15 @@ Route::post('/connexioncheck',[\App\Http\Controllers\ClientAuthController::class
 
 Route::get('/inscrire ',[\App\Http\Controllers\ClientAuthController::class,'inscrire']);
 Route::post('/inscrirecheck',[\App\Http\Controllers\ClientAuthController::class,'inscrirecheck']);
+Route::post('/logout',[\App\Http\Controllers\ClientAuthController::class,'logout'])->middleware('auth:client');
+Route::get('dashboard',[\App\Http\Controllers\ClientController::class,'dashboard']);
+Route::get('/information',[\App\Http\Controllers\ClientAuthController::class,'information'])->middleware('auth:client');
+Route::post('/informationcheck',[\App\Http\Controllers\ClientAuthController::class,'informationcheck'])->middleware('auth:client');
+Route::get('/adresses',[\App\Http\Controllers\ClientAuthController::class,'adresses'])->middleware('auth:client');
+Route::post('/adressecheck',[\App\Http\Controllers\ClientAuthController::class,'adressecheck'])->middleware('auth:client');
+
+
+
 
 /**admin**/
 Route::prefix('admin')->group(function (){

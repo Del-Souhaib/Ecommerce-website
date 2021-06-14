@@ -56,7 +56,7 @@
             </div>
         </div>
         <div class="row mt-5">
-            <div class="col-12 text-center" style="font-size: 17px;color: #878686">
+            <div class="col-12 text-center" style="font-size: 14px;color: #878686">
                 <p class="mb-1">
                     ULTRAPC est une société spécialisée dans la vente et achat de matériel informatique au Maroc, que se
                     soit des pc de bureau ou pc portables ou pc gamer, composants ou périphérique.

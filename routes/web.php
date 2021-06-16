@@ -49,7 +49,8 @@ Route::post('/changepasswpordcheck',[\App\Http\Controllers\ClientAuthController:
 
 /**Pane**/
 Route::post('/addtopane',[\App\Http\Controllers\ClientController::class,'addtopane']);
-Route::get('/pane',[\App\Http\Controllers\ClientController::class,'pane']);
+Route::get('/panier',[\App\Http\Controllers\ClientController::class,'pane']);
+Route::post('/deletepanier',[\App\Http\Controllers\ClientController::class,'deletepanier']);
 
 /**admin**/
 Route::prefix('admin')->group(function (){

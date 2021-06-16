@@ -45,6 +45,17 @@ class ClientController extends Controller
     public function pane()
     {
         $panes = Pane::where('client_id', Auth::guard('client')->id())->get()->all();
-        return view('client.pane', compact('panes'));
+        $total=0;
+        foreach ($panes as $pane){
+            $total+=($pane->quantity*$pane->product->price);
+        }
+        return view('client.pane', compact(['panes','total']));
+    }
+    public function deletepanier(Request $req){
+        Pane::where([
+            ['id',$req->pane_id],
+            ['client_id',Auth::guard('client')->id()]
+        ])->delete();
+        return redirect()->back()->with('')
     }
 }

@@ -133,7 +133,7 @@
         </div>
 
         <div class="col-2 text-end ps-5">
-            <div class="d-flex align-items-center">
+            <a href="{{url('/panier')}}" class="d-flex align-items-center">
                 <div>
                     <p class="mb-0 me-1" style="font-size: 18px;font-weight: 600;color:#204F8C ">Panier</p>
                     @if($nbpane==0)

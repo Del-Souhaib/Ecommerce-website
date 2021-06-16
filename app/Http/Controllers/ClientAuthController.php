@@ -72,7 +72,10 @@ class ClientAuthController extends Controller
 
 
     }
-
+    protected function guard()
+    {
+        return Auth::guard('clients');
+    }
     public function forgetpassword()
     {
         return view('user.forgetpassword');
@@ -82,7 +85,7 @@ class ClientAuthController extends Controller
     {
         $req->validate(['email' => 'required|email']);
 
-        $status = Password::sendResetLink(
+        $status = Password::broker('clients')->sendResetLink(
             $req->only('email')
         );
         return $status === Password::RESET_LINK_SENT
@@ -103,19 +106,17 @@ class ClientAuthController extends Controller
             'password' => 'required|min:8|confirmed',
         ]);
 
-        $status = Password::reset(
+        $status = Password::broker('clients')->reset(
             $request->only('email', 'password', 'password_confirmation', 'token'),
             function ($user, $password) {
                 $user->forceFill([
                     'password' => Hash::make($password)
                 ])->setRememberToken(Str::random(60));
-
                 $user->save();
-
                 event(new PasswordReset($user));
+                return redirect('/connexion');
             }
         );
-
         return $status === Password::PASSWORD_RESET
             ? redirect()->route('login')->with('status', __($status))
             : back()->withErrors(['email' => [__($status)]]);

@@ -16,9 +16,10 @@ class ClientResetPassword extends Notification
      *
      * @return void
      */
-    public function __construct()
+    public $path;
+    public function __construct($path)
     {
-        //
+        $this->path=$path;
     }
 
     /**
@@ -42,7 +43,7 @@ class ClientResetPassword extends Notification
     {
         return (new MailMessage)
                     ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
+                    ->action('Notification Action', url('/'.$this->path))
                     ->line('Thank you for using our application!');
     }
 

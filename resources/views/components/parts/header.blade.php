@@ -45,10 +45,12 @@
     .navbar .dropdown-menu .dropdown-item:hover {
         background-color: #3c66bb;
     }
-    .searchsuggestions li{
+
+    .searchsuggestions li {
         cursor: pointer;
     }
-    .form-control:focus{
+
+    .form-control:focus {
         box-shadow: none !important;
         -webkit-box-shadow: none !important;
         border-color: #ced4da;
@@ -94,9 +96,11 @@
         </a>
         <form method="get" action="{{url('/search')}}" class="col-3 d-flex dropdown" style="color: #6c6767;">
             <input type="text" class="form-control searchinput" data-bs-toggle="dropdown" aria-expanded="false"
-                   style="border-radius: 0 !important;background-color: #f3f1f1;font-size: 13px!important;" name="inputdata"
+                   style="border-radius: 0 !important;background-color: #f3f1f1;font-size: 13px!important;"
+                   name="inputdata"
                    placeholder="Rechercher un produit..." autocomplete="false">
-            <ul class="dropdown-menu searchsuggestions" aria-labelledby="dropdownMenuButton1" style="font-size: 13px;width: 93%;border-radius: 0;background-color: #f3f1f1 !important;">
+            <ul class="dropdown-menu searchsuggestions" aria-labelledby="dropdownMenuButton1"
+                style="font-size: 13px;width: 93%;border-radius: 0;background-color: #f3f1f1 !important;">
 
             </ul>
             <button class="btn" style="background-color: #f69c14;border-radius: 0 !important;">
@@ -132,9 +136,17 @@
             <div class="d-flex align-items-center">
                 <div>
                     <p class="mb-0 me-1" style="font-size: 18px;font-weight: 600;color:#204F8C ">Panier</p>
-                    <p class="mb-0" style="font-size: 14px"> (vide)</p>
+                    @if($nbpane==0)
+                        <p class="mb-0" style="font-size: 14px"> (vide)</p>
+                    @endif
                 </div>
-                <img src="{{asset('media/icons/panier.svg')}}" style="height:40px;">
+                <div class="d-flex align-items-start">
+                    <img src="{{asset('media/icons/panier.svg')}}" style="height:40px;">
+                    @if($nbpane>0)
+                        <p class="mb-0 text-light "
+                           style="font-size: 14px;background-color: #f69c14;padding: 1px 7px 1px 7px;border-radius: 100%"> {{$nbpane}}</p>
+                    @endif
+                </div>
             </div>
         </div>
     </div>
@@ -150,7 +162,7 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
                 <li class="nav-item" style="background-color: #3768a8">
-                    <a class="nav-link active" aria-current="page" href="#">
+                    <a class="nav-link active" aria-current="page" href="{{url('/')}}">
                         <img src="{{asset('media/icons/home.svg')}}" style="height: 25px">
                     </a>
                 </li>
@@ -189,21 +201,21 @@
 </nav>
 
 <script>
-    $('.searchinput').keyup(function (){
+    $('.searchinput').keyup(function () {
         $.ajax({
-            url:'/searchsuggestion',
-            method:'get',
-            data:{
-                inputdata:$(this).val()
+            url: '/searchsuggestion',
+            method: 'get',
+            data: {
+                inputdata: $(this).val()
             },
-            success:function (e){
+            success: function (e) {
                 console.log(e)
                 $('.searchsuggestions').html('')
-                if(e.length==0){
+                if (e.length == 0) {
                     $('.searchsuggestions').html('<li><a class="dropdown-item">0 resulte pour ce recherche</a></li>')
-                }else{
-                    for($i=0;$i<e.length;$i++){
-                        $('.searchsuggestions').append('<li><a href="{{url('product')}}/'+e[$i].id+'" class="dropdown-item">'+e[$i].title+'</a></li>')
+                } else {
+                    for ($i = 0; $i < e.length; $i++) {
+                        $('.searchsuggestions').append('<li><a href="{{url('product')}}/' + e[$i].id + '" class="dropdown-item">' + e[$i].title + '</a></li>')
                     }
                 }
 

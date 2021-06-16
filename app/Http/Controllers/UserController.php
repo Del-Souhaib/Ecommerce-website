@@ -6,8 +6,10 @@ use App\Models\Best_product;
 use App\Models\Category;
 use App\Models\Child_category;
 use App\Models\Message;
+use App\Models\Pane;
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class UserController extends Controller
 {
@@ -51,8 +53,12 @@ class UserController extends Controller
         $product = Product::with(['images', 'company', 'colors', 'childcategory' => function ($query) {
             return $query->with('Category');
         }])->where('id', $id)->first();
+        $ifalreadyinpane=Pane::where([
+            ['client_id',Auth::guard('client')->id()],
+            ['product_id',$product->id]
+            ])->get()->all();
         $relatedproducts = Product::where('child_category_id', $product->child_category_id)->with(['images'])->limit(8)->get();
-        return view('products.product', compact(['product', 'relatedproducts']));
+        return view('products.product', compact(['product', 'relatedproducts','ifalreadyinpane']));
     }
 
     public function getproductinfo(Request $req)
@@ -87,7 +93,7 @@ class UserController extends Controller
         }
         $type = 'childcategorie';
         $url = $id . '/souscategory';
-        return view('products.products', compact(['products', 'title', 'type', 'id']));
+        return view('products.products', compact(['products', 'title', 'type', 'id','url']));
     }
 
     public function bystatutproducts($name)

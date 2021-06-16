@@ -47,7 +47,9 @@ Route::post('/forgetpasswordcheck',[\App\Http\Controllers\ClientAuthController::
 Route::get('/changepassword/{token}',[\App\Http\Controllers\ClientAuthController::class,'changepassword']);
 Route::post('/changepasswpordcheck',[\App\Http\Controllers\ClientAuthController::class,'changepasswpordcheck']);
 
-
+/**Pane**/
+Route::post('/addtopane',[\App\Http\Controllers\ClientController::class,'addtopane']);
+Route::get('/pane',[\App\Http\Controllers\ClientController::class,'pane']);
 
 /**admin**/
 Route::prefix('admin')->group(function (){

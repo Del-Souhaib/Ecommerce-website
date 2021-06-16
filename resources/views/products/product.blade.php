@@ -117,6 +117,10 @@
             height: 100%;
             object-fit: cover;
         }
+
+        .firstcolor {
+            box-shadow: 0px 0px 21px 13px rgba(68, 168, 227, 0.75);
+        }
     </style>
 
 </head>
@@ -127,9 +131,9 @@
 <div class="container mt-5">
     <div class="row">
         <div class="col-12" style="color:#6c6767 ;font-size: 15px">
-            <a href="" class="pe-2"
+            <a href="{{url('Category/'.$product->childcategory->category->id)}}" class="pe-2"
                style="color:#6c6767;border-right: solid 1px #6c6767">{{$product->childcategory->category->name}}</a>
-            <a href="" class="pe-2 ps-2"
+            <a href="{{url('/SousCategory/'.$product->childcategory->id)}}" class="pe-2 ps-2"
                style="color:#6c6767;border-right: solid 1px #6c6767">{{$product->childcategory->name}}</a>
             <a href="{{url('product/'.$product->id)}}" class="ps-2" style="color:#6c6767">{{$product->title}}</a>
         </div>
@@ -159,12 +163,15 @@
                 </div>
             </div>
         </div>
-        <div class="col-7">
+        <form form method="POST" action="{{url('/addtopane')}}" class="col-7">
+            @csrf
+            <input type="hidden" name="product_id" value="{{$product->id}}">
             <p style="color: #204f8c;font-size: 30px;font-weight: 535">{{$product->title}}</p>
             <p style="color: #204f8c;font-size: 22px;font-weight: 535">{{$product->price}} MAD</p>
-            <p class="p-3" style="font-size:15px;color:#6c6767;border-top: solid 1px #d4cccc;border-bottom: solid 1px #d4cccc">{{$product->presentation}}</p>
+            <p class="p-3"
+               style="font-size:15px;color:#6c6767;border-top: solid 1px #d4cccc;border-bottom: solid 1px #d4cccc">{!!$product->presentation!!}</p>
             <div style="border-top: solid 1px #d4cccc;border-bottom: solid 1px #d4cccc">
-            <img src="{{asset('storage/companies/'.$product->company->logo)}}" style="height: 100px;">
+                <img src="{{asset('storage/companies/'.$product->company->logo)}}" style="height: 100px;">
             </div>
             <p class="d-flex justify-content-between mt-3 pt-3 pb-3 mb-3"
                style="color: #204f8c;font-weight: 550;border-top:solid 1px #dcd6d6;border-bottom:solid 1px #dcd6d6">
@@ -180,8 +187,8 @@
                             @if($loop->first)
                                 <input type="hidden" name="selectedcolor" id="selectedcolor" value="{{$color->id}}">
                             @endif
-                            <div class="ms-2"
-                                style="background-color:{{$color->name}};cursor:pointer;border-radius: 100px;height: 20px;width: 20px"></div>
+                            <div class="ms-2 selectcolor  @if($loop->first) firstcolor @endif" colorid="{{$color->id}}"
+                                 style="background-color:{{$color->name}};cursor:pointer;border-radius: 100px;height: 20px;width: 20px"></div>
                         @endforeach
                     </div>
                 </div>
@@ -190,7 +197,7 @@
                 @if($product->quantity>=1)
                     <p style="color: #559f45;font-size: 12.5px">
                         <img src="{{asset('media/icons/correct.svg')}}" style="width: 15px">
-                        Produit en stock <span style="font-weight: 600">(22 produits)
+                        Produit en stock <span style="font-weight: 600">({{$product->quantity}} produits)
                         </span>
                     </p>
                 @else
@@ -201,21 +208,30 @@
                 @endif
 
                 <div class="d-flex justify-content-end mt-2">
-                    <input class="form-control me-3" type="number" min="1" value="1"
+                    <input class="form-control me-3" type="number" name="quantity" min="1" value="1"
                            style="border-radius:0;width: 70px!important;"/>
-                    <button class="btn addbuttontype2 addbutton3" data-bs-toggle="modal"
-                            data-bs-target="#addedtopanesuccess"
-                            style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 38px ">
-                        <img src="{{asset('media/icons/plus.svg')}}" style="width: 18px">
-                    </button>
-                    <button class="btn addbuttontype2 addbutton4" data-bs-toggle="modal"
-                            data-bs-target="#addedtopanesuccess"
-                            style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c">
-                        Ajouter au panier
-                    </button>
+                    @if($ifalreadyinpane)
+                        <button class="btn btn-danger addbuttontype2 addbutton3"
+                                style="border-radius: 0 !important;height: 38px;width: 38px ">
+                            <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
+                        </button>
+                        <button class="btn btn-danger addbuttontype2 addbutton4 border-danger"
+                                style="border-radius: 0 !important;">
+                            Supprimer du panier
+                        </button>
+                    @else
+                        <button class="btn addbuttontype2 addbutton3"
+                                style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 38px ">
+                            <img src="{{asset('media/icons/plus.svg')}}" style="width: 18px">
+                        </button>
+                        <button class="btn addbuttontype2 addbutton4"
+                                style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c">
+                            Ajouter au panier
+                        </button>
+                    @endif
                 </div>
             </div>
-        </div>
+        </form>
     </div>
     <div class="row" style="margin-top: 100px">
         <div class="col-6">
@@ -257,8 +273,87 @@
 
 
 <x-parts.footer/>
+<div class="modal fade" id="addedtopanesuccess" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content " style="border-radius: 0">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-5">
+                        @foreach($product->images as $image)
+                            @if($loop->first)
+                                <img src="{{asset('storage/products/'.$image->name)}}"
+                                     class="img-fluid addedtopanesuccessimage"/>
+                            @endif
+                        @endforeach
+                    </div>
+                    <div class="col-7">
+                        <div class="d-flex align-items-center mb-5">
+                            <img src="{{asset('media/icons/correct3.svg')}}" style="height: 20px">
+                            <p style="color: #f69c14" class="mb-0 ms-2">Produit ajouté au panier avec succès</p>
+                        </div>
+                        <p class="mb-1 addedtopanesuccesstitle" style="color: #204f8c;font-size: 17px;font-weight: 600">
+                            {{$product->title}}
+                        </p>
+                        <p class="mb-1" style="color: #f69c14;font-size: 18px;font-weight: 550"><span
+                                class="addedtopanesuccessprice">{{$product->price * session()->get('quantity')}}</span>
+                            MAD</p>
+                        <p style="color: #6c6767;font-size: 18px;font-weight: 400">Quantité
+                            : {{session()->get('quantity')}}<span
+                                class="addedtopanesuccessquantity"></span></p>
+                        <div class="alert mt-5"
+                             style="background-color:rgb(246,156,20,0.3);border-radius: 0;color: #f69c14 ">
+                            <p class="mb-1">Il y a 5 articles dans votre panier.</p>
+                            <p class="mb-1"><b>Total :</b> <span class="">50005</span> MAD</p>
+                            <div class="d-flex">
+                                <button class="btn btn-sm hoverbutton mt-2 me-2"
+                                        style="border-color: #204f8c;color: #204f8c;border-radius: 0;background-color: rgb(32,79,140,0.2)">
+                                    Continuer mes achats
+                                </button>
+                                <button class="btn btn-sm mt-2 d-flex align-items-center"
+                                        style="border-color: #f69c14;color: white;border-radius: 0;background-color: #f69c14">
+                                    <img src="{{asset('media/icons/correct2.svg')}}" style="width: 20px">
+                                    <span class="ms-2">Commander</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deletedpanesuccess" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content " style="border-radius: 0">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex align-items-center">
+                <img src="{{asset('media/icons/wrong.svg')}}" style="width: 30px">
+                <p class="ps-3 mb-0">Produit supprime du panier</p>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     $(document).ready(function () {
+        @if(session()->get('statut')=='addedtopane')
+        $('#addedtopanesuccess').modal('show')
+        @elseif(session()->get('statut')=='deletedpane')
+        $('#deletedpanesuccess').modal('show')
+        @endif
+        $('.selectcolor').click(function () {
+            $('.selectcolor').css('border', 'none')
+            $('.selectcolor').css('box-shadow', 'none')
+            $(this).css('box-shadow', '0px 0px 21px 13px rgba(68,168,227,0.75)')
+            $('#selectedcolor').val($(this).attr('colorid'))
+
+        })
         $('table').addClass('table')
 
         $('.addbutton').hover(function () {

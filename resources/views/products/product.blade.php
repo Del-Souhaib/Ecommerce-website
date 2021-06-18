@@ -3,7 +3,7 @@
 <head>
 
     <x-parts.files/>
-    <title>Home</title>
+    <title>{{$product->title}}</title>
     <style>
         * {
             font-family: 'Noto Sans', sans-serif;

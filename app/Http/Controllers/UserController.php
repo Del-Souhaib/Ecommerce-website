@@ -16,7 +16,8 @@ class UserController extends Controller
     public function Home()
     {
         $products = Best_product::with(['product' => function ($query) {
-            return $query->with('images');
+             $query->with('images');
+             $query->with('pane');
         }])->get()->all();
         return view('welcome', compact('products'));
     }
@@ -53,17 +54,29 @@ class UserController extends Controller
         $product = Product::with(['images', 'company', 'colors', 'childcategory' => function ($query) {
             return $query->with('Category');
         }])->where('id', $id)->first();
-        $ifalreadyinpane=Pane::where([
-            ['client_id',Auth::guard('client')->id()],
-            ['product_id',$product->id]
-            ])->get()->all();
+        $ifalreadyinpane = Pane::where([
+            ['client_id', Auth::guard('client')->id()],
+            ['product_id', $product->id]
+        ])->get()->all();
         $relatedproducts = Product::where('child_category_id', $product->child_category_id)->with(['images'])->limit(8)->get();
-        return view('products.product', compact(['product', 'relatedproducts','ifalreadyinpane']));
+        return view('products.product', compact(['product', 'relatedproducts', 'ifalreadyinpane']));
     }
 
     public function getproductinfo(Request $req)
     {
-        return Product::with(['images', 'company', 'colors'])->where('id', $req->productid)->first();
+        $nb = Pane::where('client_id', Auth::guard('client')->id())->get()->all();
+        $product = Product::with(['images', 'company', 'colors', 'pane'])->where('id', $req->productid)->first();
+       $already=Pane::where([['client_id',Auth::guard('client')->id()],['product_id',$req->productid]])->get()->first();
+       $total=0;
+       if($already){
+           $already=1;
+       }else{
+           $already=0;
+       }
+       foreach ($nb as $pane){
+           $total+=$pane->quantity*$pane->product->price;
+       }
+        return array('nb' => $nb, 'product' => $product,'total'=>$total,'already'=>$already);
     }
 
     /*****Categories******/
@@ -93,7 +106,7 @@ class UserController extends Controller
         }
         $type = 'childcategorie';
         $url = $id . '/souscategory';
-        return view('products.products', compact(['products', 'title', 'type', 'id','url']));
+        return view('products.products', compact(['products', 'title', 'type', 'id', 'url']));
     }
 
     public function bystatutproducts($name)
@@ -129,15 +142,13 @@ class UserController extends Controller
                         return $q->where('id', $id);
                     });
                 })->orderBy('title', 'desc')->with('images')->get()->all();
-            }
-            else if ($req->filtertype == 'croissant') {
+            } else if ($req->filtertype == 'croissant') {
                 $products = Product::wherehas('childcategory', function ($query) use ($id) {
                     $query->wherehas('Category', function ($q) use ($id) {
                         return $q->where('id', $id);
                     });
                 })->orderBy('price', 'asc')->with('images')->get()->all();
-            }
-            else if ($req->filtertype == 'decroissant') {
+            } else if ($req->filtertype == 'decroissant') {
                 $products = Product::wherehas('childcategory', function ($query) use ($id) {
                     $query->wherehas('Category', function ($q) use ($id) {
                         return $q->where('id', $id);
@@ -149,11 +160,9 @@ class UserController extends Controller
                 $products = Product::where('child_category_id', $id)->orderBy('title', 'asc')->with('images')->get()->all();
             } else if ($req->filtertype == 'ztoa') {
                 $products = Product::where('child_category_id', $id)->orderBy('title', 'desc')->with('images')->get()->all();
-            }
-            else if ($req->filtertype == 'croissant') {
+            } else if ($req->filtertype == 'croissant') {
                 $products = Product::where('child_category_id', $id)->orderBy('price', 'asc')->with('images')->get()->all();
-            }
-            else if ($req->filtertype == 'decroissant') {
+            } else if ($req->filtertype == 'decroissant') {
                 $products = Product::where('child_category_id', $id)->orderBy('price', 'desc')->with('images')->get()->all();
             }
         } else if ($req->type == 'statut') {
@@ -161,11 +170,9 @@ class UserController extends Controller
                 $products = Product::where('statut', $name)->orderBy('title', 'asc')->with('images')->get()->all();
             } else if ($req->filtertype == 'ztoa') {
                 $products = Product::where('statut', $name)->orderBy('title', 'desc')->with('images')->get()->all();
-            }
-            else if ($req->filtertype == 'croissant') {
+            } else if ($req->filtertype == 'croissant') {
                 $products = Product::where('statut', $name)->orderBy('price', 'asc')->with('images')->get()->all();
-            }
-            else if ($req->filtertype == 'decroissant') {
+            } else if ($req->filtertype == 'decroissant') {
                 $products = Product::where('statut', $name)->orderBy('price', 'desc')->with('images')->get()->all();
             }
         } else if ($req->type == 'bestproducts') {
@@ -173,11 +180,9 @@ class UserController extends Controller
                 $products = Product::wherehas('topproducts')->orderBy('title', 'asc')->with('images')->get()->all();
             } else if ($req->filtertype == 'ztoa') {
                 $products = Product::wherehas('topproducts')->orderBy('title', 'desc')->with('images')->get()->all();
-            }
-            else if ($req->filtertype == 'croissant') {
+            } else if ($req->filtertype == 'croissant') {
                 $products = Product::wherehas('topproducts')->orderBy('price', 'asc')->with('images')->get()->all();
-            }
-            else if ($req->filtertype == 'decroissant') {
+            } else if ($req->filtertype == 'decroissant') {
                 $products = Product::wherehas('topproducts')->orderBy('price', 'desc')->with('images')->get()->all();
             }
         }
@@ -200,8 +205,8 @@ class UserController extends Controller
             })->orwhere('specification', 'like', '%' . $req->inputdata . '%')
             ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->limit(5)->get();
         $title = 'resulte de Recherche :' . $req->inputdata;
-$datatype=$req->inputdata;
-        return view('products.search', compact(['products', 'title','datatype']));
+        $datatype = $req->inputdata;
+        return view('products.search', compact(['products', 'title', 'datatype']));
     }
 
     public function filtersearch(Request $req)
@@ -212,14 +217,14 @@ $datatype=$req->inputdata;
                 ->orwherehas('company', function ($q) use ($req) {
                     return $q->where('name', 'like', '%' . $req->inputdata . '%');
                 })->orwhere('specification', 'like', '%' . $req->inputdata . '%')
-                ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->orderBy('title','asc')->limit(5)->get();
+                ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->orderBy('title', 'asc')->limit(5)->get();
         } else if ($req->filtertype == 'ztoa') {
             $products = Product::with('images')->where('title', 'like', '%' . $req->inputdata . '%')
                 ->orwhere('presentation', 'like', '%' . $req->inputdata . '%')
                 ->orwherehas('company', function ($q) use ($req) {
                     return $q->where('name', 'like', '%' . $req->inputdata . '%');
                 })->orwhere('specification', 'like', '%' . $req->inputdata . '%')
-                ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->orderBy('title','desc')->limit(5)->get();
+                ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->orderBy('title', 'desc')->limit(5)->get();
         }
         if ($req->filtertype == 'croissant') {
             $products = Product::with('images')->where('title', 'like', '%' . $req->inputdata . '%')
@@ -227,14 +232,15 @@ $datatype=$req->inputdata;
                 ->orwherehas('company', function ($q) use ($req) {
                     return $q->where('name', 'like', '%' . $req->inputdata . '%');
                 })->orwhere('specification', 'like', '%' . $req->inputdata . '%')
-                ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->orderBy('price','asc')->limit(5)->get();        }
+                ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->orderBy('price', 'asc')->limit(5)->get();
+        }
         if ($req->filtertype == 'decroissant') {
             $products = Product::with('images')->where('title', 'like', '%' . $req->inputdata . '%')
                 ->orwhere('presentation', 'like', '%' . $req->inputdata . '%')
                 ->orwherehas('company', function ($q) use ($req) {
                     return $q->where('name', 'like', '%' . $req->inputdata . '%');
                 })->orwhere('specification', 'like', '%' . $req->inputdata . '%')
-                ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->orderBy('price','desc')->limit(5)->get();
+                ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->orderBy('price', 'desc')->limit(5)->get();
         }
         return $products;
     }

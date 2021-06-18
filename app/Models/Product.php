@@ -32,6 +32,6 @@ class Product extends Model
         return $this->hasOne(Best_product::class,'products_id');
     }
     public function pane(){
-        return $this->hasOne(Pane::class,'product_id');
+        return $this->hasMany(Pane::class,'product_id');
     }
 }

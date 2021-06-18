@@ -66,9 +66,7 @@
                 <li>
                     <a href="{{url('/message')}}">Contact</a>
                 </li>
-                <li>
-                    <a href="">Plan du site</a>
-                </li>
+
             </ul>
         </div>
         <div class="col-6 text-end">

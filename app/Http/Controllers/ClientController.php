@@ -41,7 +41,7 @@ class ClientController extends Controller
                 'quantity' => $req->quantity,
                 'created_at' => date('Y-m-d h:i:s')
             ]);
-            return redirect()->back()->with(['statut' => 'addedtopane', 'quantity' => $req->quantity]);
+            return redirect()->back()->with(['statut' => 'addedtopane', 'productid'=>$req->product_id,'quantity' => $req->quantity]);
         }
     }
 

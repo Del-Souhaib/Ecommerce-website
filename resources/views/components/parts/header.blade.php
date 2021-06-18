@@ -134,6 +134,7 @@
             <a href="{{url('/panier')}}" class="d-flex align-items-center">
                 <div>
                     <p class="mb-0 me-1" style="font-size: 18px;font-weight: 600;color:#204F8C ">Panier</p>
+                    <p class="mb-0" style="font-size: 14px">{{$total}} MAD</p>
                     @if($nbpane==0)
                         <p class="mb-0" style="font-size: 14px"> (vide)</p>
                     @endif
@@ -145,9 +146,9 @@
                            style="font-size: 14px;background-color: #f69c14;padding: 1px 7px 1px 7px;border-radius: 100%"> {{$nbpane}}</p>
                     @endif
                 </div>
-            </div>
         </div>
     </div>
+</div>
 </div>
 <nav class="navbar navbar-expand-lg  pt-0 pb-0 "
      style="background-color: #204F8C !important;border-radius: 0!important;border: none!important;">

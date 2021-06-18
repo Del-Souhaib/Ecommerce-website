@@ -219,7 +219,7 @@
                                         style="border-radius: 0 !important;height: 38px;width: 38px;width: 20% ">
                                     <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
                                 </button>
-                                <button class="btn btn-danger deletebutton addbuttontype2 addbutton4 border-danger"
+                                <button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"
                                         paneid="{{$product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
                                         style="border-radius: 0 !important;width: 80%">
                                     Supprimer

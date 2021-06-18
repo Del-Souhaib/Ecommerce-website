@@ -200,7 +200,7 @@
                                             style="border-radius: 0 !important;height: 38px;width: 38px;width: 20% ">
                                         <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
                                     </button>
-                                    <button class="btn btn-danger deletebutton addbuttontype2 addbutton4 border-danger"
+                                    <button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"
                                             paneid="{{$product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
                                             style="border-radius: 0 !important;width: 80%">
                                         Supprimer
@@ -323,6 +323,54 @@
 <x-parts.footer/>
 <script>
     $(document).ready(function () {
+        $('#trier').change(function () {
+            $.ajax({
+                url:'/filtersearch',
+                method: 'post',
+                data: {
+                    '_token': '{{csrf_token()}}',
+                    'filtertype': $(this).val(),
+                    'inputdata':$(this).attr('datatype')
+                }, success: function (e) {
+                    if(e.length>0) {
+                        $('.allproducts').html('')
+                        for ($i = 0; $i < e.length; $i++) {
+                            if (e[$i].quantity <= 0) {
+                                $disabled = 'disabled="disabled"'
+                                $message = '<span class="text-danger" style="font-size: 12.5px">' +
+                                    '<img src="{{asset('media/icons/wrong.svg')}}" style="width: 10px">' +
+                                    'Produit n\'est pas en stock </span>'
+                            } else {
+                                $disabled = ""
+                                $message = '<span style="color: #559f45;font-size: 12.5px">' +
+                                    '<img src="{{asset('media/icons/correct.svg')}}" style="width: 10px">' +
+                                    'Produit en stock (' + e[$i].quantity + ')</span>'
+                            }
+
+                            $('.allproducts').append('<div class="col-3 card text-center mb-4 pb-2">' +
+                                '<div> <a href="{{url('product/')}}/' + e[$i].id + '" class="articleimage">' +
+                                '<img src="{{asset('storage/products/')}}/' + e[$i].images[0].name + '" class="img-fluid"/> </a></div>' +
+                                '<a href="{{url('product/')}}/' + e[$i].id + '" class="mt-1"' +
+                                'style="font-size: 14px;text-decoration: none;color: #6c6767">' + e[$i].title + '</a>' +
+                                '<span class="mt-1" style="color:#204f8c;font-size: 20px ">' + e[$i].price + ' MAD</span>' +
+                                $message +
+                                '<div class="d-flex">' +
+                                '<button ' + $disabled + ' class="btn addbutton addbutton1" productid="' + e[$i].id + '"' +
+                                'style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 38px ">' +
+                                '<img src="{{asset('media/icons/plus.svg')}}" style="width: 18px"></button>' +
+
+                                '<button ' + $disabled + ' class="btn addbutton addbutton2" productid="' + e[$i].id + '"' +
+                                'style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c">Ajouter au panier </button>' +
+
+                                '</div> </div>')
+                        }
+                    }
+                }, error:function (e){
+                    console.log(e)
+                }
+            })
+        })
+
         $('.deletebutton').click(function () {
             $('#deletemodal').modal('show')
             $('#pane_id').val($(this).attr('paneid'))

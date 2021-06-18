@@ -80,9 +80,12 @@
                     </div>
                 </div>
                 <div class="col-2 d-flex align-items-center " style="border: solid 1px #c7c0c0;">
-                    <p class="text-end" style="color: #204f8c;font-size: 20px;">Prix total
+                    <div>
+                    <p class="text-end" style="color: #204f8c;font-size: 18px;">Prix total
                         : {{$commande->total}} MAD</p>
-
+                    <p class="text-end" style="color: #204f8c;font-size: 18px;">
+                        Date : {{\Carbon\Carbon::createFromFormat('Y-m-d h:i:s',$commande->created_at)->format('d M Y')}} </p>
+                    </div>
                 </div>
             @endforeach
         @else

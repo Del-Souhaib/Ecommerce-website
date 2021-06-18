@@ -198,7 +198,7 @@ class UserController extends Controller
 
     public function search(Request $req)
     {
-        $products = Product::with('images')->where('title', 'like', '%' . $req->inputdata . '%')
+        $products = Product::with(['images','pane','colors'])->where('title', 'like', '%' . $req->inputdata . '%')
             ->orwhere('presentation', 'like', '%' . $req->inputdata . '%')
             ->orwherehas('company', function ($q) use ($req) {
                 return $q->where('name', 'like', '%' . $req->inputdata . '%');

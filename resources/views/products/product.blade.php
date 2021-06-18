@@ -215,7 +215,7 @@
                                 style="border-radius: 0 !important;height: 38px;width: 38px ">
                             <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
                         </button>
-                        <button class="btn btn-danger addbuttontype2 addbutton4 border-danger"
+                        <button class="btn text-danger addbuttontype2 addbutton4 border-danger"
                                 style="border-radius: 0 !important;">
                             Supprimer du panier
                         </button>

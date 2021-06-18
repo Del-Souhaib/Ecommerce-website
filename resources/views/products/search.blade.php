@@ -192,18 +192,37 @@
                             Produit n'est pas en stock
                             </span>
                             @endif
-                            <div class="d-flex">
-                                <button @if($product->quantity<=0) disabled="disabled"
-                                        @endif class="btn addbutton addbutton1" productid="{{$product->id}}"
-                                        style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 38px ">
-                                    <img src="{{asset('media/icons/plus.svg')}}" style="width: 18px">
-                                </button>
-                                <button @if($product->quantity<=0) disabled="disabled"
-                                        @endif class="btn addbutton addbutton2" productid="{{$product->id}}"
-                                        style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c">
-                                    Ajouter au panier
-                                </button>
-                            </div>
+                            @if($product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first())
+                                <div class="d-flex">
+                                    <button class="btn btn-danger deletebutton addbuttontype2 addbutton3"
+                                            paneid="{{$product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
+                                            style="border-radius: 0 !important;height: 38px;width: 38px;width: 20% ">
+                                        <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
+                                    </button>
+                                    <button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"
+                                            paneid="{{$product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
+                                            style="border-radius: 0 !important;width: 80%">
+                                        Supprimer
+                                    </button>
+                                </div>
+                            @else
+                                <form method="post" action="{{url('/addtopane')}}" class="d-flex">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{$product->id}}">
+                                    <input type="hidden" name="selectedcolor" value="{{$product->colors[0]->id}}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button @if($product->quantity<=0) disabled="disabled"
+                                            @endif class="btn addbutton addbutton1" productid="{{$product->id}}"
+                                            style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 38px ">
+                                        <img src="{{asset('media/icons/plus.svg')}}" style="width: 18px">
+                                    </button>
+                                    <button @if($product->quantity<=0) disabled="disabled"
+                                            @endif class="btn addbutton addbutton2" productid="{{$product->id}}"
+                                            style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c">
+                                        Ajouter au panier
+                                    </button>
+                                </form>
+                            @endif
                         </div>
                     @endforeach
                 </div>
@@ -217,7 +236,6 @@
 </div>
 
 
-<!-- Modal -->
 <div class="modal fade" id="addedtopanesuccess" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content " style="border-radius: 0">
@@ -243,24 +261,59 @@
                                 class="addedtopanesuccessquantity"></span></p>
                         <div class="alert mt-5"
                              style="background-color:rgb(246,156,20,0.3);border-radius: 0;color: #f69c14 ">
-                            <p class="mb-1">Il y a 5 articles dans votre panier.</p>
-                            <p class="mb-1"><b>Total :</b> <span class="">50005</span> MAD</p>
+                            <p class="mb-1">Il y a <span class="addedsuccessmodalnbarticl"></span> articles dans votre
+                                panier.</p>
+                            <p class="mb-1"><b>Total :</b> <span class="addedsuccessmodaltotalprice">50005</span> MAD
+                            </p>
                             <div class="d-flex">
-                                <button class="btn btn-sm hoverbutton mt-2 me-2"
+                                <button class="btn btn-sm hoverbutton mt-2 me-2" data-bs-dismiss="modal"
                                         style="border-color: #204f8c;color: #204f8c;border-radius: 0;background-color: rgb(32,79,140,0.2)">
                                     Continuer mes achats
                                 </button>
-                                <button class="btn btn-sm mt-2 d-flex align-items-center"
-                                        style="border-color: #f69c14;color: white;border-radius: 0;background-color: #f69c14">
+                                <a href="{{url('/panier')}}" class="btn btn-sm mt-2 d-flex align-items-center"
+                                   style="border-color: #f69c14;color: white;border-radius: 0;background-color: #f69c14">
                                     <img src="{{asset('media/icons/correct2.svg')}}" style="width: 20px">
                                     <span class="ms-2">Commander</span>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
+</div>
+
+<div class="modal fade" id="deletedpanesuccess" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content " style="border-radius: 0">
+            <div class="modal-header border-0">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex align-items-center">
+                <img src="{{asset('media/icons/wrong.svg')}}" style="width: 30px">
+                <p class="ps-3 mb-0">Produit supprime du panier</p>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="deletemodal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog ">
+        <form method="post" action="{{url('/deletepanier')}}" class="modal-content" style="border-radius: 0">
+            @csrf
+            <div class="modal-header border-0 mb-0 pb-0">
+                <h5 class="modal-title" id="exampleModalLabel">Confirmation</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body d-flex align-items-center">
+                <input type="hidden" name="pane_id" id="pane_id" value="">
+                <img src="{{asset('media/icons/warning.svg')}}" class="img-fluid me-2" style="height: 30px">
+                <p class="mb-0 text-danger">êtes-vous sûr de vouloir supprimer ce produit?</p>
+            </div>
+            <div class="modal-footer border-top-0">
+                <button class="btn btn-danger" style="border-radius: 0">Supprimer</button>
+            </div>
+        </form>
     </div>
 </div>
 
@@ -316,30 +369,43 @@
             })
         })
 
-        $("#articleinfo").on('show.bs.modal', function () {
-            setTimeout(function () {
-                var swiper1 = new Swiper(".product-mySwiper", {
-                    loop: true,
-                    spaceBetween: 10,
-                    slidesPerView: 4,
-                    freeMode: true,
-                    watchSlidesVisibility: true,
-                    watchSlidesProgress: true,
-                });
-                var swiper2 = new Swiper(".product-mySwiper2", {
-                    loop: true,
-                    spaceBetween: 10,
+        $('.deletebutton').click(function () {
+            $('#deletemodal').modal('show')
+            $('#pane_id').val($(this).attr('paneid'))
+        })
 
-                    navigation: {
-                        nextEl: ".product-swiper-button-next",
-                        prevEl: ".product-swiper-button-prev",
-                    },
-                    thumbs: {
-                        swiper: swiper1,
-                    },
-                });
-            }, 500);
-        });
+
+        @if(session()->get('statut')=='addedtopane')
+        $.ajax({
+            method: 'post',
+            url: '/getproductinfo',
+            data: {
+                '_token': '{{csrf_token()}}',
+                'productid': {{session()->get('productid')}}
+            }, success: function (e) {
+                console.log(e)
+                $('.addedtopanesuccesstitle').text(e.product.title)
+                $('.addedtopanesuccessprice').text(e.product.price)
+                $('.addedtopanesuccessquantity').text('1')
+                $('.addedtopanesuccessimage').attr('src', '{{asset('storage/products')}}/' + e.product.images[0].name)
+                $('.addedsuccessmodalnbarticl').text(e.nb.length)
+                $('.addedsuccessmodaltotalprice').text(e.total)
+                for ($i = 0; $i < e.product.images.length; $i++) {
+                    $('.product-swiper-wrapper').append('<div class="swiper-slide product-swiper-slide">' +
+                        '<img src="{{url('storage/products')}}/' + e.product.images[$i].name + '"/>' +
+                        ' </div>')
+
+                }
+                $('#articleinfo').modal('hide')
+                $('#addedtopanesuccess').modal('show')
+
+            }
+        })
+
+        @elseif(session()->get('statut')=='deletedpane')
+        $('#deletedpanesuccess').modal('show')
+        @endif
+
 
 
         $('.addbutton').hover(function () {
@@ -360,34 +426,44 @@
             $(this).parent().children('.addbutton4').show()
             $(this).parent().children('.addbutton3').css('width', '38px')
         })
-
-
-        $('.addbutton').click(function () {
-            $.ajax({
-                method: 'post',
-                url: '/getproductinfo',
-                data: {
-                    '_token': '{{csrf_token()}}',
-                    'productid': $(this).attr('productid')
-                }, success: function (e) {
-                    $('.addedtopanesuccesstitle').text(e.title)
-                    $('.addedtopanesuccessprice').text(e.price + ' MAD')
-                    $('.addedtopanesuccessquantity').text(e.quantity)
-                    $('.addedtopanesuccessimage').attr('src', '{{asset('storage/products')}}/' + e.images[0].name)
-                    // addedtopanesuccessimage
-                    for ($i = 0; $i < e.images.length; $i++) {
-                        $('.product-swiper-wrapper').append('<div class="swiper-slide product-swiper-slide">' +
-                            '<img src="{{url('storage/products')}}/' + e.images[$i].name + '"/>' +
-                            ' </div>')
-
-                    }
-                    $('#articleinfo').modal('hide')
-                    $('#addedtopanesuccess').modal('show')
-
-                }
-            })
+        $('.rapide,.articleimage').hover(function () {
+            $(this).parent().children('.articleimage').css('filter', 'blur(1px)')
+            $(this).parent().children('.rapide').show()
+        })
+        $('.rapide,.articleimage').mouseout(function () {
+            $(this).parent().children('.articleimage').css('filter', 'blur(0)')
+            $(this).parent().children('.rapide').hide()
 
         })
+
+
+
+        {{--$('.addbutton').click(function () {--}}
+        {{--    $.ajax({--}}
+        {{--        method: 'post',--}}
+        {{--        url: '/getproductinfo',--}}
+        {{--        data: {--}}
+        {{--            '_token': '{{csrf_token()}}',--}}
+        {{--            'productid': $(this).attr('productid')--}}
+        {{--        }, success: function (e) {--}}
+        {{--            $('.addedtopanesuccesstitle').text(e.title)--}}
+        {{--            $('.addedtopanesuccessprice').text(e.price + ' MAD')--}}
+        {{--            $('.addedtopanesuccessquantity').text(e.quantity)--}}
+        {{--            $('.addedtopanesuccessimage').attr('src', '{{asset('storage/products')}}/' + e.images[0].name)--}}
+        {{--            // addedtopanesuccessimage--}}
+        {{--            for ($i = 0; $i < e.images.length; $i++) {--}}
+        {{--                $('.product-swiper-wrapper').append('<div class="swiper-slide product-swiper-slide">' +--}}
+        {{--                    '<img src="{{url('storage/products')}}/' + e.images[$i].name + '"/>' +--}}
+        {{--                    ' </div>')--}}
+
+        {{--            }--}}
+        {{--            $('#articleinfo').modal('hide')--}}
+        {{--            $('#addedtopanesuccess').modal('show')--}}
+
+        {{--        }--}}
+        {{--    })--}}
+
+        {{--})--}}
         /********header swipper********/
         var swiper = new Swiper(".header-swiper-container", {
             navigation: {

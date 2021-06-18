@@ -41,7 +41,7 @@ class ClientController extends Controller
                 'quantity' => $req->quantity,
                 'created_at' => date('Y-m-d h:i:s')
             ]);
-            return redirect()->back()->with(['statut' => 'addedtopane', 'productid'=>$req->product_id,'quantity' => $req->quantity]);
+            return redirect()->back()->with(['statut' => 'addedtopane', 'productid' => $req->product_id, 'quantity' => $req->quantity]);
         }
     }
 
@@ -88,14 +88,30 @@ class ClientController extends Controller
             'client_id' => Auth::guard('client')->id(),
             'created_at' => date('Y-m-d h:i:s')
         ]);
-        $panes = Pane::where('client_id', Auth::guard('client')->id())->get()->all();
+        $total=0;
+        $panes = Pane::with('product')->where('client_id', Auth::guard('client')->id())->get()->all();
         foreach ($panes as $pane) {
             Commandeitem::create([
                 'commade_id' => $commande->id,
                 'pane_id' => $pane->id,
                 'created_at' => date('Y-m-d h:i:s')
             ]);
+            $total+=$pane->product->price*$pane->quantity;
         }
-return redirect()->back()->with('statut', 'commandepassed');
+        $commande->total=$total;
+        $commande->save();
+        return redirect()->back()->with('statut', 'commandepassed');
+    }
+
+    public function mescommande()
+    {
+        $commandes= Commande::with(['client','items'=>function($q){
+            $q->with(['pane'=>function($q2){
+                $q2->with(['color','product'=>function($q3){
+                    $q3->with('images');
+                }]);
+            }]);
+        }])->where('client_id',Auth::guard('client')->id())->orderBy('id','desc')->get()->all();
+        return view('client.Commande',compact('commandes'));
     }
 }

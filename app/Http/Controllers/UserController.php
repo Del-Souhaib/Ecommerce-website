@@ -111,7 +111,7 @@ class UserController extends Controller
 
     public function bystatutproducts($name)
     {
-        $products = Product::where('statut', $name)->with('images')->get()->all();
+        $products = Product::where('statut', $name)->with(['images','colors','pane'])->get()->all();
         $title = $name;
         $type = 'statut';
         $url = '1/' . $name;

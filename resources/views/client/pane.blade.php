@@ -130,7 +130,6 @@
 <x-parts.footer/>
 <script>
     $(document).ready(function () {
-        $('#Commandesuccessmodal').modal('show')
 
 
         @if(session()->get('statut')=='deleted')

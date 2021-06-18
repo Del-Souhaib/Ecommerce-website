@@ -8,5 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Commande extends Model
 {
     use HasFactory;
-    public $fillable=['client_id'];
+    public $fillable=['id','client_id','statut','total','created_at'];
+    public function items(){
+        return $this->hasMany(Commandeitem::class,'commade_id');
+    }
+    public function client(){
+        return $this->belongsTo(Client::class,'client_id');
+    }
 }

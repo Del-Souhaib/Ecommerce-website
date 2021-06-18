@@ -46,7 +46,7 @@
                         <img src="{{asset('media/icons/best.svg')}}" class="" style="height: 45px" >
                         <p class="mb-0 text-center ms-4" style="font-size: 20px;color: #204f8c">Meilleures produits</p>
                     </a>
-                    <a href="" class="list-item col-3 mt-3 d-flex justify-content-center align-items-center pt-3 pb-3 bg-white border-b border-gray-200">
+                    <a href="{{url('admin/commades')}}" class="list-item col-3 mt-3 d-flex justify-content-center align-items-center pt-3 pb-3 bg-white border-b border-gray-200">
                         <img src="{{asset('media/icons/list.svg')}}" class="" style="height: 45px" >
                         <p class="mb-0 text-center ms-4" style="font-size: 20px;color: #204f8c">Commandes</p>
                     </a>

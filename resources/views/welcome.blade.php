@@ -284,15 +284,15 @@
                             <p class="mb-1"><b>Total :</b> <span class="addedsuccessmodaltotalprice">50005</span> MAD
                             </p>
                             <div class="d-flex">
-                                <button class="btn btn-sm hoverbutton mt-2 me-2"
+                                <button class="btn btn-sm hoverbutton mt-2 me-2" data-bs-dismiss="modal"
                                         style="border-color: #204f8c;color: #204f8c;border-radius: 0;background-color: rgb(32,79,140,0.2)">
                                     Continuer mes achats
                                 </button>
-                                <button class="btn btn-sm mt-2 d-flex align-items-center"
+                                <a href="{{url('/panier')}}" class="btn btn-sm mt-2 d-flex align-items-center"
                                         style="border-color: #f69c14;color: white;border-radius: 0;background-color: #f69c14">
                                     <img src="{{asset('media/icons/correct2.svg')}}" style="width: 20px">
                                     <span class="ms-2">Commander</span>
-                                </button>
+                                </a>
                             </div>
                         </div>
                     </div>

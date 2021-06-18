@@ -55,7 +55,7 @@ Route::post('/changepanequantity',[\App\Http\Controllers\ClientController::class
 
 /**Commande**/
 Route::post('/Commande',[\App\Http\Controllers\ClientController::class,'Commande']);
-
+Route::get('/mescommande',[\App\Http\Controllers\ClientController::class,'mescommande']);
 /**admin**/
 Route::prefix('admin')->group(function (){
     Route::get('/dashboard', function () {
@@ -65,6 +65,10 @@ Route::prefix('admin')->group(function (){
     Route::get('/', function () {
         return redirect('admin/dashboard');
     });
+
+    /**commande**/
+    Route::get('/commades',[\App\Http\Controllers\AdminController::class,'commades']);
+Route::post('/updatecommandestatut',[\App\Http\Controllers\AdminController::class,'updatecommandestatut']);
 
     Route::get('/categories',[\App\Http\Controllers\AdminController::class,'categories']);
     Route::get('/addcategorypage',[\App\Http\Controllers\AdminController::class,'addcategorypage']);

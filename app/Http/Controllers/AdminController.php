@@ -7,6 +7,7 @@ use App\Models\Category;
 use App\Models\Child_category;
 use App\Models\Client;
 use App\Models\Color;
+use App\Models\Commande;
 use App\Models\Company;
 use App\Models\Message;
 use App\Models\Product;
@@ -24,7 +25,20 @@ class AdminController extends Controller
     {
         return $this->middleware(['auth']);
     }
-
+/**commandes**/
+    public function commades(){
+        $commendes= Commande::with(['client','items'=>function($q){
+             $q->with(['pane'=>function($q2){
+                $q2->with(['product','color']);
+            }]);
+        }])->orderBy('id','desc')->get()->all();
+        return view('admin.commandes.commandes',compact('commendes'));
+    }
+    public function updatecommandestatut(Request $req){
+        Commande::where('id',$req->commande_id)->update([
+           'statut'=>$req->value
+        ]);
+    }
     /********category*******/
     public function categories()
     {

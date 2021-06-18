@@ -41,7 +41,7 @@
             <img src="{{asset('media/icons/panier.svg')}}" class="" style="height: 35px" >
             <p class="mb-0 text-center ms-4" style="font-size: 17px;color: #204f8c">Mon Panier</p>
         </a>
-        <a href="{{url('commandes')}}" class="list-item col-3 mt-3 d-flex justify-content-center align-items-center pt-3 pb-3 bg-white border-b border-gray-200" style="text-decoration: none">
+        <a href="{{url('mescommande')}}" class="list-item col-3 mt-3 d-flex justify-content-center align-items-center pt-3 pb-3 bg-white border-b border-gray-200" style="text-decoration: none">
             <img src="{{asset('media/icons/box.svg')}}" class="" style="height: 35px" >
             <p class="mb-0 text-center ms-4" style="font-size: 17px;color: #204f8c">Mes commandes</p>
         </a>

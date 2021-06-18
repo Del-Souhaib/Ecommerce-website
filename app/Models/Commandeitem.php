@@ -9,4 +9,7 @@ class Commandeitem extends Model
 {
     use HasFactory;
     public $fillable=['commade_id','pane_id'];
+    public function pane(){
+        return $this->belongsTo(Pane::class,'pane_id');
+    }
 }

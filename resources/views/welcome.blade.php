@@ -160,10 +160,10 @@
         <div class="swiper-pagination header-swiper-pagination"></div>
     </div>
 </header>
-<div class="container mt-2">
+<div class="container-fluid p-lg-5 p-sm-3 p-1 mt-2">
     <div class="row">
         <x-parts.clientnavbar/>
-        <div class="col-9 mt-3">
+        <div class="col-9 col-md-8 mt-3">
             <p style="color: #204f8c;font-size: 22px;font-weight: 600">PRODUITS POPULAIRES</p>
             <div class="row">
                 @foreach($products as $product)

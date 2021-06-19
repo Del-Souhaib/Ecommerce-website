@@ -86,18 +86,19 @@
                         <img class="d-block d-md-none" src="{{asset('media/icons/mail.svg')}}" style="height:18px;">
                     </a>
                 </li>
-
             </ul>
         </div>
-        <div class=" col-sm-9 col-lg-9 text-end text-md-start">
-            <ul class="d-flex justify-content-end align-items-center flex-wrap pb-0 mb-0 " style="list-style: none">
-                <li class="d-flex align-items-center ps-3 pe-3 " style="cursor: pointer;border-left: solid 1px #6c6767">
+        <div class=" col-sm-9 col-lg-9 ">
+            <ul class="d-flex  justify-content-start justify-content-sm-end  align-items-center flex-wrap pb-0 mb-0 "
+                style="list-style: none">
+                <li class="d-flex  ps-sm-3 pe-3 mt-2 mt-md-0"
+                    style="cursor: pointer;/*border-left: solid 1px #6c6767*/">
                     <img src="{{asset('media/icons/fixphone.svg')}}" class="me-2" style="height: 18px">
                     <span class="me-1">Magasin</span>
                     <span style="font-weight: 600;color: #f69c14">0554 7823 669</span>
 
                 </li>
-                <li class="d-flex align-items-center" style="cursor: pointer">
+                <li class="d-flex align-items-center mt-2 mt-md-0 " style="cursor: pointer">
                     <img src="{{asset('media/icons/telephone.svg')}}" class="" style="height: 18px">
                     <span class="me-1">Services Client</span>
                     <span style="font-weight: 600;color: #f69c14">0554 7823 669</span>
@@ -120,7 +121,6 @@
                    placeholder="Rechercher un produit..." autocomplete="false">
             <ul class="dropdown-menu searchsuggestions" aria-labelledby="dropdownMenuButton1"
                 style="font-size: 13px;width: 93%;border-radius: 0;background-color: #f3f1f1 !important;">
-
             </ul>
             <button class="btn" style="background-color: #f69c14;border-radius: 0 !important;">
                 <img src="{{asset('media/icons/search.svg')}}" style="height: 20px">
@@ -168,25 +168,45 @@
                            style="font-size: 14px;background-color: #f69c14;padding: 1px 7px 1px 7px;border-radius: 100%"> {{$nbpane}}</p>
                     @endif
                 </div>
+            </a>
         </div>
     </div>
-</div>
 </div>
 <nav class="navbar navbar-expand-lg  pt-0 pb-0 "
      style="background-color: #204F8C !important;border-radius: 0!important;border: none!important;">
     <div class="container-fluid ps-0">
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+        {{--        <a class="navbar-brand d-block d-lg-none" href="{{url('/')}}">--}}
+        {{--            <img src="{{asset('media/icons/home.svg')}}" style="height: 25px">--}}
+        {{--        </a>--}}
+        <button class="navbar-brand navbar-toggler" type="button" data-bs-toggle="collapse"
                 data-bs-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <img src="{{asset('/media/icons/navbar.svg')}}" style="height: 25px"/>
         </button>
+        <a class="navbar-brand d-block d-lg-none" href="{{url('/')}}">
+            <img src="{{asset('media/icons/home.svg')}}" style="height: 25px">
+        </a>
+        <div class="d-flex d-lg-none">
+            <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="{{url('/statut/Neuf')}}"
+               style="background-color: #f69c14 !important;border-right: solid 1px rgb(255,255,255,0.5);border-top: solid 1px orange;">
+                <img src="{{asset('media/icons/new.svg')}}" class="me-2" style="height: 15px">
+                <span>Neuf </span>
+            </a>
+            <a class="nav-link d-flex text-light align-items-center pe-2 pe-sm-4 ps-2 ps-sm-4" href="{{url('/statut/Occasion')}}"
+               style="background-color: #f69c14 !important;border-top: solid 1px orange;">
+                <img src="{{asset('media/icons/occasion.svg')}}" class="me-2" style="height: 15px">
+                <span>Occasion</span>
+            </a>
+        </div>
+
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0 ">
-                <li class="nav-item" style="background-color: #3768a8">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0 mt-5 mt-lg-0">
+                <li class="nav-item d-none d-lg-block" style="background-color: #3768a8">
                     <a class="nav-link active" aria-current="page" href="{{url('/')}}">
                         <img src="{{asset('media/icons/home.svg')}}" style="height: 25px">
                     </a>
                 </li>
+
                 @foreach($categories as $category)
                     <li class="nav-item dropdown">
                         <a class="nav-link" href="{{url('Category/'.$category->id)}}" role="button"
@@ -205,19 +225,21 @@
                     </li>
                 @endforeach
             </ul>
-            <div class="d-flex">
-                <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="{{url('/statut/Neuf')}}"
-                   style="background-color: #f69c14 !important;border-right: solid 1px rgb(255,255,255,0.5);border-top: solid 1px orange;">
-                    <img src="{{asset('media/icons/new.svg')}}" class="me-2" style="height: 15px">
-                    <span>Neuf </span>
-                </a>
-                <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="{{url('/statut/Occasion')}}"
-                   style="background-color: #f69c14 !important;border-top: solid 1px orange;">
-                    <img src="{{asset('media/icons/occasion.svg')}}" class="me-2" style="height: 15px">
-                    <span>Occasion</span>
-                </a>
-            </div>
         </div>
+
+        <div class="d-none d-lg-flex">
+            <a class="nav-link d-flex text-light align-items-center pe-4 ps-4" href="{{url('/statut/Neuf')}}"
+               style="background-color: #f69c14 !important;border-right: solid 1px rgb(255,255,255,0.5);border-top: solid 1px orange;">
+                <img src="{{asset('media/icons/new.svg')}}" class="me-2" style="height: 15px">
+                <span>Neuf </span>
+            </a>
+            <a class="nav-link d-flex text-light align-items-center pe-2 pe-sm-4 ps-2 ps-sm-4" href="{{url('/statut/Occasion')}}"
+               style="background-color: #f69c14 !important;border-top: solid 1px orange;">
+                <img src="{{asset('media/icons/occasion.svg')}}" class="me-2" style="height: 15px">
+                <span>Occasion</span>
+            </a>
+        </div>
+
     </div>
 </nav>
 

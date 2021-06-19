@@ -26,7 +26,7 @@
                     <th scope="col" style="width: 10%">Telephone</th>
                     <th scope="col" style="width: 10%">Sujet</th>
                     <th scope="col" style="width: 27%">Message</th>
-                    <th scope="col" style="width: 10%">File</th>
+                    <th scope="col" style="width: 10%">Fichier</th>
                     <th scope="col" style="width: 10%">Date</th>
                     <th scope="col" style="width: 10%">Action</th>
                 </tr>
@@ -39,10 +39,16 @@
                         <td>{{$message->phone}}</td>
                         <td>{{$message->subject}}</td>
                         <td>{{$message->message}}</td>
-                        <td>{{$message->file}}</td>
+                        <td>
+                            <form method="post" action="{{url('admin/downlaodmessagefile')}}">
+                                @csrf
+                                <input type="hidden" name="messagefileid" value="{{$message->file}}">
+                                <button class="btn btn-sm text-light" style="border-radius: 0;background-color: #204f8c">Telecharger</button>
+                            </form>
+                        </td>
                         <td>{{$message->created_at}}</td>
                         <td>
-                            <button class="btn btn-danger delete" messageid="{{$message->id}}">Supprimer</button>
+                            <button class="btn btn-danger delete" messageid="{{$message->id}}" style="border-radius: 0">Supprimer</button>
                         </td>
                     </tr>
                 @endforeach
@@ -64,7 +70,7 @@
                     <span class="ms-2 text-center">êtes-vous sûr de vouloir supprimer cette categorie</span>
                 </div>
                 <div class="modal-footer border-top-0">
-                    <button  class="btn btn-danger text-light pe-3 ps-3" style="border-radius: 0;">
+                    <button  class="btn btn-danger text-light pe-3 ps-3" style="border-radius: 0 ;">
                         Supprimer
                     </button>
                 </div>

@@ -25,20 +25,25 @@ class AdminController extends Controller
     {
         return $this->middleware(['auth']);
     }
-/**commandes**/
-    public function commades(){
-        $commendes= Commande::with(['client','items'=>function($q){
-             $q->with(['pane'=>function($q2){
-                $q2->with(['product','color']);
+
+    /**commandes**/
+    public function commades()
+    {
+        $commendes = Commande::with(['client', 'items' => function ($q) {
+            $q->with(['pane' => function ($q2) {
+                $q2->with(['product', 'color']);
             }]);
-        }])->orderBy('id','desc')->get()->all();
-        return view('admin.commandes.commandes',compact('commendes'));
+        }])->orderBy('id', 'desc')->get()->all();
+        return view('admin.commandes.commandes', compact('commendes'));
     }
-    public function updatecommandestatut(Request $req){
-        Commande::where('id',$req->commande_id)->update([
-           'statut'=>$req->value
+
+    public function updatecommandestatut(Request $req)
+    {
+        Commande::where('id', $req->commande_id)->update([
+            'statut' => $req->value
         ]);
     }
+
     /********category*******/
     public function categories()
     {
@@ -106,6 +111,12 @@ class AdminController extends Controller
         return view('admin.message.messages', compact('messages'));
     }
 
+    public function downlaodmessagefile(Request $req)
+    {
+
+        return Storage::download('public/messafefiles/'.$req->messagefileid);
+    }
+
     public function deletemessage(Request $req)
     {
         Message::where('id', $req->messageid)->delete();
@@ -117,7 +128,7 @@ class AdminController extends Controller
     public function clients()
     {
         $users = Client::get()->all();
-        return view('admin.companies.clients', compact('users'));
+        return view('admin.clients.clients', compact('users'));
     }
 
     /***company***/
@@ -243,7 +254,7 @@ class AdminController extends Controller
             'child_category_id' => $req->childcategory,
             'statut' => $req->Etat,
             'title' => $req->title,
-            'presentation'=>$req->presentation,
+            'presentation' => $req->presentation,
             'company_id' => $req->company,
             'specification' => $req->Description,
             'Technical_sheet' => $req->technicalfile,
@@ -299,8 +310,8 @@ class AdminController extends Controller
     public function modifyproduct(Request $req, $id)
     {
         $validator = $req->validate([
-            'title'=>['required'],
-            'presentation'=>['required'],
+            'title' => ['required'],
+            'presentation' => ['required'],
             'childcategory' => ['required'],
             'Etat' => ['required'],
             'price' => ['required', 'Numeric'],
@@ -311,7 +322,7 @@ class AdminController extends Controller
             'child_category_id' => $req->childcategory,
             'statut' => $req->Etat,
             'title' => $req->title,
-            'presentation'=>$req->presentation,
+            'presentation' => $req->presentation,
             'company_id' => $req->company,
             'specification' => $req->Description,
             'Technical_sheet' => $req->technicalfile,

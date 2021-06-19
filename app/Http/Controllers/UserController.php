@@ -123,7 +123,7 @@ class UserController extends Controller
         $products = Product::wherehas('topproducts')->with('images')->get()->all();
         $title = 'Meilleures ventes';
         $type = 'bestproducts';
-        $url = '/1/meilleures_ventes';
+        $url = '1/meilleures_ventes';
         return view('products.products', compact(['products', 'title', 'type', 'url']));
     }
 

@@ -20,11 +20,18 @@
         <div class="col-12">
             <p class="mt-2" style="color: #204f8c;font-size: 22px;font-weight: 600">CONNECTEZ-VOUS À VOTRE COMPTE</p>
         </div>
+
         <form method="post" action="{{url('/connexioncheck')}}" class="col-6" style="color: #8b8888">
             @csrf
             <div class="row  align-items-center mt-3">
                 <div class="col-12 mb-5">
                     <p style="font-size: 21px">Vous possédez déjà un compte</p>
+                </div>
+                <div class="col-12">
+                    <!-- Session Status -->
+                    <x-auth-session-status class="mb-4" :status="session('status')"/>
+                    <!-- Validation Errors -->
+                    <x-auth-validation-errors class="mb-4" :errors="$errors" />
                 </div>
                 <div class="col-4">
                     <label for="email" style="font-weight: 600">Email</label>

@@ -58,20 +58,40 @@
 </style>
 <div class="container-fluid part1 mt-1 pt-2 pb-2" style="background-color: #ffffff;">
     <div class="row align-items-center">
-        <div class="col-6 side1">
+        <div class="col-sm-3 col-lg-3 side1 mb-4 mb-sm-0">
             <ul class="d-flex pb-0 mb-0" style="list-style: none">
-                <li>
-                    <a href="{{url('/')}}">Accueil</a>
+                <li class="d-none d-md-block">
+                    <a href="{{url('/')}}">
+                        <span>Accueil</span>
+                        {{--                        <img src="{{asset('media/icons/user.svg')}}" style="height: 20px"/>--}}
+                    </a>
+                </li>
+                <li class="d-block d-md-none">
+                    <a href="{{url('/dashboard')}}">
+                        <img src="{{asset('media/icons/user.svg')}}" style="height:18px;">
+                    </a>
+                </li>
+                <li class="d-block d-md-none">
+                    <a href="{{url('/panier')}}">
+                        <img src="{{asset('media/icons/panier.svg')}}" style="height:18px;">
+                        @if($nbpane>0)
+                            <p class="mb-0 text-light "
+                               style="font-size: 14px;background-color: #f69c14;padding: 1px 7px 1px 7px;border-radius: 100%"> {{$nbpane}}</p>
+                        @endif
+                    </a>
                 </li>
                 <li>
-                    <a href="{{url('/message')}}">Contact</a>
+                    <a href="{{url('/message')}}">
+                        <span class="d-none d-md-block">Contact</span>
+                        <img class="d-block d-md-none" src="{{asset('media/icons/mail.svg')}}" style="height:18px;">
+                    </a>
                 </li>
 
             </ul>
         </div>
-        <div class="col-6 text-end">
-            <ul class="d-flex justify-content-end align-items-center pb-0 mb-0" style="list-style: none">
-                <li class="d-flex align-items-center ps-3 pe-3" style="cursor: pointer;border-left: solid 1px #6c6767">
+        <div class=" col-sm-9 col-lg-9 text-end text-md-start">
+            <ul class="d-flex justify-content-end align-items-center flex-wrap pb-0 mb-0 " style="list-style: none">
+                <li class="d-flex align-items-center ps-3 pe-3 " style="cursor: pointer;border-left: solid 1px #6c6767">
                     <img src="{{asset('media/icons/fixphone.svg')}}" class="me-2" style="height: 18px">
                     <span class="me-1">Magasin</span>
                     <span style="font-weight: 600;color: #f69c14">0554 7823 669</span>
@@ -89,10 +109,11 @@
 </div>
 <div class="container-fluid part2" style="background-color: #f6f6f6 !important;">
     <div class="row d-flex align-items-center">
-        <a href="{{url('/')}}" class="col-3">
+        <a href="{{url('/')}}" class="col-sm-6 col-md-3">
             <img src="{{asset('media/icons/logo.jpg')}}" style="height: 120px">
         </a>
-        <form method="get" action="{{url('/search')}}" class="col-3 d-flex dropdown" style="color: #6c6767;">
+        <form method="get" action="{{url('/search')}}" class="col-sm-6 col-md-3 d-flex dropdown"
+              style="color: #6c6767;">
             <input type="text" class="form-control searchinput" data-bs-toggle="dropdown" aria-expanded="false"
                    style="border-radius: 0 !important;background-color: #f3f1f1;font-size: 13px!important;"
                    name="inputdata"
@@ -105,7 +126,7 @@
                 <img src="{{asset('media/icons/search.svg')}}" style="height: 20px">
             </button>
         </form>
-        <div class="col-4 text-end pe-5" style="border-right: solid 1px #204F8C">
+        <div class="col-4 text-end pe-5 d-none d-md-block" style="border-right: solid 1px #204F8C">
             @if(\Illuminate\Support\Facades\Auth::guard('client')->check())
                 <a href="{{url('/dashboard')}}" class="mb-0 " style="font-size: 18px;font-weight: 600;color:#204F8C ">Votre
                     compte</a>
@@ -129,12 +150,13 @@
                 @endif
             </div>
         </div>
-
-        <div class="col-2 text-end ps-5">
+        <div class="col-2 text-end ps-5 d-none d-md-block">
             <a href="{{url('/panier')}}" class="d-flex align-items-center">
                 <div>
                     <p class="mb-0 me-1" style="font-size: 18px;font-weight: 600;color:#204F8C ">Panier</p>
-                    <p class="mb-0" style="font-size: 14px">{{$total}} MAD</p>
+                    @if(\Illuminate\Support\Facades\Auth::guard('client')->check())
+                        <p class="mb-0" style="font-size: 14px">{{$total}} MAD</p>
+                    @endif
                     @if($nbpane==0)
                         <p class="mb-0" style="font-size: 14px"> (vide)</p>
                     @endif

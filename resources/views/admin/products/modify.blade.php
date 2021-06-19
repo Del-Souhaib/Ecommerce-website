@@ -208,17 +208,24 @@
             })
         })
         ClassicEditor
-            .create(document.querySelector('#technicalfile'))
+            .create(document.querySelector('#technicalfile'),{
+                mediaEmbed: {previewsInData: true}
+            })
             .catch(error => {
                 console.error(error);
             });
         ClassicEditor
-            .create(document.querySelector('#Description'))
+            .create(document.querySelector('#Description'),{
+                mediaEmbed: {previewsInData: true}
+
+            })
             .catch(error => {
                 console.error(error);
             });
         ClassicEditor
-            .create(document.querySelector('#presentation'))
+            .create(document.querySelector('#presentation'),{
+                mediaEmbed: {previewsInData: true}
+            })
             .catch(error => {
                 console.error(error);
             });

@@ -325,12 +325,12 @@
     $(document).ready(function () {
         $('#trier').change(function () {
             $.ajax({
-                url:'/filtersearch',
+                url:'/filterproductbytype/'+$(this).attr('urlpath'),
                 method: 'post',
                 data: {
                     '_token': '{{csrf_token()}}',
                     'filtertype': $(this).val(),
-                    'inputdata':$(this).attr('datatype')
+                    'type':$(this).attr('typedefiler')
                 }, success: function (e) {
                     if(e.length>0) {
                         $('.allproducts').html('')

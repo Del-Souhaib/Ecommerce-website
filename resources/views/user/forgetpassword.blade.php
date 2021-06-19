@@ -24,7 +24,13 @@
             @csrf
             <div class="row  align-items-center mt-3">
                 <div class="col-12">
-                    <p>Veuillez renseigner l'adresse e-mail que vous avez utilisée à la création de votre compte. Vous recevrez un lien temporaire pour réinitialiser votre mot de passe.</p>
+                    <p>Veuillez renseigner l'adresse e-mail que vous avez utilisée à la création de votre compte. Vous
+                        recevrez un lien temporaire pour réinitialiser votre mot de passe.</p>
+                </div>
+                <div class="col-12">
+{{--                    @if(session('status'))--}}
+                        <p style="color: #204f8c!important">{{session('status')}}</p>
+{{--                    @endif--}}
                 </div>
                 <div class="col-1">
                     <label for="email" style="font-weight: 600">Email</label>
@@ -48,10 +54,8 @@
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-4">
-
-                </div>
-                <div class="col-8" style="font-size: 15px">
+                <div class="col-1"></div>
+                <div class="col-12" style="font-size: 15px">
                     @if ($errors->any())
                         @foreach ($errors->all() as $error)
                             <p class="text-danger">{{ $error }}</p>

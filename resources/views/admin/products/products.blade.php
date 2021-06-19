@@ -38,8 +38,6 @@
                     <th scope="col" style="width: 10%">Companie</th>
                     <th scope="col" style="width: 10%">Sous titre</th>
                     <th scope="col" style="width: 10%">images</th>
-                    <th scope="col" style="width: 10%">Description</th>
-                    <th scope="col" style="width: 27%">Fiche technique</th>
                     <th scope="col" style="width: 10%">Coleurs</th>
                     <th scope="col" style="width: 10%">Quantite</th>
                     <th scope="col" style="width: 10%">Prix</th>
@@ -60,8 +58,6 @@
                                 <img src="{{asset('storage/products/'.$image->name)}}" class="img-fluid">
                             @endforeach
                         </td>
-                        <td>{{$product->specification}}</td>
-                        <td>{{$product->Technical_sheet}}</td>
                         <td class="">
                             <div class="d-flex">
                                 @foreach($product->colors as $color)
@@ -75,9 +71,9 @@
                         <td>{{\Carbon\Carbon::createFromFormat('Y-m-d h:i:s',$product->created_at)->format('d M Y') }}</td>
                         <td>
                             <a href="{{url('admin/modifyproductpage/'.$product->id)}}" class="btn btn-sm text-light update" productid="{{$product->id}}"
-                                    style="background-color: #204f8c">Modifier
+                                    style="background-color: #204f8c;border-radius: 0">Modifier
                             </a>
-                            <button class="btn btn-sm btn-danger delete" productid="{{$product->id}}">Supprimer</button>
+                            <button class="btn btn-sm btn-danger delete" productid="{{$product->id}}" style="border-radius: 0">Supprimer</button>
                         </td>
                     </tr>
                 @endforeach

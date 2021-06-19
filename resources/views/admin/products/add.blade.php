@@ -86,7 +86,8 @@
                         <x-label for="images" :value="__('Images')"/>
                     </div>
                     <div class="col-3 mt-4 d-flex align-items-center flex-wrap">
-                        <input type="file" class="form-control" name="images[]" id="images" multiple="multiple" value="{{old('images[]')}}">
+                        <input type="file" class="form-control" name="images[]" id="images" multiple="multiple"
+                               value="{{old('images[]')}}">
                     </div>
                     <div class="col-1 mt-4">
                         <x-label for="colors" :value="__('Coleurs')"/>
@@ -183,17 +184,38 @@
             })
         })
         ClassicEditor
-            .create(document.querySelector('#technicalfile'))
+            .create(document.querySelector('#technicalfile'),
+                {
+                    mediaEmbed: {previewsInData: true}
+                })
             .catch(error => {
                 console.error(error);
             });
         ClassicEditor
-            .create(document.querySelector('#Description'))
+            .create(document.querySelector('#Description'),{
+                mediaEmbed: {previewsInData: true},
+                image: {
+                    toolbar: [
+                        'imageStyle:full',
+                        'imageStyle:side',
+                        '|',
+                        'imageTextAlternative'
+                    ],
+
+                    // The default value.
+                    styles: [
+                        'full',
+                        'side'
+                    ]
+                }
+            })
             .catch(error => {
                 console.error(error);
             });
         ClassicEditor
-            .create(document.querySelector('#presentation'))
+            .create(document.querySelector('#presentation'),{
+                mediaEmbed: {previewsInData: true}
+            })
             .catch(error => {
                 console.error(error);
             });

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Notifications\ClientResetPassword;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -83,8 +84,8 @@ class ClientAuthController extends Controller
 
     public function forgetpasswordcheck(Request $req)
     {
+//        return $this->notify(new ClientResetPassword());
         $req->validate(['email' => 'required|email']);
-
         $status = Password::broker('clients')->sendResetLink(
             $req->only('email')
         );
@@ -95,6 +96,7 @@ class ClientAuthController extends Controller
 
     public function changepassword($token)
     {
+         $token=substr($token,6);
         return view('user.changepassword', ['token' => $token]);
     }
 
@@ -114,11 +116,11 @@ class ClientAuthController extends Controller
                 ])->setRememberToken(Str::random(60));
                 $user->save();
                 event(new PasswordReset($user));
-                return redirect('/connexion');
+
             }
         );
         return $status === Password::PASSWORD_RESET
-            ? redirect()->route('login')->with('status', __($status))
+            ? redirect('/connexion')->with('status', __($status))
             : back()->withErrors(['email' => [__($status)]]);
     }
 

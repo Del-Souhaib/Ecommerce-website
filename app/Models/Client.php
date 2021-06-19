@@ -10,17 +10,17 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
-class Client extends Authenticatable
+class Client extends Authenticatable implements MustVerifyEmail
 
 {
     use HasFactory,Notifiable ;
     public $fillable=['id','user_name','email','telephone','city','adresse','password','created_at'];
     public $hidden=['password'];
-//    public function sendPasswordResetNotification($token)
-//    {
-//        $url = 'http://localhost:8000/changepassword/token='.$token;
-//
-//        $this->notify(new ClientResetPassword($url));
-//    }
+    public function sendPasswordResetNotification($token)
+    {
+        $url = 'changepassword/token='.$token;
+
+        $this->notify(new ClientResetPassword($url));
+    }
 
 }

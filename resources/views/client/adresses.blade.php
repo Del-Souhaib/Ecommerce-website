@@ -22,34 +22,34 @@
         </div>
         <div class="col-12" style="color: #8b8888">
             <div class="row  align-items-center mt-3">
-                <div class="col-2 mt-3">
+                <div class="col-4 col-md-2 mt-3">
                     <label for="name" style="font-weight: 600">Nom</label>
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-8 col-md-4 mt-3">
                     <input type="text" name="name" value="{{$user->user_name}}" readonly="readonly" id="name" class="form-control" required
                            style="border-radius: 0">
                 </div>
-                <div class="col-2 mt-3">
+                <div class="col-4 col-md-2 mt-3">
                     <label for="email" style="font-weight: 600">Email</label>
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-8 col-md-4 mt-3">
                     <input type="email" name="email" value="{{$user->email}}" readonly="readonly" id="name" required class="form-control"
                            style="border-radius: 0">
                 </div>
-                <div class="col-2 mt-3">
+                <div class="col-4 col-md-2 mt-3">
                     <label for="telephone" style="font-weight: 600">Telephone</label>
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-8 col-md-4 mt-3">
                     <input type="tel" name="telephone" readonly="readonly" value="{{$user->telephone}}" id="telephone" required
                            class="form-control"
                            style="border-radius: 0">
                 </div>
             </div>
             <div class="row mt-3 align-items-center">
-                <div class="col-2 mt-3">
+                <div class="col-4 col-md-2 mt-3">
                     <label for="city" style="font-weight: 600">Ville</label>
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-8 col-md-4 mt-3">
                     <select class="form-select" name="city" id="city">
                         <option value="Marrakech">Marrakech</option>
                         <option value="Casablanca">Casa blanca</option>
@@ -62,16 +62,16 @@
 
                     </select>
                 </div>
-                <div class="col-2 mt-3">
+                <div class="col-4 col-md-2 mt-3">
                     <label for="adresse" style="font-weight: 600">Adresse</label>
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-8 col-md-4 mt-3">
                     <input type="text" name="adresse" value="{{$user->adresse}}" id="adresse" required class="form-control"
                            style="border-radius: 0">
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-2"></div>
+                <div class="col-4 col-md-2"></div>
                 <div class="col-8 mt-3">
                     <button class="btn text-light " style="border-radius:0;background-color: #204f8c!important; ">
                         Enregistrer
@@ -80,7 +80,7 @@
 
             </div>
             <div class="row mt-3">
-                <div class="col-4">
+                <div class="col-4 col-md-2">
 
                 </div>
                 <div class="col-8" style="font-size: 15px">

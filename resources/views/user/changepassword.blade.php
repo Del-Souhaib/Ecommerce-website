@@ -23,34 +23,34 @@
         </div>
         <div class="col-12" style="color: #8b8888">
             <div class="row  align-items-center mt-3">
-                <div class="col-2 mt-3">
+                <div class="col-sm-4 col-md-2 col-4 mt-3">
                     <label for="email" style="font-weight: 600">Email</label>
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-8 col-md-4 col-8 mt-3">
                     <input type="email" name="email"  id="name" required class="form-control"
                            style="border-radius: 0">
                 </div>
 
             </div>
             <div class="row align-items-center mt-3 " >
-                <div class="col-2 mt-3">
+                <div class="col-sm-4 col-md-2 col-4 mt-3">
                     <label for="password" style="font-weight: 600">Mot de passe</label>
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-8 col-md-4 col-8 col-8 mt-3">
                     <input type="password" name="password" id="password"  class="form-control"
                            style="border-radius: 0">
                 </div>
-                <div class="col-2 mt-3">
+                <div class="col-sm-4 col-md-2 col-4 mt-3">
                     <label for="password_confirmation" style="font-weight: 600">Recrire le Mot de passe</label>
                 </div>
-                <div class="col-4 mt-3">
+                <div class="col-8 col-md-4 col-8 mt-3">
                     <input type="password" name="password_confirmation" id="password_confirmation"  class="form-control"
                            style="border-radius: 0">
                 </div>
             </div>
 
             <div class="row">
-                <div class="col-2"></div>
+                <div class="col-sm-4 col-md-2 col-4"></div>
                 <div class="col-8 mt-3">
                     <button class="btn text-light " style="border-radius:0;background-color: #204f8c!important; ">
                         Enregistrer

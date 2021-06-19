@@ -32,15 +32,15 @@
                         <p style="color: #204f8c!important">{{session('status')}}</p>
 {{--                    @endif--}}
                 </div>
-                <div class="col-1">
+                <div class="col-4 col-md-2 col-lg-1">
                     <label for="email" style="font-weight: 600">Email</label>
                 </div>
-                <div class="col-4 ">
+                <div class="col-8 col-md-4 col-lg-4 ">
                     <input type="email" name="email" required id="name" class="form-control" style="border-radius: 0">
                 </div>
             </div>
             <div class="row mt-3">
-                <div class="col-1"></div>
+                <div class="col-4 col-md-2 col-lg-1"></div>
                 <div class="col-8 ">
                     <button class="btn text-light " style="border-radius:0;background-color: #204f8c!important; ">
                         Envoyer
@@ -48,7 +48,7 @@
                 </div>
             </div>
             <div class="row mt-1">
-                <div class="col-1"></div>
+                <div class="col-4 col-md-2 col-lg-1"></div>
                 <div class="col-8 mt-3">
                     <a href="{{url('/connexion')}}" style="color: #8b8888;text-decoration: none;font-size: 15px">Connexion?</a>
                 </div>

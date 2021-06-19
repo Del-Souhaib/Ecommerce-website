@@ -1,7 +1,7 @@
 <footer class=" pt-4 pb-4 mt-5">
     <div class="container">
-        <div class="row mt-4 text-center">
-            <div class="col-3 pt-3 pb-3" style="box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.75);">
+        <div class="row mt-4 justify-content-center">
+            <div class="col-xl-3 col-lg-4 col-md-6 mt-3 pt-3 pb-3" style="box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.75);">
                 <div class="d-flex align-items-center justify-content-center mb-1">
                 <span
                     style="border-top: solid 1px #204f8c;border-bottom: solid 3px #204f8c;height:5px;width: 40%"></span>
@@ -14,7 +14,7 @@
                     <span class="text-center" style="font-size: 12px;color: #878686">Votre commande est preparée et livrée chez vous </span>
                 </div>
             </div>
-            <div class="col-3 pt-3 pb-3" style="box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.75);">
+            <div class="col-xl-3 col-lg-4 col-md-6 mt-3 pt-3 pb-3" style="box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.75);">
                 <div class="d-flex align-items-center justify-content-center mb-1">
                 <span
                     style="border-top: solid 1px #204f8c;border-bottom: solid 3px #204f8c;height:5px;width: 40%"></span>
@@ -27,7 +27,7 @@
                     <span class="text-center" style="font-size: 12px;color: #878686">Votre commande est preparée et livrée chez vous </span>
                 </div>
             </div>
-            <div class="col-3 pt-3 pb-3" style="box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.75);">
+            <div class="col-xl-3 col-lg-4 col-md-6 mt-3 pt-3 pb-3" style="box-shadow: 0px 0px 9px -1px rgba(0,0,0,0.75);">
                 <div class="d-flex align-items-center justify-content-center mb-1">
                 <span
                     style="border-top: solid 1px #204f8c;border-bottom: solid 3px #204f8c;height:5px;width: 40%"></span>
@@ -40,7 +40,7 @@
                     <span class="text-center" style="font-size: 12px;color: #878686">Votre commande est preparée et livrée chez vous </span>
                 </div>
             </div>
-            <div class="col-3 pt-3 pb-3 " style="box-shadow:0px 0px 9px -1px rgba(0,0,0,0.75);">
+            <div class="col-xl-3 col-lg-4 col-md-6 mt-3 pt-3 pb-3 " style="box-shadow:0px 0px 9px -1px rgba(0,0,0,0.75);">
                 <div class="d-flex align-items-center justify-content-center mb-1">
                 <span
                     style="border-top: solid 1px #204f8c;border-bottom: solid 3px #204f8c;height:5px;width: 40%"></span>

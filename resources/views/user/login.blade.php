@@ -21,7 +21,7 @@
             <p class="mt-2" style="color: #204f8c;font-size: 22px;font-weight: 600">CONNECTEZ-VOUS À VOTRE COMPTE</p>
         </div>
 
-        <form method="post" action="{{url('/connexioncheck')}}" class="col-6" style="color: #8b8888">
+        <form method="post" action="{{url('/connexioncheck')}}" class="col-lg-6 col-12" style="color: #8b8888">
             @csrf
             <div class="row  align-items-center mt-3">
                 <div class="col-12 mb-5">
@@ -75,7 +75,7 @@
             </div>
 
         </form>
-        <div class="col-6 ps-5" style="border-left: solid 1px #d5d3d3">
+        <div class="col-lg-6 col-12 ps-5" style="border-left: solid 1px #d5d3d3">
             <div class="row  align-items-center mt-3" style="color: #8b8888">
                 <div class="col-12 mb-5">
                     <p style="font-size: 21px;margin-bottom: 60px">Vous n'avez pas encore de compte</p>

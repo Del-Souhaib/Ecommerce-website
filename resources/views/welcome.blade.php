@@ -160,14 +160,14 @@
         <div class="swiper-pagination header-swiper-pagination"></div>
     </div>
 </header>
-<div class="container-fluid p-lg-5 p-sm-3 p-1 mt-2">
+<div class="container-fluid  ps-lg-5 ps-sm-3 ps-1 mt-2">
     <div class="row">
         <x-parts.clientnavbar/>
-        <div class="col-9 col-md-8 mt-3">
+        <div class="col-12 col-md-8 mt-3">
             <p style="color: #204f8c;font-size: 22px;font-weight: 600">PRODUITS POPULAIRES</p>
             <div class="row">
                 @foreach($products as $product)
-                    <div class="col-3 card text-center mb-4 pb-2">
+                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 card text-center mb-4 pb-2">
                         <div>
                             @foreach($product->product->images as $img)
                                 @if($loop->first)
@@ -184,7 +184,7 @@
                         </div>
                         <a href="{{url('product/'.$product->product->id)}}" class="mt-1"
                            style="font-size: 14px;text-decoration: none;color: #6c6767">
-                            {{$product->product->title}}
+                            {{substr($product->product->title,0,20)}}
                         </a>
                         <span class="mt-1" style="color:#204f8c;font-size: 20px ">
                             {{$product->product->price}} MAD
@@ -229,7 +229,7 @@
                             <form method="post" action="{{url('/addtopane')}}" class="d-flex">
                                 @csrf
                                 <input type="hidden" name="product_id" value="{{$product->product->id}}">
-                                <input type="hidden" name="selectedcolor" value="{{$product->product->colors[0]->id}}">
+                                <input type="hidden" name="selectedcolor"  value="{{$product->product->colors->first->id}}"  >
                                 <input type="hidden" name="quantity" value="1">
                                 <button @if($product->product->quantity<=0) disabled="disabled"
                                         @endif class="btn addbutton addbutton1" productid="{{$product->product->id}}"

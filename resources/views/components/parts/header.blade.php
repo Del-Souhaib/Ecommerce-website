@@ -72,11 +72,11 @@
                     </a>
                 </li>
                 <li class="d-block d-md-none">
-                    <a href="{{url('/panier')}}">
+                    <a href="{{url('/panier')}}" class="d-flex align-items-start">
                         <img src="{{asset('media/icons/panier.svg')}}" style="height:18px;">
                         @if($nbpane>0)
-                            <p class="mb-0 text-light "
-                               style="font-size: 14px;background-color: #f69c14;padding: 1px 7px 1px 7px;border-radius: 100%"> {{$nbpane}}</p>
+                            <p class="mb-0 d-flex text-light justify-content-center align-items-center rounded-circle"
+                               style="font-size: 14px;background-color: #f69c14;border-radius: 100%;width: 16px;height: 16px"> {{$nbpane}}</p>
                         @endif
                     </a>
                 </li>
@@ -91,14 +91,14 @@
         <div class=" col-sm-9 col-lg-9 ">
             <ul class="d-flex  justify-content-start justify-content-sm-end  align-items-center flex-wrap pb-0 mb-0 "
                 style="list-style: none">
-                <li class="d-flex  ps-sm-3 pe-3 mt-2 mt-md-0"
+                <li class="d-flex  ps-sm-3 pe-3 mt-2 mt-sm-0"
                     style="cursor: pointer;/*border-left: solid 1px #6c6767*/">
                     <img src="{{asset('media/icons/fixphone.svg')}}" class="me-2" style="height: 18px">
                     <span class="me-1">Magasin</span>
                     <span style="font-weight: 600;color: #f69c14">0554 7823 669</span>
 
                 </li>
-                <li class="d-flex align-items-center mt-2 mt-md-0 " style="cursor: pointer">
+                <li class="d-flex align-items-center mt-2 mt-sm-0 " style="cursor: pointer">
                     <img src="{{asset('media/icons/telephone.svg')}}" class="" style="height: 18px">
                     <span class="me-1">Services Client</span>
                     <span style="font-weight: 600;color: #f69c14">0554 7823 669</span>

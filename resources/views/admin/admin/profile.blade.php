@@ -25,48 +25,49 @@
                     </div>
                 </div>
                 <div class="row align-items-center">
-                    <div class="col-1">
+                    <div class="col-4 col-sm-4 col-md-2 mt-3">
                         <x-label for="name" :value="__('Nom')"/>
                     </div>
-                    <div class="col-3">
+                    <div class="col-8 col-md-4 mt-3">
                         <x-input class="form-control" type="text" name="name" id="name" value="{{$admin->name}}"/>
                     </div>
-                    <div class="col-1">
+                    <div class="col-4 col-sm-4 col-md-2 mt-3">
                         <x-label for="email" :value="__('Email')"/>
                     </div>
-                    <div class="col-3">
+                    <div class="col-8 col-md-4 mt-3">
                         <x-input class="form-control" type="email" name="email" id="email" value="{{$admin->email}}"/>
                     </div>
                 </div>
-                <div class="row align-items-center " style="margin-top: 50px">
-                    <div class="col-12 ">
-                        <x-input type="checkbox" id="modifypasswpord" name="modifypasswpord"/>
+                <div class="row align-items-center mt-3" style="margin-top: 50px">
+                    <div class="col-4 col-sm-4 col-md-2"></div>
+                    <div class="col-8 ">
+                        <x-input type="checkbox" id="modifypasswpord" name="modifypasswpord" />
                         <label for="modifypasswpord">Modifier mot de passe</label>
                     </div>
                 </div>
                 <div class="row align-items-center passwpordarea mt-4" style="display: none">
-                    <div class="col-2">
+                    <div class="col-4 col-sm-4 col-md-2 mt-3">
                         <label for="currentpasswpord">Actuel mot de passe</label>
                     </div>
-                    <div class="col-3">
-                        <x-input type="password" id="currentpasswpord" name="currentpasswpord"/>
+                    <div class="col-8 col-md-4 mt-3">
+                        <x-input type="password" id="currentpasswpord" name="currentpasswpord" class="form-control"/>
                     </div>
                 </div>
                 <div class="row align-items-center mt-4 passwpordarea " style="display: none">
-                    <div class="col-2">
+                    <div class="col-4 col-sm-4 col-md-2 mt-3">
                         <label for="nepassword">Nouveau mot de passe</label>
                     </div>
-                    <div class="col-3">
-                        <x-input type="password" id="nepassword" name="nepassword"/>
+                    <div class="col-8 col-md-4 mt-3">
+                        <x-input type="password" id="nepassword" name="nepassword" class="form-control"/>
                     </div>
-                    <div class="col-2">
+                    <div class="col-4 col-sm-4 col-md-2 mt-3">
                         <label for="nepassword2">Nouveau mot de passe</label>
                     </div>
-                    <div class="col-3">
-                        <x-input type="password" id="nepassword2" name="nepassword2"/>
+                    <div class="col-8 col-md-4 mt-3">
+                        <x-input type="password" id="nepassword2" name="nepassword2" class="form-control"/>
                     </div>
                 </div>
-                <div class="col-12 mt-4">
+                <div class="col-4 col-sm-4 col-md-2 mt-4">
                     <x-button class="me-2 ms-2" style="background-color: #204f8c;border-radius:0 ">Enregistrer
                     </x-button>
                 </div>

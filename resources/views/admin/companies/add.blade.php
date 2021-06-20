@@ -19,17 +19,17 @@
             <form method="post" action="{{'/admin/addcompanies'}}" enctype="multipart/form-data" class="container-fluid ">
                 @csrf
                 <div class="row align-items-center">
-                    <div class="col-1">
+                    <div class="col-4 col-sm-4 col-md-2 mt-3">
                         <x-label for="name" :value="__('Nom')"/>
                     </div>
-                    <div class="col-3">
+                    <div class="col-8 col-md-4 mt-3">
                         <x-input id="name" class="block mt-1 w-full" type="text" name="name" :value="old('name')"
                                  required autofocus/>
                     </div>
-                    <div class="col-1">
+                    <div class="col-4 col-sm-4 col-md-2 mt-3">
                         <x-label for="logo" :value="__('Logo')"/>
                     </div>
-                    <div class="col-3">
+                    <div class="col-8 col-md-4 mt-3">
                         <x-input id="logo" class="block mt-1 w-full form-control" type="file" name="logo" :value="old('logo')"
                                  required autofocus/>
                     </div>

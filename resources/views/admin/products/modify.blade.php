@@ -20,27 +20,27 @@
                   class="container-fluid ">
                 @csrf
                 <div class="row align-items-center">
-                    <div class="col-1 mt-4">
+                    <div class="col-4 col-sm-4 col-md-2 col-lg-1 mt-4">
                         <x-label for="title" :value="__('Titre')"/>
                     </div>
-                    <div class="col-3 mt-4">
+                    <div class="col-8 col-md-4 col-lg-3 mt-4">
                         <x-input id="title" class="block mt-1 w-full" type="text" name="title"
                                  value="{{$product->title}}"
                                  required autofocus/>
                     </div>
-                    <div class="col-1 mt-4">
+                    <div class="col-4 col-sm-4 col-md-2 col-lg-1 mt-4">
                         <x-label for="Etat" :value="__('Etat')"/>
                     </div>
-                    <div class="col-3 mt-4">
+                    <div class="col-8 col-md-4 col-lg-3 mt-4">
                         <select name="Etat" id="Etat" class="form-control">
                             <option value="Neuf" @if($product->statut=='Neuf') selected @endif>Neuf</option>
                             <option value="Occasion" @if($product->statut=='Occasion') selected @endif>Occasion</option>
                         </select>
                     </div>
-                    <div class="col-1 mt-4">
+                    <div class="col-4 col-sm-4 col-md-2 col-lg-1 mt-4">
                         <x-label for="company" :value="__('Companie')"/>
                     </div>
-                    <div class="col-3 mt-4">
+                    <div class="col-8 col-md-4 col-lg-3 mt-4">
                         <select id="company" name="company" value="old('company')" required class="form-control">
                             @foreach($companies as $company)
                                 <option value="{{$company->id}}"
@@ -50,10 +50,10 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-1 mt-4">
+                    <div class="col-4 col-sm-4 col-md-2 col-lg-1 mt-4">
                         <x-label for="category" :value="__('Categorie')"/>
                     </div>
-                    <div class="col-3 mt-4">
+                    <div class="col-8 col-md-4 col-lg-3 mt-4">
                         <select name="category" id="category" class="form-control">
                             @foreach($categoris as $category)
                                 <option value="{{$category->id}}"
@@ -64,10 +64,10 @@
                         </select>
 
                     </div>
-                    <div class="col-1 mt-4">
+                    <div class="col-4 col-sm-4 col-md-2 col-lg-1 mt-4">
                         <x-label for="childcategory" :value="__('Sous Categorie')"/>
                     </div>
-                    <div class="col-3 mt-4">
+                    <div class="col-8 col-md-4 col-lg-3 mt-4">
                         <select id="childcategory" name="childcategory" required class="form-control">
                             @foreach($childcategoris as $childcategory)
                                 <option value="{{$childcategory->id}}"
@@ -77,25 +77,25 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="col-1 mt-4">
+                    <div class="col-4 col-sm-4 col-md-2 col-lg-1 mt-4">
                         <x-label for="price" :value="__('Pirx')"/>
                     </div>
-                    <div class="col-3 mt-4">
+                    <div class="col-8 col-md-4 col-lg-3 mt-4">
                         <input type="text" id="price" name="price" required
                                class="form-control" value="{{$product->price}}"/>
                     </div>
-                    <div class="col-1 mt-4">
+                    <div class="col-4 col-sm-4 col-md-2 col-lg-1 mt-4">
                         <x-label for="Quantite" :value="__('Quantite')"/>
                     </div>
-                    <div class="col-3 mt-4">
+                    <div class="col-8 col-md-4 col-lg-3 mt-4">
                         <input type="number" min="0" id="Quantite" name="Quantite" value="{{$product->quantity}}"
                                required
                                class="form-control"/>
                     </div>
-                    <div class="col-1 mt-4">
+                    <div class="col-4 col-sm-4 col-md-2 col-lg-1 mt-4">
                         <x-label for="colors" :value="__('Coleurs')"/>
                     </div>
-                    <div class="col-3 mt-4 d-flex align-items-center flex-wrap">
+                    <div class="col-8 col-md-4 col-lg-3 mt-4 d-flex align-items-center flex-wrap">
                         <input type="hidden" name="selectedcolors" id="selectedcolors"
                                value="@foreach($product->colors as $color){{$color->name.'|'}}@endforeach">
                         <input type="color" min="0" id="colors" name="colors" value="{{old('colors')}}" required/>
@@ -111,10 +111,10 @@
                             @endforeach
                         </div>
                     </div>
-                    <div class="col-1 mt-4">
+                    <div class="col-4 col-sm-4 col-md-2 col-lg-1 mt-4">
                         <x-label for="images" :value="__('Images')"/>
                     </div>
-                    <div class="col-3 mt-4 ">
+                    <div class="col-8 col-md-4 col-lg-3 mt-4 ">
                         <input type="file" class="form-control" name="images[]" id="images" multiple="multiple">
                         <div class="d-flex">
                             @foreach($product->images as $image)

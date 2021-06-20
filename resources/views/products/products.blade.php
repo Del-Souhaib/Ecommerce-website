@@ -210,7 +210,11 @@
                                 <form method="post" action="{{url('/addtopane')}}" class="d-flex">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{$product->id}}">
-                                    <input type="hidden" name="selectedcolor" value="{{$product->colors->first->id}}">
+                                    @foreach($product->colors as $color)
+                                        @if($loop->first)
+                                            <input type="hidden" name="selectedcolor" value="{{$color->id}}">
+                                        @endif
+                                    @endforeach
                                     <input type="hidden" name="quantity" value="1">
                                     <button @if($product->quantity<=0) disabled="disabled"
                                             @endif class="btn addbutton addbutton1" productid="{{$product->id}}"

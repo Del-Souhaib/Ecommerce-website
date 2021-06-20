@@ -370,7 +370,7 @@ class AdminController extends Controller
 
     public function addbestproductpage()
     {
-        $products = Product::get()->all();
+         return $products = Product::get()->all()->whereDoesntHave('topproducts');
         return view('admin.bestProducts.add', compact('products'));
     }
 

@@ -212,14 +212,14 @@ class UserController extends Controller
     public function filtersearch(Request $req)
     {
         if ($req->filtertype == 'atoz') {
-            $products = Product::with('images')->where('title', 'like', '%' . $req->inputdata . '%')
+            $products = Product::with(['images','colors','pane'])->where('title', 'like', '%' . $req->inputdata . '%')
                 ->orwhere('presentation', 'like', '%' . $req->inputdata . '%')
                 ->orwherehas('company', function ($q) use ($req) {
                     return $q->where('name', 'like', '%' . $req->inputdata . '%');
                 })->orwhere('specification', 'like', '%' . $req->inputdata . '%')
                 ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->orderBy('title', 'asc')->limit(5)->get();
         } else if ($req->filtertype == 'ztoa') {
-            $products = Product::with('images')->where('title', 'like', '%' . $req->inputdata . '%')
+            $products = Product::with(['images','colors','pane'])->where('title', 'like', '%' . $req->inputdata . '%')
                 ->orwhere('presentation', 'like', '%' . $req->inputdata . '%')
                 ->orwherehas('company', function ($q) use ($req) {
                     return $q->where('name', 'like', '%' . $req->inputdata . '%');
@@ -227,7 +227,7 @@ class UserController extends Controller
                 ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->orderBy('title', 'desc')->limit(5)->get();
         }
         if ($req->filtertype == 'croissant') {
-            $products = Product::with('images')->where('title', 'like', '%' . $req->inputdata . '%')
+            $products = Product::with(['images','colors','pane'])->where('title', 'like', '%' . $req->inputdata . '%')
                 ->orwhere('presentation', 'like', '%' . $req->inputdata . '%')
                 ->orwherehas('company', function ($q) use ($req) {
                     return $q->where('name', 'like', '%' . $req->inputdata . '%');
@@ -235,7 +235,7 @@ class UserController extends Controller
                 ->orwhere('Technical_sheet', 'like', '%' . $req->inputdata . '%')->orderBy('price', 'asc')->limit(5)->get();
         }
         if ($req->filtertype == 'decroissant') {
-            $products = Product::with('images')->where('title', 'like', '%' . $req->inputdata . '%')
+            $products = Product::with(['images','colors','pane'])->where('title', 'like', '%' . $req->inputdata . '%')
                 ->orwhere('presentation', 'like', '%' . $req->inputdata . '%')
                 ->orwherehas('company', function ($q) use ($req) {
                     return $q->where('name', 'like', '%' . $req->inputdata . '%');

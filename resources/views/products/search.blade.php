@@ -151,7 +151,8 @@
                         <span style=" color: #6c6767 !important">Il y a {{count($products)}} produits</span>
                         <div class="d-flex align-items-center">
                             <label for="trier" style="color: #6c6767;">Trier par :</label>
-                            <select name="trier" id="trier" class="form-control ms-3" datatype="{{$datatype}}" style="border-radius: 0;width: 200px;color: #6c6767 !important">
+                            <select name="trier" id="trier" class="form-control ms-3" datatype="{{$datatype}}"
+                                    style="border-radius: 0;width: 200px;color: #6c6767 !important">
                                 <option value="atoz">Nom, A à Z</option>
                                 <option value="ztoa">Nom, Z à A</option>
                                 <option value="croissant">Prix, Croissant</option>
@@ -209,7 +210,11 @@
                                 <form method="post" action="{{url('/addtopane')}}" class="d-flex">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{$product->id}}">
-                                    <input type="hidden" name="selectedcolor" value="{{$product->colors->first->id}}">
+                                    @foreach($product->colors as $color)
+                                        @if($loop->first)
+                                            <input type="hidden" name="selectedcolor" value="{{$color->id}}">
+                                        @endif
+                                    @endforeach
                                     <input type="hidden" name="quantity" value="1">
                                     <button @if($product->quantity<=0) disabled="disabled"
                                             @endif class="btn addbutton addbutton1" productid="{{$product->id}}"
@@ -323,16 +328,24 @@
     $(document).ready(function () {
         $('#trier').change(function () {
             $.ajax({
-                url:'/filtersearch',
+                url: '/filtersearch',
                 method: 'post',
                 data: {
                     '_token': '{{csrf_token()}}',
                     'filtertype': $(this).val(),
-                    'inputdata':$(this).attr('datatype')
+                    'inputdata': $(this).attr('datatype')
                 }, success: function (e) {
-                    if(e.length>0) {
+                    if (e.length > 0) {
                         $('.allproducts').html('')
                         for ($i = 0; $i < e.length; $i++) {
+                            $alreadyadded = false
+                            $paneid = 0;
+                            for ($j = 0; $j < e[$i].pane.length; $j++) {
+                                if (e[$i].pane[$j].client_id == '{{\Illuminate\Support\Facades\Auth::guard('client')->id()}}') {
+                                    $alreadyadded = true;
+                                    $paneid = e[$i].pane[$j].id
+                                }
+                            }
                             if (e[$i].quantity <= 0) {
                                 $disabled = 'disabled="disabled"'
                                 $message = '<span class="text-danger" style="font-size: 12.5px">' +
@@ -344,32 +357,58 @@
                                     '<img src="{{asset('media/icons/correct.svg')}}" style="width: 10px">' +
                                     'Produit en stock (' + e[$i].quantity + ')</span>'
                             }
+                            if(e[$i].colors.length>0) {
+                                $colorid = '<input type="hidden" name="selectedcolor" value="' + e[$i].colors[0].id + '">'
+                            }
+                            if ($alreadyadded == true) {
+                                $('.allproducts').append('<div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 card text-center mb-4 pb-2">' +
+                                    '<div> <a href="{{url('product/')}}/' + e[$i].id + '" class="articleimage">' +
+                                    '<img src="{{asset('storage/products/')}}/' + e[$i].images[0].name + '" style="max-height: 40vh" class="img-fluid"/> </a></div>' +
+                                    '<a href="{{url('product/')}}/' + e[$i].id + '" class="mt-1"' +
+                                    'style="font-size: 14px;text-decoration: none;color: #6c6767">' + e[$i].title.substr(0, 20) + '</a>' +
+                                    '<span class="mt-1" style="color:#204f8c;font-size: 20px ">' + e[$i].price + ' MAD</span>' +
+                                    $message +
+                                    '<div class="d-flex">' +
+                                    ' <button class="btn btn-danger deletebutton addbuttontype2 addbutton3"' +
+                                    'paneid="' + $paneid + '"' +
+                                    'style="border-radius: 0 !important;height: 38px;width: 20% ">' +
+                                    '<img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">' +
+                                    '</button>' +
+                                    '<button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"' +
+                                    'paneid="' + $paneid + '"' +
+                                    'style="border-radius: 0 !important;width: 80%">' +
+                                    'Supprimer' +
+                                    '</button>' +
+                                    '</div>')
+                            } else {
+                                $('.allproducts').append('<div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 card text-center mb-4 pb-2">' +
+                                    '<div> <a href="{{url('product/')}}/' + e[$i].id + '" class="articleimage">' +
+                                    '<img src="{{asset('storage/products/')}}/' + e[$i].images[0].name + '" style="max-height: 40vh" class="img-fluid"/> </a></div>' +
+                                    '<a href="{{url('product/')}}/' + e[$i].id + '" class="mt-1"' +
+                                    'style="font-size: 14px;text-decoration: none;color: #6c6767">' + e[$i].title.substr(0, 20) + '</a>' +
+                                    '<span class="mt-1" style="color:#204f8c;font-size: 20px ">' + e[$i].price + ' MAD</span>' +
+                                    $message +
+                                    '<form method="post" action="{{url('/addtopane')}}" class="d-flex">@csrf' +
+                                    ' <input type="hidden" name="product_id" value="' + e[$i].id + '">' +
+                                    $colorid +
+                                    '<input type="hidden" name="quantity" value="1">' +
+                                    '<button ' + $disabled + ' class="btn addbutton addbutton1" productid="' + e[$i].id + '"' +
+                                    'style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 20% ">' +
+                                    '<img src="{{asset('media/icons/plus.svg')}}" style="width: 18px"></button>' +
 
-                            $('.allproducts').append('<div class="col-3 card text-center mb-4 pb-2">' +
-                                '<div> <a href="{{url('product/')}}/' + e[$i].id + '" class="articleimage">' +
-                                '<img src="{{asset('storage/products/')}}/' + e[$i].images[0].name + '" class="img-fluid"/> </a></div>' +
-                                '<a href="{{url('product/')}}/' + e[$i].id + '" class="mt-1"' +
-                                'style="font-size: 14px;text-decoration: none;color: #6c6767">' + e[$i].title + '</a>' +
-                                '<span class="mt-1" style="color:#204f8c;font-size: 20px ">' + e[$i].price + ' MAD</span>' +
-                                $message +
-                                '<div class="d-flex">' +
-                                '<button ' + $disabled + ' class="btn addbutton addbutton1" productid="' + e[$i].id + '"' +
-                                'style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 38px ">' +
-                                '<img src="{{asset('media/icons/plus.svg')}}" style="width: 18px"></button>' +
-
-                                '<button ' + $disabled + ' class="btn addbutton addbutton2" productid="' + e[$i].id + '"' +
-                                'style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c">Ajouter au panier </button>' +
-
-                                '</div> </div>')
+                                    '<button ' + $disabled + ' class="btn addbutton addbutton2" productid="' + e[$i].id + '"' +
+                                    'style="width:80%;border-radius: 0 !important;border-color: #204f8c;color: #204f8c">Ajouter au panier </button>' +
+                                    '</form> </div>')
+                            }
                         }
                     }
-                }, error:function (e){
+                }, error: function (e) {
                     console.log(e)
                 }
             })
         })
 
-        $('.deletebutton').click(function () {
+        $(document).on('click','.deletebutton',function () {
             $('#deletemodal').modal('show')
             $('#pane_id').val($(this).attr('paneid'))
         })
@@ -408,34 +447,33 @@
 
 
 
-        $('.addbutton').hover(function () {
+        $(document).on('mouseover','.addbutton',function () {
             $(this).parent().children('.addbutton2').hide()
             $(this).parent().children('.addbutton1').css('width', '100%')
         })
-        $('.addbutton').mouseout(function () {
+        $(document).on('mouseout','.addbutton',function () {
             $(this).parent().children('.addbutton2').show()
             $(this).parent().children('.addbutton1').css('width', '38px')
         })
 
-        $('.addbuttontype2').hover(function () {
+        $(document).on('mouseover','.addbuttontype2',function () {
             $(this).parent().children('.addbutton4').hide()
             $width = $(this).parent().children('.addbutton3').outerWidth() + $(this).parent().children('.addbutton4').outerWidth() + 'px'
             $(this).parent().children('.addbutton3').css('width', $width)
         })
-        $('.addbuttontype2').mouseout(function () {
+        $(document).on('mouseout','.addbuttontype2',function () {
             $(this).parent().children('.addbutton4').show()
             $(this).parent().children('.addbutton3').css('width', '38px')
         })
-        $('.rapide,.articleimage').hover(function () {
+        $(document).on('mouseover','.rapide,.articleimage',function () {
             $(this).parent().children('.articleimage').css('filter', 'blur(1px)')
             $(this).parent().children('.rapide').show()
         })
-        $('.rapide,.articleimage').mouseout(function () {
+        $(document).on('mouseout','.rapide,.articleimage',function () {
             $(this).parent().children('.articleimage').css('filter', 'blur(0)')
             $(this).parent().children('.rapide').hide()
 
         })
-
 
 
         {{--$('.addbutton').click(function () {--}}

@@ -9,6 +9,16 @@
             font-family: 'Noto Sans', sans-serif;
         }
 
+        @media only screen and (max-width: 506px) {
+            .imagearticle {
+                width: 50%;
+            }
+        }
+        @media only screen and (min-width: 507px) {
+            .imagearticle {
+                width: 30%;
+            }
+        }
 
     </style>
 
@@ -24,11 +34,11 @@
         </div>
         @if($commandes)
             @foreach($commandes as $commande)
-                <div class="col-10" style="border: solid 1px #c7c0c0;">
+                <div class="col-md-8 col-lg-9 col-xl-10" style="border: solid 1px #c7c0c0;">
                     <div class="mb-2 pb-2" style="">
                         @foreach($commande->items as $item)
                             <div class="d-flex pb-2 pt-2">
-                                <a href="{{url('product/'.$item->product_id)}}">
+                                <a href="{{url('product/'.$item->product_id)}}" class="imagearticle">
                                     @foreach($item->pane->product->images as $image)
                                         @if($loop->first)
                                             <img src="{{asset('storage/products/'.$image->name)}}" style="height: 100px"
@@ -36,7 +46,7 @@
                                         @endif
                                     @endforeach
                                 </a>
-                                <div class="ms-5 d-flex justify-content-between" style="width: 100%">
+                                <div class="ms-5 d-flex flex-wrap justify-content-between" style="width: 100%">
                                     <a href="{{url('product/'.$item->pane->product_id)}}"
                                        style="text-decoration: none;">
                                         <p class="mb-1"
@@ -51,11 +61,11 @@
                                         {{--                                               style="width: 70px;border-radius: 0">--}}
                                         <table class="table table-borderless" style="color: #6c6767">
                                             <tr>
-                                                <td>Quantité</td>
+                                                <td class="ps-0 ps-sm-1">Quantité</td>
                                                 <td>{{$item->pane->quantity}}</td>
                                             </tr>
                                             <tr>
-                                                <td>Coleur</td>
+                                                <td class="ps-0 ps-sm-1"> Coleur</td>
                                                 <td>
                                                     <div class="ms-1"
                                                          style="width:20px;height:20px;border-radius: 100px;background-color: {{$item->pane->color->name}}"></div>
@@ -79,13 +89,13 @@
                         @endforeach
                     </div>
                 </div>
-                <div class="col-2 d-flex align-items-center " style="border: solid 1px #c7c0c0;">
-                    <div>
-                    <p class="text-end" style="color: #204f8c;font-size: 18px;">Prix total
-                        : {{$commande->total}} MAD</p>
-                    <p class="text-end" style="color: #204f8c;font-size: 18px;">
-                        Date : {{\Carbon\Carbon::createFromFormat('Y-m-d h:i:s',$commande->created_at)->format('d M Y')}} </p>
-                    </div>
+                <div class="col-md-4 col-lg-3 col-xl-2 d-flex flex-column align-items-center justify-content-center" style="border: solid 1px #c7c0c0;">
+                    <p class="text-end mb-0" style="color: #204f8c;font-size: 18px;font-weight: 700">Prix total
+                        : {{$commande->total}} MAD
+                    </p>
+                    <p class="text-end mb-0" style="color: #204f8c;font-size: 18px;font-weight: 700">
+                        Date : {{\Carbon\Carbon::createFromFormat('Y-m-d h:i:s',$commande->created_at)->format('d M Y')}}
+                    </p>
                 </div>
             @endforeach
         @else

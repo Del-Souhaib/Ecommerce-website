@@ -135,55 +135,55 @@ class UserController extends Controller
                     $query->wherehas('Category', function ($q) use ($id) {
                         return $q->where('id', $id);
                     });
-                })->orderBy('title', 'asc')->with('images')->get()->all();
+                })->orderBy('title', 'asc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'ztoa') {
                 $products = Product::wherehas('childcategory', function ($query) use ($id) {
                     $query->wherehas('Category', function ($q) use ($id) {
                         return $q->where('id', $id);
                     });
-                })->orderBy('title', 'desc')->with('images')->get()->all();
+                })->orderBy('title', 'desc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'croissant') {
                 $products = Product::wherehas('childcategory', function ($query) use ($id) {
                     $query->wherehas('Category', function ($q) use ($id) {
                         return $q->where('id', $id);
                     });
-                })->orderBy('price', 'asc')->with('images')->get()->all();
+                })->orderBy('price', 'asc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'decroissant') {
                 $products = Product::wherehas('childcategory', function ($query) use ($id) {
                     $query->wherehas('Category', function ($q) use ($id) {
                         return $q->where('id', $id);
                     });
-                })->orderBy('price', 'desc')->with('images')->get()->all();
+                })->orderBy('price', 'desc')->with(['images','pane','colors'])->get()->all();
             }
         } else if ($req->type == 'childcategorie') {
             if ($req->filtertype == 'atoz') {
-                $products = Product::where('child_category_id', $id)->orderBy('title', 'asc')->with('images')->get()->all();
+                $products = Product::where('child_category_id', $id)->orderBy('title', 'asc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'ztoa') {
-                $products = Product::where('child_category_id', $id)->orderBy('title', 'desc')->with('images')->get()->all();
+                $products = Product::where('child_category_id', $id)->orderBy('title', 'desc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'croissant') {
-                $products = Product::where('child_category_id', $id)->orderBy('price', 'asc')->with('images')->get()->all();
+                $products = Product::where('child_category_id', $id)->orderBy('price', 'asc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'decroissant') {
-                $products = Product::where('child_category_id', $id)->orderBy('price', 'desc')->with('images')->get()->all();
+                $products = Product::where('child_category_id', $id)->orderBy('price', 'desc')->with(['images','pane','colors'])->get()->all();
             }
         } else if ($req->type == 'statut') {
             if ($req->filtertype == 'atoz') {
-                $products = Product::where('statut', $name)->orderBy('title', 'asc')->with('images')->get()->all();
+                $products = Product::where('statut', $name)->orderBy('title', 'asc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'ztoa') {
-                $products = Product::where('statut', $name)->orderBy('title', 'desc')->with('images')->get()->all();
+                $products = Product::where('statut', $name)->orderBy('title', 'desc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'croissant') {
-                $products = Product::where('statut', $name)->orderBy('price', 'asc')->with('images')->get()->all();
+                $products = Product::where('statut', $name)->orderBy('price', 'asc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'decroissant') {
-                $products = Product::where('statut', $name)->orderBy('price', 'desc')->with('images')->get()->all();
+                $products = Product::where('statut', $name)->orderBy('price', 'desc')->with(['images','pane','colors'])->get()->all();
             }
         } else if ($req->type == 'bestproducts') {
             if ($req->filtertype == 'atoz') {
-                $products = Product::wherehas('topproducts')->orderBy('title', 'asc')->with('images')->get()->all();
+                $products = Product::wherehas('topproducts')->orderBy('title', 'asc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'ztoa') {
-                $products = Product::wherehas('topproducts')->orderBy('title', 'desc')->with('images')->get()->all();
+                $products = Product::wherehas('topproducts')->orderBy('title', 'desc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'croissant') {
-                $products = Product::wherehas('topproducts')->orderBy('price', 'asc')->with('images')->get()->all();
+                $products = Product::wherehas('topproducts')->orderBy('price', 'asc')->with(['images','pane','colors'])->get()->all();
             } else if ($req->filtertype == 'decroissant') {
-                $products = Product::wherehas('topproducts')->orderBy('price', 'desc')->with('images')->get()->all();
+                $products = Product::wherehas('topproducts')->orderBy('price', 'desc')->with(['images','pane','colors'])->get()->all();
             }
         }
 

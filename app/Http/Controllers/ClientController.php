@@ -39,7 +39,7 @@ class ClientController extends Controller
                 'client_id' => Auth::guard('client')->id(),
                 'color_id' => $req->selectedcolor,
                 'quantity' => $req->quantity,
-                'created_at' => date('Y-m-d h:i:s')
+                'created_at' => date('Y-m-d H:i:s')
             ]);
             return redirect()->back()->with(['statut' => 'addedtopane', 'productid' => $req->product_id, 'quantity' => $req->quantity]);
         }

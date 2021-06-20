@@ -139,17 +139,17 @@
 <header>
     <x-parts.header/>
 </header>
-<div class="container mt-2">
+<div class="container-fluid  ps-lg-5 ps-sm-3 ps-1 mt-2">
     <div class="row">
         <x-parts.clientnavbar/>
-        <div class="col-9 mt-3">
+        <div class="col-12 col-md-8 mt-3">
             @if($products)
                 <div class="row">
                     <p style="color: #204f8c;font-size: 22px;font-weight: 600">{{$title}}</p>
-                    <div class="pt-3 pb-3 col-12 d-flex align-items-center justify-content-between"
+                    <div class="pt-3 pb-3 col-12 d-flex flex-wrap align-items-center justify-content-between"
                          style="border-bottom: solid 1px #cdcbcb;border-top: solid 1px #cdcbcb">
-                        <span style=" color: #6c6767 !important">Il y a {{count($products)}} produits</span>
-                        <div class="d-flex align-items-center">
+                        <span class="mt-3 mt-sm-0" style=" color: #6c6767 !important">Il y a {{count($products)}} produits</span>
+                        <div class="d-flex align-items-center mt-3 mt-sm-0">
                             <label for="trier" style="color: #6c6767;">Trier par :</label>
                             <select name="trier" id="trier" class="form-control ms-3" typedefiler="{{$type}}"
                                     urlpath="{{$url}}" style="border-radius: 0;width: 200px;color: #6c6767 !important">
@@ -163,20 +163,20 @@
                 </div>
                 <div class="row mt-3 allproducts">
                     @foreach($products as $product)
-                        <div class="col-3 card text-center mb-4 pb-2">
+                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 card text-center mb-4 pb-2">
                             <div>
                                 @foreach($product->images as $img)
                                     @if($loop->first)
                                         <a href="{{url('product/'.$product->id)}}" class="articleimage">
                                             <img src="{{asset('storage/products/'.$img->name)}}"
-                                                 class="img-fluid "/>
+                                                 class="img-fluid" style="max-height: 40vh"/>
                                         </a>
                                     @endif
                                 @endforeach
                             </div>
                             <a href="{{url('product/'.$product->id)}}" class="mt-1"
                                style="font-size: 14px;text-decoration: none;color: #6c6767">
-                                {{$product->title}}
+                                {{substr($product->title,0,20) }}
                             </a>
                             <span class="mt-1" style="color:#204f8c;font-size: 20px ">
                             {{$product->price}} MAD
@@ -197,7 +197,7 @@
                                 <div class="d-flex">
                                     <button class="btn btn-danger deletebutton addbuttontype2 addbutton3"
                                             paneid="{{$product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
-                                            style="border-radius: 0 !important;height: 38px;width: 38px;width: 20% ">
+                                            style="border-radius: 0 !important;height: 38px;width: 20% ">
                                         <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
                                     </button>
                                     <button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"
@@ -210,16 +210,16 @@
                                 <form method="post" action="{{url('/addtopane')}}" class="d-flex">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{$product->id}}">
-                                    <input type="hidden" name="selectedcolor" value="{{$product->colors[0]->id}}">
+                                    <input type="hidden" name="selectedcolor" value="{{$product->colors->first->id}}">
                                     <input type="hidden" name="quantity" value="1">
                                     <button @if($product->quantity<=0) disabled="disabled"
                                             @endif class="btn addbutton addbutton1" productid="{{$product->id}}"
-                                            style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 38px ">
+                                            style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 20% ">
                                         <img src="{{asset('media/icons/plus.svg')}}" style="width: 18px">
                                     </button>
                                     <button @if($product->quantity<=0) disabled="disabled"
                                             @endif class="btn addbutton addbutton2" productid="{{$product->id}}"
-                                            style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c">
+                                            style="width: 80%;border-radius: 0 !important;border-color: #204f8c;color: #204f8c">
                                         Ajouter au panier
                                     </button>
                                 </form>
@@ -239,18 +239,18 @@
 
 <!-- Modal -->
 <div class="modal fade" id="addedtopanesuccess" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg ">
         <div class="modal-content " style="border-radius: 0">
             <div class="modal-header border-0">
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-lg-5">
                         <img src="{{asset('media/products/product1.jpg')}}" class="img-fluid addedtopanesuccessimage"/>
                     </div>
-                    <div class="col-7">
-                        <div class="d-flex align-items-center mb-5">
+                    <div class="col-lg-7">
+                        <div class="d-flex align-items-center mb-5 mt-3 mt-lg-0">
                             <img src="{{asset('media/icons/correct3.svg')}}" style="height: 20px">
                             <p style="color: #f69c14" class="mb-0 ms-2">Produit ajouté au panier avec succès</p>
                         </div>
@@ -325,16 +325,25 @@
     $(document).ready(function () {
         $('#trier').change(function () {
             $.ajax({
-                url:'/filterproductbytype/'+$(this).attr('urlpath'),
+                url: '/filterproductbytype/' + $(this).attr('urlpath'),
                 method: 'post',
                 data: {
                     '_token': '{{csrf_token()}}',
                     'filtertype': $(this).val(),
-                    'type':$(this).attr('typedefiler')
+                    'type': $(this).attr('typedefiler')
                 }, success: function (e) {
-                    if(e.length>0) {
+                    if (e.length > 0) {
+                        // console.log(e)
                         $('.allproducts').html('')
                         for ($i = 0; $i < e.length; $i++) {
+                            $alreadyadded = false
+                            $paneid=0;
+                            for ($j = 0; $j < e[$i].pane.length; $j++) {
+                                if (e[$i].pane[$j].client_id == '{{\Illuminate\Support\Facades\Auth::guard('client')->id()}}') {
+                                    $alreadyadded = true;
+                                    $paneid=e[$i].pane[$j].id
+                                }
+                            }
                             if (e[$i].quantity <= 0) {
                                 $disabled = 'disabled="disabled"'
                                 $message = '<span class="text-danger" style="font-size: 12.5px">' +
@@ -346,32 +355,57 @@
                                     '<img src="{{asset('media/icons/correct.svg')}}" style="width: 10px">' +
                                     'Produit en stock (' + e[$i].quantity + ')</span>'
                             }
+                            if(e[$i].colors.length>0) {
+                                $colorid = '<input type="hidden" name="selectedcolor" value="' + e[$i].colors[0].id + '">'
+                            }
+                            if ($alreadyadded == true) {
+                                $('.allproducts').append('<div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 card text-center mb-4 pb-2">' +
+                                    '<div> <a href="{{url('product/')}}/' + e[$i].id + '" class="articleimage">' +
+                                    '<img src="{{asset('storage/products/')}}/' + e[$i].images[0].name + '" style="max-height: 40vh" class="img-fluid"/> </a></div>' +
+                                    '<a href="{{url('product/')}}/' + e[$i].id + '" class="mt-1"' +
+                                    'style="font-size: 14px;text-decoration: none;color: #6c6767">' + e[$i].title.substr(0, 20) + '</a>' +
+                                    '<span class="mt-1" style="color:#204f8c;font-size: 20px ">' + e[$i].price + ' MAD</span>' +
+                                    $message+
+                               '<div class="d-flex">'+
+                                   ' <button class="btn btn-danger deletebutton addbuttontype2 addbutton3"'+
+                                            'paneid="'+$paneid+'"'+
+                                           'style="border-radius: 0 !important;height: 38px;width: 20% ">'+
+                                        '<img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">'+
+                                    '</button>'+
+                                    '<button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"'+
+                                            'paneid="'+$paneid+'"'+
+                                            'style="border-radius: 0 !important;width: 80%">'+
+                                        'Supprimer'+
+                                    '</button>'+
+                                '</div>')
+                            } else {
+                                $('.allproducts').append('<div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 card text-center mb-4 pb-2">' +
+                                    '<div> <a href="{{url('product/')}}/' + e[$i].id + '" class="articleimage">' +
+                                    '<img src="{{asset('storage/products/')}}/' + e[$i].images[0].name + '" style="max-height: 40vh" class="img-fluid"/> </a></div>' +
+                                    '<a href="{{url('product/')}}/' + e[$i].id + '" class="mt-1"' +
+                                    'style="font-size: 14px;text-decoration: none;color: #6c6767">' + e[$i].title.substr(0, 20) + '</a>' +
+                                    '<span class="mt-1" style="color:#204f8c;font-size: 20px ">' + e[$i].price + ' MAD</span>' +
+                                    $message+
+                               '<form method="post" action="{{url('/addtopane')}}" class="d-flex">@csrf' +
+                                    ' <input type="hidden" name="product_id" value="'+e[$i].id+'">'+
+                                    $colorid+
+                                    '<input type="hidden" name="quantity" value="1">'+
+                                    '<button ' + $disabled + ' class="btn addbutton addbutton1" productid="' + e[$i].id + '"' +
+                                    'style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 20% ">' +
+                                    '<img src="{{asset('media/icons/plus.svg')}}" style="width: 18px"></button>' +
 
-                            $('.allproducts').append('<div class="col-3 card text-center mb-4 pb-2">' +
-                                '<div> <a href="{{url('product/')}}/' + e[$i].id + '" class="articleimage">' +
-                                '<img src="{{asset('storage/products/')}}/' + e[$i].images[0].name + '" class="img-fluid"/> </a></div>' +
-                                '<a href="{{url('product/')}}/' + e[$i].id + '" class="mt-1"' +
-                                'style="font-size: 14px;text-decoration: none;color: #6c6767">' + e[$i].title + '</a>' +
-                                '<span class="mt-1" style="color:#204f8c;font-size: 20px ">' + e[$i].price + ' MAD</span>' +
-                                $message +
-                                '<div class="d-flex">' +
-                                '<button ' + $disabled + ' class="btn addbutton addbutton1" productid="' + e[$i].id + '"' +
-                                'style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 38px ">' +
-                                '<img src="{{asset('media/icons/plus.svg')}}" style="width: 18px"></button>' +
-
-                                '<button ' + $disabled + ' class="btn addbutton addbutton2" productid="' + e[$i].id + '"' +
-                                'style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c">Ajouter au panier </button>' +
-
-                                '</div> </div>')
+                                    '<button ' + $disabled + ' class="btn addbutton addbutton2" productid="' + e[$i].id + '"' +
+                                    'style="width:80%;border-radius: 0 !important;border-color: #204f8c;color: #204f8c">Ajouter au panier </button>' +
+                                    '</form> </div>')
+                            }
                         }
                     }
-                }, error:function (e){
-                    console.log(e)
+                }, error: function (e) {
                 }
             })
         })
 
-        $('.deletebutton').click(function () {
+        $(document).on('click','.deletebutton',function () {
             $('#deletemodal').modal('show')
             $('#pane_id').val($(this).attr('paneid'))
         })
@@ -410,34 +444,33 @@
 
 
 
-        $('.addbutton').hover(function () {
+        $(document).on('mouseover','.addbutton',function () {
             $(this).parent().children('.addbutton2').hide()
             $(this).parent().children('.addbutton1').css('width', '100%')
         })
-        $('.addbutton').mouseout(function () {
+        $(document).on('mouseout','.addbutton',function () {
             $(this).parent().children('.addbutton2').show()
             $(this).parent().children('.addbutton1').css('width', '38px')
         })
 
-        $('.addbuttontype2').hover(function () {
+        $(document).on('mouseover','.addbuttontype2',function () {
             $(this).parent().children('.addbutton4').hide()
             $width = $(this).parent().children('.addbutton3').outerWidth() + $(this).parent().children('.addbutton4').outerWidth() + 'px'
             $(this).parent().children('.addbutton3').css('width', $width)
         })
-        $('.addbuttontype2').mouseout(function () {
+        $(document).on('mouseout','.addbuttontype2',function () {
             $(this).parent().children('.addbutton4').show()
             $(this).parent().children('.addbutton3').css('width', '38px')
         })
-        $('.rapide,.articleimage').hover(function () {
+        $(document).on('hover','.rapide,.articleimage',function () {
             $(this).parent().children('.articleimage').css('filter', 'blur(1px)')
             $(this).parent().children('.rapide').show()
         })
-        $('.rapide,.articleimage').mouseout(function () {
+        $(document).on('mouseout','.rapide,.articleimage',function () {
             $(this).parent().children('.articleimage').css('filter', 'blur(0)')
             $(this).parent().children('.rapide').hide()
 
         })
-
 
 
         {{--$('.addbutton').click(function () {--}}

@@ -139,10 +139,10 @@
 <header>
     <x-parts.header/>
 </header>
-<div class="container mt-2">
+<div class="container-fluid  ps-lg-5 ps-sm-3 ps-1 mt-2">
     <div class="row">
         <x-parts.clientnavbar/>
-        <div class="col-9 mt-3">
+        <div class="col-12 col-md-8 mt-3">
             @if($products)
                 <div class="row">
                     <p style="color: #204f8c;font-size: 22px;font-weight: 600">{{$title}}</p>
@@ -162,20 +162,20 @@
                 </div>
                 <div class="row mt-3 allproducts">
                     @foreach($products as $product)
-                        <div class="col-3 card text-center mb-4 pb-2">
+                        <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 card text-center mb-4 pb-2">
                             <div>
                                 @foreach($product->images as $img)
                                     @if($loop->first)
                                         <a href="{{url('product/'.$product->id)}}" class="articleimage">
                                             <img src="{{asset('storage/products/'.$img->name)}}"
-                                                 class="img-fluid "/>
+                                                 class="img-fluid " style="max-height: 40vh"/>
                                         </a>
                                     @endif
                                 @endforeach
                             </div>
                             <a href="{{url('product/'.$product->id)}}" class="mt-1"
                                style="font-size: 14px;text-decoration: none;color: #6c6767">
-                                {{$product->title}}
+                                {{substr($product->title,0,20)}}
                             </a>
                             <span class="mt-1" style="color:#204f8c;font-size: 20px ">
                             {{$product->price}} MAD
@@ -196,7 +196,7 @@
                                 <div class="d-flex">
                                     <button class="btn btn-danger deletebutton addbuttontype2 addbutton3"
                                             paneid="{{$product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
-                                            style="border-radius: 0 !important;height: 38px;width: 38px;width: 20% ">
+                                            style="border-radius: 0 !important;height: 38px;width: 20% ">
                                         <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
                                     </button>
                                     <button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"
@@ -209,16 +209,16 @@
                                 <form method="post" action="{{url('/addtopane')}}" class="d-flex">
                                     @csrf
                                     <input type="hidden" name="product_id" value="{{$product->id}}">
-                                    <input type="hidden" name="selectedcolor" value="{{$product->colors[0]->id}}">
+                                    <input type="hidden" name="selectedcolor" value="{{$product->colors->first->id}}">
                                     <input type="hidden" name="quantity" value="1">
                                     <button @if($product->quantity<=0) disabled="disabled"
                                             @endif class="btn addbutton addbutton1" productid="{{$product->id}}"
-                                            style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 38px ">
+                                            style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 20% ">
                                         <img src="{{asset('media/icons/plus.svg')}}" style="width: 18px">
                                     </button>
                                     <button @if($product->quantity<=0) disabled="disabled"
                                             @endif class="btn addbutton addbutton2" productid="{{$product->id}}"
-                                            style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c">
+                                            style="width:80%;border-radius: 0 !important;border-color: #204f8c;color: #204f8c">
                                         Ajouter au panier
                                     </button>
                                 </form>
@@ -244,11 +244,11 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-lg-5">
                         <img src="{{asset('media/products/product1.jpg')}}" class="img-fluid addedtopanesuccessimage"/>
                     </div>
-                    <div class="col-7">
-                        <div class="d-flex align-items-center mb-5">
+                    <div class="col-lg-7">
+                        <div class="d-flex align-items-center mb-5 mt-3 mt-lg-0">
                             <img src="{{asset('media/icons/correct3.svg')}}" style="height: 20px">
                             <p style="color: #f69c14" class="mb-0 ms-2">Produit ajouté au panier avec succès</p>
                         </div>

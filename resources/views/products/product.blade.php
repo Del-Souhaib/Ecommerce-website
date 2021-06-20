@@ -139,14 +139,14 @@
         </div>
     </div>
     <div class="row mt-4">
-        <div class="col-5" style="max-height: 70vh">
+        <div class="col-lg-5" style="max-height: 70vh">
             <div
                 style="--swiper-navigation-color: #fff; --swiper-pagination-color: #fff"
                 class="swiper-container productmySwiper2">
                 <div class="swiper-wrapper product-swiper-wrapper">
                     @foreach($product->images as $image)
                         <div class="swiper-slide product-swiper-slide">
-                            <img src="{{asset('storage/products/'.$image->name)}}"/>
+                            <img src="{{asset('storage/products/'.$image->name)}}" class="img-fluid"/>
                         </div>
                     @endforeach
                 </div>
@@ -157,18 +157,18 @@
                 <div class="swiper-wrapper product-swiper-wrapper">
                     @foreach($product->images as $image)
                         <div class="swiper-slide product-swiper-slide">
-                            <img src="{{asset('storage/products/'.$image->name)}}"/>
+                            <img src="{{asset('storage/products/'.$image->name)}}" class="img-fluid"/>
                         </div>
                     @endforeach
                 </div>
             </div>
         </div>
-        <form form method="POST" action="{{url('/addtopane')}}" class="col-7">
+        <form form method="POST" action="{{url('/addtopane')}}" class="col-lg-7">
             @csrf
             <input type="hidden" name="product_id" value="{{$product->id}}">
             <p style="color: #204f8c;font-size: 30px;font-weight: 535">{{$product->title}}</p>
             <p style="color: #204f8c;font-size: 22px;font-weight: 535">{{$product->price}} MAD</p>
-            <p class="p-3"
+            <p class="p-md-3 pt-0 p-md-3"
                style="font-size:15px;color:#6c6767;border-top: solid 1px #d4cccc;border-bottom: solid 1px #d4cccc">{!!$product->presentation!!}</p>
             <div style="border-top: solid 1px #d4cccc;border-bottom: solid 1px #d4cccc">
                 <img src="{{asset('storage/companies/'.$product->company->logo)}}" style="height: 100px;">
@@ -178,7 +178,7 @@
                 <span>État</span>
                 <span>{{$product->statut}}</span>
             </p>
-            @if($product->colors)
+            @if($product->colors->count()>0)
                 <div class="d-flex justify-content-between mt-3 pt-3 pb-3 mb-3"
                      style="color: #204f8c;font-weight: 550;border-top:solid 1px #dcd6d6;border-bottom:solid 1px #dcd6d6">
                     <span>Coleurs</span>
@@ -234,13 +234,13 @@
         </form>
     </div>
     <div class="row" style="margin-top: 100px">
-        <div class="col-6">
+        <div class="col-lg-6">
             <p style="color:#204f8c;font-size: 20px;border-bottom: solid 2px #204f8c">
                 Description
             </p>
             {!!$product->specification !!}
         </div>
-        <div class="col-6">
+        <div class="col-lg-6">
             <p style="color:#204f8c;font-size: 20px;border-bottom: solid 2px #204f8c">
                 Fiche technique
             </p>
@@ -252,17 +252,17 @@
         <div class="swiper-container relatedproduct-mySwiper">
             <div class="swiper-wrapper relatedproduct-swiper-wrapper">
                 @foreach($relatedproducts as $relatedproduct)
-                    <div class="swiper-slide relatedproduct-swiper-slide" style="height: 200px">
+                    <a href="{{$relatedproduct->id}}" style="text-decoration: none;" class="swiper-slide relatedproduct-swiper-slide" >
                         <div>
                             @foreach($relatedproduct->images as $image)
                                 @if($loop->first)
-                                    <img src="{{asset('storage/products/'.$image->name)}}" class="img-fluid">
+                                    <img src="{{asset('storage/products/'.$image->name)}}" style="height: 200px" class="img-fluid">
                                 @endif
                             @endforeach
                             <p style="color: #6c6767;font-size: 15px">{{$relatedproduct->title}}</p>
                             <p style="color: #204f8c;font-size: 15px">{{$relatedproduct->price}} MAD</p>
                         </div>
-                    </div>
+                    </a>
                 @endforeach
             </div>
             <div class="swiper-button-next relatedproduct-swiper-button-next" style="color: #204f8c"></div>
@@ -399,9 +399,19 @@
             swiper: swiper,
         },
     });
+    if(window.innerWidth>=1419){
+        $nb=5
+    }else if(window.innerWidth>=925 && window.innerWidth<=1418){
+        $nb=4
+    }
+    else if(window.innerWidth>=746 && window.innerWidth<=924){
+        $nb=3
+    } else if(window.innerWidth>=542 && window.innerWidth<=745){
+        $nb=2
+    }
     /******related product****/
     var swiper = new Swiper(".relatedproduct-mySwiper", {
-        slidesPerView: 5,
+        slidesPerView: $nb,
         spaceBetween: 30,
         slidesPerGroup: 1,
         loop: true,

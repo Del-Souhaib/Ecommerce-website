@@ -9,6 +9,18 @@
             font-family: 'Noto Sans', sans-serif;
         }
 
+        @media only screen and (max-width: 506px) {
+            .imagearticle {
+                width: 50%;
+            }
+        }
+
+        @media only screen and (min-width: 507px) {
+            .imagearticle {
+                width: 30%;
+            }
+        }
+
 
     </style>
 
@@ -22,29 +34,31 @@
         <div class="col-12">
             <p style="color: #204f8c;font-size: 28px;font-weight: 600">PANIER</p>
         </div>
-        <div class="col-9">
+        <div class="col-12 col-lg-9">
             @foreach($panes as $pane)
                 <div class="d-flex pb-2 pt-2"
                      style="border-bottom:solid 1px #c7c0c0;">
-                    <a href="{{url('product/'.$pane->product_id)}}">
+                    <a href="{{url('product/'.$pane->product_id)}}" class="imagearticle">
                         @foreach($pane->product->images as $image)
                             @if($loop->first)
-                                <img src="{{asset('storage/products/'.$image->name)}}" style="height: 100px"
-                                     class="img-fluid">
+                                <img src="{{asset('storage/products/'.$image->name)}}"
+                                     class="img-fluid ">
                             @endif
                         @endforeach
                     </a>
-                    <div class="ms-5 d-flex justify-content-between" style="width: 100%">
+                    <div class="ms-5 d-flex flex-wrap justify-content-between" style="width: 100%">
                         <a href="{{url('product/'.$pane->product_id)}}" style="text-decoration: none;">
                             <p class="mb-1" style="color: #204f8c;font-size: 20px">{{$pane->product->title}}</p>
                             <p style="color: #f69c14;">{{$pane->product->price}} MAD</p>
-                            <div class="d-flex align-items-center" style="color: #6c6767">
-                                Coleur
-                                <div class="ms-1"
-                                     style="width:20px;height:20px;border-radius: 100px;background-color: {{$pane->color->name}}"></div>
-                            </div>
+                            @if($pane->color)
+                                <div class="d-flex align-items-center" style="color: #6c6767">
+                                    Coleur
+                                    <div class="ms-1"
+                                         style="width:20px;height:20px;border-radius: 100px;background-color: {{$pane->color->name}}"></div>
+                                </div>
+                            @endif
                         </a>
-                        <div class="d-flex flex-column align-items-end">
+                        <div class="d-flex flex-column align-items-start align-items-sm-end mt-2 mt-sm-0">
                             <p class="mb-1" style="font-size: 18px;color: #204f8c;font-weight: 600">
                                 <span class="pane{{$pane->id}}price">{{$pane->product->price * $pane->quantity}}</span>
                                 MAD
@@ -59,7 +73,7 @@
                 </div>
             @endforeach
         </div>
-        <form method="post" action="{{url('/Commande')}}" class="col-3" style="text-decoration: none">
+        <form method="post" action="{{url('/Commande')}}" class="col-12 col-lg-3" style="text-decoration: none">
             @csrf
             <div class="p-3" style="border:solid 1px #dedbdb;color: #6c6767">
                 <div class="d-flex justify-content-between align-items-center">

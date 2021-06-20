@@ -173,7 +173,7 @@
                                 @if($loop->first)
                                     <a href="{{url('product/'.$product->product->id)}}" class="articleimage">
                                         <img src="{{asset('storage/products/'.$img->name)}}"
-                                             class="img-fluid "/>
+                                             class="img-fluid" style="max-height: 40vh"/>
                                     </a>
                                 @endif
                             @endforeach
@@ -216,7 +216,7 @@
                             <div class="d-flex">
                                 <button class="btn btn-danger deletebutton addbuttontype2 addbutton3"
                                         paneid="{{$product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
-                                        style="border-radius: 0 !important;height: 38px;width: 38px;width: 20% ">
+                                        style="border-radius: 0 !important;height: 38px;width: 20% ">
                                     <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
                                 </button>
                                 <button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"
@@ -262,11 +262,11 @@
             </div>
             <div class="modal-body">
                 <div class="row">
-                    <div class="col-5">
+                    <div class="col-lg-5">
                         <img src="{{asset('media/products/product1.jpg')}}" class="img-fluid addedtopanesuccessimage"/>
                     </div>
-                    <div class="col-7">
-                        <div class="d-flex align-items-center mb-5">
+                    <div class="col-lg-7">
+                        <div class="d-flex align-items-center mb-5 mt-3 mt-lg-0">
                             <img src="{{asset('media/icons/correct3.svg')}}" style="height: 20px">
                             <p style="color: #f69c14" class="mb-0 ms-2">Produit ajouté au panier avec succès</p>
                         </div>

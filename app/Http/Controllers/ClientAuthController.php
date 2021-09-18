@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Client;
+use App\Models\User;
 use App\Notifications\ClientResetPassword;
 use Illuminate\Auth\Events\PasswordReset;
 use Illuminate\Http\Request;
@@ -11,6 +12,7 @@ use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Password;
 use Illuminate\Support\Str;
 use Illuminate\Testing\Fluent\Concerns\Has;
+use Laravel\Socialite\Facades\Socialite;
 
 class ClientAuthController extends Controller
 {
@@ -41,7 +43,31 @@ class ClientAuthController extends Controller
         }
 
     }
+    public function SocialLoginRedirect($type){
+        if($type=='facebook'){
+            return Socialite::driver('facebook')->redirect();
 
+        }else if($type=='google'){
+            return Socialite::driver('google')->redirect();
+        }
+    }
+    public function SocialLoginRedirectBack(Request $request,$type){
+        $user = Socialite::driver($type)->stateless()->user();
+        $isexist=Client::where('email',$user->email)->first();
+        if($isexist){
+            Auth::guard('client')->loginUsingId($isexist->id);
+        }
+        else{
+            Client::create([
+                'user_name' => $user->name,
+                'email' => $user->email,
+                'telephone' => '',
+                'password' => Hash::make('')
+            ]);
+        }
+
+        return redirect('/dashboard');
+    }
     public function inscrire()
     {
         if (Auth::guard('client')->check()) {
@@ -190,4 +216,5 @@ class ClientAuthController extends Controller
         ]);
         return redirect('/adresses');
     }
+
 }

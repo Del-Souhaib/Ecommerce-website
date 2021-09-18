@@ -18,6 +18,8 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Psy\Util\Json;
+use Yajra\Datatables\Datatables;
+
 
 class AdminController extends Controller
 {
@@ -127,10 +129,19 @@ class AdminController extends Controller
 
     public function clients()
     {
-        $users = Client::get()->all();
-        return view('admin.clients.clients', compact('users'));
-    }
+//        $users = Client::get()->all();
+//        return view('admin.clients.clients', compact('users'));
+        return view('admin.clients.clients');
 
+    }
+    public function ajaxclients()
+    {
+        $users = User::select(['id','name','email','created_at'])->get();
+        return Datatables::of($users)->editColumn('created_at', function ($users) {
+            return $users->created_at->format('Y/m/d');
+        })->make(true);
+
+    }
     /***company***/
 
     public function companies()

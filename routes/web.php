@@ -13,6 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+Route::get('/auth/redirect/{type}', [\App\Http\Controllers\ClientAuthController::class,'SocialLoginRedirect']);
+
+Route::get('/auth/callback/{type}', [\App\Http\Controllers\ClientAuthController::class,'SocialLoginRedirectBack']);
+
 Route::get('/', [\App\Http\Controllers\UserController::class, 'Home'])->name('homepage');
 /**message***/
 Route::get('/message', [\App\Http\Controllers\UserController::class, 'messagepage']);
@@ -85,6 +89,8 @@ Route::prefix('admin')->group(function () {
     Route::post('/downlaodmessagefile', [\App\Http\Controllers\AdminController::class, 'downlaodmessagefile']);
 
     Route::get('/clients', [\App\Http\Controllers\AdminController::class, 'clients']);
+    Route::get('/ajaxclients', [\App\Http\Controllers\AdminController::class, 'ajaxclients']);
+
 
     Route::get('/companies', [\App\Http\Controllers\AdminController::class, 'companies']);
     Route::get('/addcompanypage', [\App\Http\Controllers\AdminController::class, 'addcompanypage']);

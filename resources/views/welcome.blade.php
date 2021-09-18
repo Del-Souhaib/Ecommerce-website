@@ -167,7 +167,7 @@
             <p style="color: #204f8c;font-size: 22px;font-weight: 600">PRODUITS POPULAIRES</p>
             <div class="row">
                 @foreach($products as $product)
-                    <div class="col-xxl-3 col-xl-4 col-lg-4 col-md-6 col-sm-4 col-12 card text-center mb-4 pb-2">
+                    <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6 card text-center mb-4 pb-2">
                         <div>
                             @foreach($product->product->images as $img)
                                 @if($loop->first)

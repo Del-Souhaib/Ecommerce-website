@@ -1,43 +1,47 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="d-flex align-items-center justify-content-between">
-            <h2 class="font-semibold text-xl mb-0 text-gray leading-tight align-items-center"
-                style="font-weight:600;color: #204f8c">
-                {{ __('Utilisateurs') }}
-            </h2>
+    {{--    <x-slot name="header">--}}
+    {{--        <div class="d-flex align-items-center justify-content-between">--}}
+    {{--            <h2 class="font-semibold text-xl mb-0 text-gray leading-tight align-items-center"--}}
+    {{--                style="font-weight:600;color: #204f8c">--}}
+    {{--                {{ __('Utilisateurs') }}--}}
+    {{--            </h2>--}}
 
-        </div>
-    </x-slot>
-    <style>
+    {{--        </div>--}}
+    {{--    </x-slot>--}}
 
-    </style>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <table class="table">
-                <thead>
-                <tr>
-                    <th scope="col" style="width: 10%">Nom</th>
-                    <th scope="col" style="width: 13%">Email</th>
-                    <th scope="col" style="width: 10%">Telephone</th>
-                    <th scope="col" style="width: 10%">Ville</th>
-                    <th scope="col" style="width: 10%">Adresse</th>
-                    <th scope="col" style="width: 27%">Memebre depuit</th>
-                </tr>
-                </thead>
-                <tbody>
-                @foreach($users as $user)
+    <div class="container-fluid">
+        <div class="row">
+            <x-admin.sidenavbar/>
+            <div class="col-10 mt-5">
+               <h2 class="mb-4 mt-1" style="color: #337ab7">Clients</h2>
+                <table class="table table-bordered" id="users-table">
+                    <thead>
                     <tr>
-                        <td>{{$user->user_name}}</td>
-                        <td>{{$user->email}}</td>
-                        <td>{{$user->telephone}}</td>
-                        <td>{{$user->city}}</td>
-                        <td>{{$user->adresse}}</td>
-                        <td>{{$user->created_at}}</td>
+                        <td>Id</td>
+                        <td>Nom</td>
+                        <td>Email</td>
+                        <td>Creé a</td>
                     </tr>
-                @endforeach
-                </tbody>
-            </table>
+                    </thead>
+                </table>
+                <script>
+                    $(function () {
+                        $('#users-table').DataTable({
+                            processing: true,
+                            serverSide: true,
+                            ajax: '{!! url('admin/ajaxclients') !!}',
+                            columns: [
+                                {data: 'id', name: 'id'},
+                                {data: 'name', name: 'name'},
+                                {data: 'email', name: 'email'},
+                                {data: 'created_at', name: 'created_at'},
+                            ]
+                        });
+                    });
+                </script>
+            </div>
         </div>
+
     </div>
 
 </x-app-layout>

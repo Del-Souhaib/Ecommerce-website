@@ -31,7 +31,7 @@
                     <!-- Session Status -->
                     <x-auth-session-status class="mb-4" :status="session('status')"/>
                     <!-- Validation Errors -->
-                    <x-auth-validation-errors class="mb-4" :errors="$errors" />
+                    <x-auth-validation-errors class="mb-4" :errors="$errors"/>
                 </div>
                 <div class="col-4">
                     <label for="email" style="font-weight: 600">Email</label>
@@ -45,21 +45,34 @@
                     <label for="password" style="font-weight: 600">Mot de passe</label>
                 </div>
                 <div class="col-8">
-                    <input type="password" name="password" required id="password" class="form-control" style="border-radius: 0">
+                    <input type="password" name="password" required id="password" class="form-control"
+                           style="border-radius: 0">
                 </div>
             </div>
             <div class="row">
                 <div class="col-4"></div>
                 <div class="col-8 mt-3">
-                    <a href="{{url('forgetpassword')}}" style="color: #8b8888;text-decoration: none;font-size: 15px">Mot de passe oublié?</a>
+                    <a href="{{url('forgetpassword')}}" style="color: #8b8888;text-decoration: none;font-size: 15px">Mot
+                        de passe oublié?</a>
                 </div>
                 <div class="col-4"></div>
                 <div class="col-8 mt-3">
                     <button class="btn text-light " style="border-radius:0;background-color: #204f8c!important; ">
                         Connexion
                     </button>
+                    <div class="d-flex justify-content-between">
+                        <a href="{{url('auth/redirect/facebook')}}" class="btn d-flex align-items-center mt-5"
+                           style="background-color: #0852a1;width: 150px;border-radius: 0">
+                            <img src="{{asset('media/icons/facebook.svg')}}" style="height: 30px"/>
+                            <span class="text-light">Facebook</span>
+                        </a>
+                        <a href="{{url('auth/redirect/google')}}" class="btn d-flex align-items-center mt-5"
+                           style="background-color: #f69c14;width: 150px;border-radius: 0">
+                            <img src="{{asset('media/icons/google.svg')}}" class="me-1" style="height: 30px"/>
+                            <span class="text-light">Google</span>
+                        </a>
+                    </div>
                 </div>
-
             </div>
             <div class="row mt-3">
                 <div class="col-4">
@@ -84,7 +97,8 @@
                         <li>Passage de commande rapide et facile</li>
                         <li>Adresses de livraison et de facturation différentes</li>
                     </ul>
-                    <a href="{{url("/inscrire ")}}" class="btn text-light mt-2" style="text-decoration:none;border-radius:0;background-color: #204f8c!important; ">
+                    <a href="{{url("/inscrire ")}}" class="btn text-light mt-2"
+                       style="text-decoration:none;border-radius:0;background-color: #204f8c!important; ">
                         Créer un compte
                     </a>
                 </div>

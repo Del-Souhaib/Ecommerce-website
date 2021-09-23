@@ -1,24 +1,23 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="d-flex align-items-center justify-content-between">
-            <h2 class="font-semibold text-xl mb-0 text-gray leading-tight align-items-center"
-                style="font-weight:600;color: #204f8c">
-                {{ __('Modifier produit') }}
-            </h2>
-            <a href="{{url('/admin/products')}}" class="btn ps-5 pe-5 text-light"
-               style="background-color: #204f8c;border-radius: 0">
-                Retour
-            </a>
-        </div>
-    </x-slot>
     <style>
 
     </style>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+    <div class="container-fluid">
+        <div class="row">
+            <x-admin.sidenavbar/>
             <form method="post" action="{{'/admin/modifyproduct/'.$product->id}}" enctype="multipart/form-data"
-                  class="container-fluid ">
+                  class="container-fluid col-10 my-5">
                 @csrf
+                <div class="d-flex align-items-center justify-content-between">
+                    <h2 class="font-semibold text-xl mb-0 text-gray leading-tight align-items-center"
+                        style="font-size:30px;color: #204f8c">
+                        {{ __('Modifier produit') }}
+                    </h2>
+                    <a href="{{url('/admin/products')}}" class="btn ps-5 pe-5 text-light"
+                       style="background-color: #204f8c;border-radius: 0">
+                        Retour
+                    </a>
+                </div>
                 <div class="row align-items-center">
                     <div class="col-4 col-sm-4 col-md-2 col-lg-1 mt-4">
                         <x-label for="title" :value="__('Titre')"/>

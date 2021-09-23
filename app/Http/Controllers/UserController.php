@@ -8,6 +8,7 @@ use App\Models\Child_category;
 use App\Models\Message;
 use App\Models\Pane;
 use App\Models\Product;
+use App\Models\Statics_category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -99,6 +100,7 @@ class UserController extends Controller
 
     public function childCategory($id)
     {
+        Statics_category::create(['child_category'=>$id]);
         $products = Product::where('child_category_id', $id)->with('images')->get()->all();
         $title = Child_category::where('id', $id)->first();
         if ($title) {

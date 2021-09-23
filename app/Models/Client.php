@@ -14,7 +14,7 @@ class Client extends Authenticatable implements MustVerifyEmail
 
 {
     use HasFactory,Notifiable ;
-    public $fillable=['id','user_name','email','telephone','city','adresse','password','created_at'];
+    public $fillable=['id','user_name','email','telephone','city','zip','adresse','password','created_at'];
     public $hidden=['password'];
     public function sendPasswordResetNotification($token)
     {

@@ -13,4 +13,8 @@ class Child_category extends Model
     public function Category(){
         return $this->belongsTo(Category::class,'category_id');
     }
+    public function statics(){
+        return $this->belongsTo(Statics_category::class,'id','child_category');
+
+    }
 }

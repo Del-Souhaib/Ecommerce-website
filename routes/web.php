@@ -58,13 +58,16 @@ Route::post('/deletepanier', [\App\Http\Controllers\ClientController::class, 'de
 Route::post('/changepanequantity', [\App\Http\Controllers\ClientController::class, 'changepanequantity']);
 
 /**Commande**/
-Route::post('/Commande', [\App\Http\Controllers\ClientController::class, 'Commande']);
+Route::get('/Commande', [\App\Http\Controllers\ClientController::class, 'Commande']);
+Route::post('/Commandeclick', [\App\Http\Controllers\ClientController::class, 'Commandeclick']);
+Route::post('/validationclick', [\App\Http\Controllers\ClientController::class, 'validationclick']);
+Route::get('/pay', [\App\Http\Controllers\ClientController::class, 'pay']);
 Route::get('/mescommande', [\App\Http\Controllers\ClientController::class, 'mescommande']);
+Route::get('/test{id}', [\App\Http\Controllers\ClientController::class, 'test']);
+
 /**admin**/
 Route::prefix('admin')->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->middleware(['auth'])->name('dashboard');
+    Route::get('/dashboard', [\App\Http\Controllers\AdminController::class,'dashboard'])->name('dashboard');
 
     Route::get('/', function () {
         return redirect('admin/dashboard');
@@ -72,19 +75,26 @@ Route::prefix('admin')->group(function () {
 
     /**commande**/
     Route::get('/commades', [\App\Http\Controllers\AdminController::class, 'commades']);
+    Route::get('/ajaxcommades', [\App\Http\Controllers\AdminController::class, 'ajaxcommades']);
+    Route::get('/getDetailsajaxcommades/{id}', [\App\Http\Controllers\AdminController::class, 'getDetailsajaxcommades']);
+
     Route::post('/updatecommandestatut', [\App\Http\Controllers\AdminController::class, 'updatecommandestatut']);
 
     Route::get('/categories', [\App\Http\Controllers\AdminController::class, 'categories']);
+    Route::get('/ajaxcategories', [\App\Http\Controllers\AdminController::class, 'ajaxcategories']);
     Route::get('/addcategorypage', [\App\Http\Controllers\AdminController::class, 'addcategorypage']);
     Route::post('/addcategory', [\App\Http\Controllers\AdminController::class, 'addcategory']);
     Route::post('/deletecategory', [\App\Http\Controllers\AdminController::class, 'deletecategory']);
 
     Route::get('/souscategories', [\App\Http\Controllers\AdminController::class, 'souscategories']);
+    Route::get('/ajaxsouscategories', [\App\Http\Controllers\AdminController::class, 'ajaxsouscategories']);
     Route::get('/addsouscategorypage', [\App\Http\Controllers\AdminController::class, 'addsouscategoriespage']);
     Route::post('/addsouscategories', [\App\Http\Controllers\AdminController::class, 'addsouscategories']);
     Route::post('/deletesouscategories', [\App\Http\Controllers\AdminController::class, 'deletesouscategories']);
 
     Route::get('/messages', [\App\Http\Controllers\AdminController::class, 'messages']);
+    Route::get('/ajaxmessages', [\App\Http\Controllers\AdminController::class, 'ajaxmessages']);
+
     Route::post('/deletemessage', [\App\Http\Controllers\AdminController::class, 'deletemessage']);
     Route::post('/downlaodmessagefile', [\App\Http\Controllers\AdminController::class, 'downlaodmessagefile']);
 
@@ -93,6 +103,7 @@ Route::prefix('admin')->group(function () {
 
 
     Route::get('/companies', [\App\Http\Controllers\AdminController::class, 'companies']);
+    Route::get('/ajaxcompanies', [\App\Http\Controllers\AdminController::class, 'ajaxcompanies']);
     Route::get('/addcompanypage', [\App\Http\Controllers\AdminController::class, 'addcompanypage']);
     Route::post('/addcompanies', [\App\Http\Controllers\AdminController::class, 'addcompanies']);
     Route::get('/modifycompanypage/{id}', [\App\Http\Controllers\AdminController::class, 'modifycompanypage']);
@@ -102,7 +113,8 @@ Route::prefix('admin')->group(function () {
     Route::get('/profile', [\App\Http\Controllers\AdminController::class, 'profile']);
     Route::post('/updateprofile', [\App\Http\Controllers\AdminController::class, 'updateprofile']);
 
-    Route::get('/products', [\App\Http\Controllers\AdminController::class, 'products']);
+    Route::get('/products', [\App\Http\Controllers\AdminController::class, 'products']);    Route::get('/products', [\App\Http\Controllers\AdminController::class, 'products']);
+    Route::get('/ajaxproducts', [\App\Http\Controllers\AdminController::class, 'ajaxproducts']);
     Route::get('/addproductpage', [\App\Http\Controllers\AdminController::class, 'addproductpage']);
     Route::post('/addproduct', [\App\Http\Controllers\AdminController::class, 'addproduct']);
     Route::get('/modifyproductpage/{id}', [\App\Http\Controllers\AdminController::class, 'modifyproductpage']);
@@ -111,6 +123,7 @@ Route::prefix('admin')->group(function () {
     Route::post('/filtercategory', [\App\Http\Controllers\AdminController::class, 'filtercategory']);
 
     Route::get('/bestproducts', [\App\Http\Controllers\AdminController::class, 'bestproducts']);
+    Route::get('/ajaxbestproducts', [\App\Http\Controllers\AdminController::class, 'ajaxbestproducts']);
     Route::get('/addbestproductpage', [\App\Http\Controllers\AdminController::class, 'addbestproductpage']);
     Route::post('/addbestproduct', [\App\Http\Controllers\AdminController::class, 'addbestproduct']);
     Route::post('/deletebestproduct', [\App\Http\Controllers\AdminController::class, 'deletebestproduct']);

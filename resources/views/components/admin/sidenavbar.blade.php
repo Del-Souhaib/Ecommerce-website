@@ -1,4 +1,13 @@
-<div class="col-2" style="background-color: #204f8c">
+<style>
+    .adminsidenavbar a{
+        text-decoration: none;
+    }
+</style>
+<div class="col-2 adminsidenavbar" style="background-color: #204f8c">
+    <a href="{{url('admin/dashboard')}}" class="list-item col-sm-6 col-md-4 col-lg-3 mt-3 d-flex align-items-center pt-3 pb-3 ">
+        <img src="{{asset('media/icons/home.svg')}}" class="" style="height: 20px" >
+        <p class="mb-0 text-center ms-4" style="color: white">Home</p>
+    </a>
     <a href="{{url('admin/clients')}}" class="list-item col-sm-6 col-md-4 col-lg-3 mt-3 d-flex align-items-center pt-3 pb-3 ">
         <img src="{{asset('media/icons/users.svg')}}" class="" style="height: 20px" >
         <p class="mb-0 text-center ms-4" style="color: white">Clients</p>

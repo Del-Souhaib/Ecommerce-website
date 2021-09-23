@@ -48,7 +48,7 @@
                     </a>
                     <div class="ms-5 d-flex flex-wrap justify-content-between" style="width: 100%">
                         <a href="{{url('product/'.$pane->product_id)}}" style="text-decoration: none;">
-                            <p class="mb-1" style="color: #204f8c;font-size: 20px">{{$pane->product->title}}</p>
+                            <p class="mb-1" style="color: #204f8c;font-size: 20px">{{substr($pane->product->title,0,30)}}</p>
                             <p style="color: #f69c14;">{{$pane->product->price}} MAD</p>
                             @if($pane->color)
                                 <div class="d-flex align-items-center" style="color: #6c6767">
@@ -73,7 +73,7 @@
                 </div>
             @endforeach
         </div>
-        <form method="post" action="{{url('/Commande')}}" class="col-12 col-lg-3" style="text-decoration: none">
+        <form method="get" action="{{url('/Commande')}}" class="col-12 col-lg-3" style="text-decoration: none">
             @csrf
             <div class="p-3" style="border:solid 1px #dedbdb;color: #6c6767">
                 <div class="d-flex justify-content-between align-items-center">

@@ -1,23 +1,22 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="d-flex align-items-center justify-content-between">
-            <h2 class="font-semibold text-xl mb-0 text-gray leading-tight align-items-center"
-                style="font-weight:600;color: #204f8c">
-                {{ __('Sous Categories') }}
-            </h2>
-            <a href="{{url('admin/addsouscategorypage')}}" class="btn ps-5 pe-5 text-light"
-               style="background-color: #204f8c;border-radius: 0">
-                Ajouter
-            </a>
-        </div>
-    </x-slot>
     <style>
 
     </style>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="container-fluid ">
+    <div class="container-fluid">
+        <div class="row">
+            <x-admin.sidenavbar/>
+            <div class="col-10 my-5">
                 <div class="row">
+                    <div class="d-flex align-items-center justify-content-between mb-4">
+                        <h2 class="font-semibold text-xl mb-0 text-gray leading-tight align-items-center"
+                            style="font-size:30px;font-weight:600;color: #204f8c">
+                            {{ __('Sous Categories') }}
+                        </h2>
+                        <a href="{{url('admin/addsouscategorypage')}}" class="btn ps-5 pe-5 text-light"
+                           style="background-color: #204f8c;border-radius: 0">
+                            Ajouter
+                        </a>
+                    </div>
                     @if(session()->get('statut')=='added')
                         <p class="alert text-light" style="background-color: #204f8c;border-radius: 0">
                             Sous Categorie ajouté
@@ -27,27 +26,28 @@
                             Sous Categorie supprimé
                         </p>
                     @endif
-                    <table class="table ">
+                    <table class="table table-bordered" id="childcategories-table">
                         <thead>
                         <tr>
+                            <th scope="col">Id</th>
                             <th scope="col">Nom</th>
                             <th scope="col">Categorie</th>
                             <th scope="col">Created at</th>
                             <th scope="col">Action</th>
                         </tr>
                         </thead>
-                        <tbody>
-                        @foreach($childcategories as $childcategorie)
-                            <tr>
-                                <td scope="row">{{$childcategorie->name}}</td>
-                                <td scope="row">{{$childcategorie->Category->name}}</td>
-                                <td>{{\Carbon\Carbon::createFromFormat('Y-m-d h:i:s',$childcategorie->created_at)->format('d M Y')}}</td>
-                                <td>
-                                    <p class="btn btn-danger delete" childcategoriid="{{$childcategorie->id}}" style="border-radius: 0">Supprimer</p>
-                                </td>
-                            </tr>
-                        @endforeach
-                        </tbody>
+{{--                        <tbody>--}}
+{{--                        @foreach($childcategories as $childcategorie)--}}
+{{--                            <tr>--}}
+{{--                                <td scope="row">{{$childcategorie->name}}</td>--}}
+{{--                                <td scope="row">{{$childcategorie->Category->name}}</td>--}}
+{{--                                <td>{{\Carbon\Carbon::createFromFormat('Y-m-d h:i:s',$childcategorie->created_at)->format('d M Y')}}</td>--}}
+{{--                                <td>--}}
+{{--                                    <p class="btn btn-danger delete" childcategoriid="{{$childcategorie->id}}" style="border-radius: 0">Supprimer</p>--}}
+{{--                                </td>--}}
+{{--                            </tr>--}}
+{{--                        @endforeach--}}
+{{--                        </tbody>--}}
                     </table>
                 </div>
             </div>
@@ -77,10 +77,23 @@
     </div>
     <script>
         $(document).ready(function (){
-            $('.delete').click(function (){
+            $(document).on('click','.delete',function (){
                 $('#modalchildcategoriid').val($(this).attr('childcategoriid'))
                 $('#deleteconfirmation').modal('show')
             })
+            $('#childcategories-table').DataTable({
+                processing: true,
+                serverSide: true,
+                ajax: '{{url('admin/ajaxsouscategories')}}',
+                columns: [
+                    {data: 'id', name: 'id'},
+                    {data: 'name', name: 'name'},
+                    {data: 'category', name: 'category'},
+                    {data: 'created_at', name: 'created_at'},
+                    {data: 'action', name: 'action'},
+                ]
+            });
+
         })
     </script>
 </x-app-layout>

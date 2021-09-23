@@ -1,28 +1,27 @@
 <x-app-layout>
-    <x-slot name="header">
-        <div class="d-flex align-items-center justify-content-between">
-            <h2 class="font-semibold text-xl mb-0 text-gray leading-tight align-items-center"
-                style="font-weight:600;color: #204f8c">
-                {{ __('Profile') }}
-            </h2>
-        </div>
-    </x-slot>
     <style>
 
     </style>
-    <div class="py-12">
-        <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <form method="post" action="{{url('/admin/updateprofile')}}" class="container-fluid ">
+    <div class="container-fluid">
+        <div class="row">
+            <x-admin.sidenavbar/>
+            <form method="post" action="{{url('/admin/updateprofile')}}" class="container-fluid col-10 my-5">
                 @csrf
+                <div class="d-flex align-items-center justify-content-between mb-5">
+                    <h2 class="font-semibold text-xl mb-0 text-gray leading-tight align-items-center"
+                        style="font-size:30px;font-weight:600;color: #204f8c">
+                        {{ __('Profile') }}
+                    </h2>
+                </div>
                 <div class="row">
                     @if(session()->get('statut')=='updated')
                         <p class="alert  text-light" style="background-color: #204f8c;border-radius: 0">
                             Votre compte a ete mise à jour
                         </p>
                     @endif
-                    <div class="col-12">
-                        <p style="color: #204f8c;font-size: 22px;font-weight: 550">Compte information</p>
-                    </div>
+{{--                    <div class="col-12">--}}
+{{--                        <p style="color: #204f8c;font-size: 22px;font-weight: 550">Compte information</p>--}}
+{{--                    </div>--}}
                 </div>
                 <div class="row align-items-center">
                     <div class="col-4 col-sm-4 col-md-2 mt-3">
@@ -68,8 +67,8 @@
                     </div>
                 </div>
                 <div class="col-4 col-sm-4 col-md-2 mt-4">
-                    <x-button class="me-2 ms-2" style="background-color: #204f8c;border-radius:0 ">Enregistrer
-                    </x-button>
+                    <button class="me-2 ms-2 btn mx-5 text-light" style="background-color: #204f8c;border-radius:0 ">Enregistrer
+                    </button>
                 </div>
                 <div class="col-12 mt-4">
                     @if ($errors->any())

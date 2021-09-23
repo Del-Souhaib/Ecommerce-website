@@ -12,7 +12,7 @@
     <div class="container-fluid">
         <div class="row">
             <x-admin.sidenavbar/>
-            <div class="col-10 mt-5">
+            <div class="col-10 mt-5 mb-5">
                <h2 class="mb-4 mt-1" style="color: #337ab7">Clients</h2>
                 <table class="table table-bordered" id="users-table">
                     <thead>

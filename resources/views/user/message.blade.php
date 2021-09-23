@@ -98,7 +98,7 @@
 
                     </textarea>
                 </div>
-                <div class="col-12 mt-3">
+                <div class="col-12 mt-5">
                     <button class="btn text-light pe-5 ps-5"
                             style="border-radius:0;background-color: #204f8c!important;">Envoyer
                     </button>

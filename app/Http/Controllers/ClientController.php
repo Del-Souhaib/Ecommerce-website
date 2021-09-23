@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Commande;
 use App\Models\Commandeitem;
 use App\Models\Company;
@@ -84,34 +85,110 @@ class ClientController extends Controller
     /***Commande**/
     public function Commande(Request $req)
     {
-        $commande = Commande::create([
-            'client_id' => Auth::guard('client')->id(),
-            'created_at' => date('Y-m-d h:i:s')
+        $user = Client::where('id', Auth::guard('client')->id())->first();
+        return view('client.validation', compact("user"));
+    }
+
+    public function Commandeclick(Request $req)
+    {
+        $validated = $req->validate([
+            'name' => 'required|min:3|max:100',
+            'email' => 'required|min:3|max:100',
+            'telephone' => 'required|min:3|max:100',
+            'adresse' => 'required|min:3|max:100',
+            'city' => 'required|min:3|max:100',
+            'zip' => 'Numeric|min:3|',
         ]);
-        $total=0;
-        $panes = Pane::with('product')->where('client_id', Auth::guard('client')->id())->get()->all();
-        foreach ($panes as $pane) {
-            Commandeitem::create([
-                'commade_id' => $commande->id,
-                'pane_id' => $pane->id,
-                'created_at' => date('Y-m-d h:i:s')
-            ]);
-            $total+=$pane->product->price*$pane->quantity;
+
+        $user = Client::where('id', Auth::guard('client')->id())->update([
+            'user_name' => $req->name,
+            'email' => $req->email,
+            'telephone' => $req->telephone,
+            'adresse' => $req->adresse,
+            'city' => $req->city,
+            'zip' => $req->zip,
+        ]);
+        return redirect('/pay');
+    }
+
+
+    public function pay(Request $request)
+    {
+        $url = "https://eu-test.oppwa.com/v1/checkouts";
+        $data = "entityId=8a8294174b7ecb28014b9699220015ca" .
+            "&amount=92.00" .
+            "&currency=EUR" .
+            "&paymentType=DB";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization:Bearer OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg='));
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_POSTFIELDS, $data);
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);// this should be set to true in production
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $responseData = curl_exec($ch);
+        if (curl_errno($ch)) {
+            return curl_error($ch);
         }
-        $commande->total=$total;
-        $commande->save();
-        return redirect()->back()->with('statut', 'commandepassed');
+        curl_close($ch);
+         $responseData=json_decode($responseData,true);
+
+        return view('client.payement',compact('responseData'));
+//        $commande = Commande::create([
+//            'client_id' => Auth::guard('client')->id(),
+//            'created_at' => date('Y-m-d h:i:s')
+//        ]);
+//        $total = 0;
+//        $panes = Pane::with('product')->where('client_id', Auth::guard('client')->id())->get()->all();
+//        foreach ($panes as $pane) {
+//            Commandeitem::create([
+//                'commade_id' => $commande->id,
+//                'pane_id' => $pane->id,
+//                'created_at' => date('Y-m-d h:i:s')
+//            ]);
+//            $total += $pane->product->price * $pane->quantity;
+//        }
+//        $commande->total = $total;
+//        $commande->save();
+//        return redirect()->back()->with('statut', 'commandepassed');
+    }
+    function test($id) {
+        $url = "https://eu-test.oppwa.com/v1/checkouts/".$id."/payment";
+        $url .= "?entityId=8a8294174b7ecb28014b9699220015ca";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, array(
+            'Authorization:Bearer OGE4Mjk0MTc0YjdlY2IyODAxNGI5Njk5MjIwMDE1Y2N8c3k2S0pzVDg='));
+        curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
+        curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);// this should be set to true in production
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+         $responseData = curl_exec($ch);
+        if(curl_errno($ch)) {
+            return curl_error($ch);
+        }
+        curl_close($ch);
+          $responseData= json_decode($responseData,true);
+        if($responseData['result']['code']=='000.100.110'){
+            return redirect('/mescommande')->with('etat','success');
+        }
+        else{
+            return $responseData;
+            return redirect('/mescommande')->with('etat','failed');
+        }
     }
 
     public function mescommande()
     {
-        $commandes= Commande::with(['client','items'=>function($q){
-            $q->with(['pane'=>function($q2){
-                $q2->with(['color','product'=>function($q3){
+        $commandes = Commande::with(['client', 'items' => function ($q) {
+            $q->with(['pane' => function ($q2) {
+                $q2->with(['color', 'product' => function ($q3) {
                     $q3->with('images');
                 }]);
             }]);
-        }])->where('client_id',Auth::guard('client')->id())->orderBy('id','desc')->get()->all();
-        return view('client.Commande',compact('commandes'));
+        }])->where('client_id', Auth::guard('client')->id())->orderBy('id', 'desc')->get()->all();
+        return view('client.Commande', compact('commandes'));
     }
 }

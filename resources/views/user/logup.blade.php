@@ -26,26 +26,30 @@
                     <label for="name" style="font-weight: 600">Nom</label>
                 </div>
                 <div class="col-8 col-sm-8 col-md-4 mt-3">
-                    <input type="text" name="name" value="{{old('name')}}" id="name" class="form-control" required style="border-radius: 0">
+                    <input type="text" name="name" value="{{old('name')}}" id="name" class="form-control" required
+                           style="border-radius: 0">
                 </div>
                 <div class="col-4 col-sm-4 col-md-2 mt-3">
                     <label for="lastname" style="font-weight: 600">Prenom</label>
                 </div>
                 <div class="col-8 col-sm-8 col-md-4 mt-3">
-                    <input type="text" name="lastname" value="{{old('lastname')}}" id="lastname" class="form-control" required
+                    <input type="text" name="lastname" value="{{old('lastname')}}" id="lastname" class="form-control"
+                           required
                            style="border-radius: 0">
                 </div>
                 <div class="col-4 col-sm-4 col-md-2 mt-3">
                     <label for="email" style="font-weight: 600">Email</label>
                 </div>
                 <div class="col-8 col-sm-8 col-md-4 mt-3">
-                    <input type="email" name="email" value="{{old('email')}}" id="name" required class="form-control" style="border-radius: 0">
+                    <input type="email" name="email" value="{{old('email')}}" id="name" required class="form-control"
+                           style="border-radius: 0">
                 </div>
                 <div class="col-4 col-sm-4 col-md-2 mt-3">
                     <label for="telephone" style="font-weight: 600">Telephone</label>
                 </div>
                 <div class="col-8 col-sm-8 col-md-4 mt-3">
-                    <input type="tel" name="telephone" value="{{old('telephone')}}" id="telephone" required class="form-control"
+                    <input type="tel" name="telephone" value="{{old('telephone')}}" id="telephone" required
+                           class="form-control"
                            style="border-radius: 0">
                 </div>
             </div>
@@ -80,8 +84,23 @@
                         Enregistrer
                     </button>
                 </div>
-
             </div>
+            <div class="row">
+                <div class="col-4 col-sm-4 col-md-2"></div>
+                <div class="col-8 col-sm-8 col-md-4 mb-5 d-flex ">
+                    <a href="{{url('auth/redirect/facebook')}}" class="btn d-flex align-items-center mt-5 me-2"
+                       style="background-color: #0852a1;width: 150px;border-radius: 0">
+                        <img src="{{asset('media/icons/facebook.svg')}}" style="height: 30px"/>
+                        <span class="text-light">Facebook</span>
+                    </a>
+                    <a href="{{url('auth/redirect/google')}}" class="btn d-flex align-items-center mt-5 ms-2"
+                       style="background-color: #f69c14;width: 150px;border-radius: 0">
+                        <img src="{{asset('media/icons/google.svg')}}" class="me-1" style="height: 30px"/>
+                        <span class="text-light">Google</span>
+                    </a>
+                </div>
+            </div>
+
             <div class="row mt-3">
                 <div class="col-4">
 

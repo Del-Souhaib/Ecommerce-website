@@ -8,23 +8,33 @@ tr.dt-hasChild td.dt-control {
 }
 
 table.dataTable thead .sorting {
-    background-image: url("../images/sort_both.png");
+    background-image: url("../media/icons/sort_both.png")  !important;
+    background: no-repeat center right;
+    cursor: pointer;
 }
 
 table.dataTable thead .sorting_asc {
-    background-image: url("../images/sort_asc.png") !important;
+    background-image: url("../media/icons/sort_asc.png")  !important;
+    background: no-repeat center right;
+    cursor: pointer;
 }
 
 table.dataTable thead .sorting_desc {
-    background-image: url("../images/sort_desc.png") !important;
+    background-image: url("../media/icons/sort_desc.png")  !important;
+    background: no-repeat center right;
+    cursor: pointer;
 }
 
 table.dataTable thead .sorting_asc_disabled {
-    background-image: url("../images/sort_asc_disabled.png");
+    background-image: url("../media/icons/sort_asc_disabled.png")  !important;
+    background: no-repeat center right;
+    cursor: pointer;
 }
 
 table.dataTable thead .sorting_desc_disabled {
-    background-image: url("../images/sort_desc_disabled.png");
+    background-image: url("../media/icons/sort_desc_disabled.png")  !important;
+    background: no-repeat center right;
+    cursor: pointer;
 }
 
 
@@ -93,9 +103,14 @@ table.dataTable thead .sorting_desc_disabled {
     color: #337ab7 !important;
     border: solid 1px #337ab7 !important;
     /*border-width:1px 1px 1px 1px;*/
+    cursor: pointer !important;
 
 }
+.dataTables_paginate .previous:hover{
+    color: white;
+    background-color: #337ab7 !important;
 
+}
 .dataTables_wrapper .dataTables_paginate .paginate_button.current, .dataTables_wrapper .dataTables_paginate .paginate_button.current:hover {
     z-index: 2;
     color: #fff !important;
@@ -105,13 +120,17 @@ table.dataTable thead .sorting_desc_disabled {
     border: solid 1px #337ab7;
 }
 .dataTables_wrapper .dataTables_paginate .paginate_button.disabled, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:hover, .dataTables_wrapper .dataTables_paginate .paginate_button.disabled:active {
-    cursor: default;
-    /*color: #204f8c !important;*/
-    border: 1px solid transparent;
+    cursor: pointer;
+    border: 1px solid #337ab7 !important;
     background: transparent;
     box-shadow: none;
+    color: #337ab7;
 }
+.paginate_button.disabled:hover{
+    background-color: #337ab7 !important;
+    color: white !important;
 
+}
 .dataTables_wrapper .dataTables_paginate .paginate_button:hover {
     color: white !important;
     background-color: #316cb3;

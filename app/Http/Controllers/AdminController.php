@@ -8,16 +8,21 @@ use App\Models\Child_category;
 use App\Models\Client;
 use App\Models\Color;
 use App\Models\Commande;
+use App\Models\Commandeitem;
 use App\Models\Company;
 use App\Models\Message;
 use App\Models\Product;
 use App\Models\Products_image;
+use App\Models\Statics_category;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 use Psy\Util\Json;
+use Symfony\Component\VarDumper\Cloner\Data;
 use Yajra\Datatables\Datatables;
 
 
@@ -28,15 +33,92 @@ class AdminController extends Controller
         return $this->middleware(['auth']);
     }
 
+    public function dashboard()
+    {
+//        return User::groupBy('created_at')->get();
+        $categories = Statics_category::with('category')->select('child_category')->selectRaw('count(id) as nb')->groupBy('child_category')->get();
+        $categories = Child_category::with(['statics' => function ($q) {
+            return $q->select('child_category')->selectRaw('count(id) as nb')->groupBy('child_category')->get();
+        }])->get();
+        return $users = User::select('created_at')->selectRaw('count(id) as nb ')->groupBy()->get();
+        return view('admin.admin.dashboard', compact('categories', 'users'));
+
+    }
+
     /**commandes**/
     public function commades()
+    {
+        return view('admin.commandes.commandes');
+    }
+
+    public function ajaxcommades()
     {
         $commendes = Commande::with(['client', 'items' => function ($q) {
             $q->with(['pane' => function ($q2) {
                 $q2->with(['product', 'color']);
             }]);
         }])->orderBy('id', 'desc')->get()->all();
-        return view('admin.commandes.commandes', compact('commendes'));
+        return Datatables::of($commendes)->editColumn('created_at', function ($q) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $q->created_at)->format('d M Y');
+        })->editColumn('total', function ($q) {
+            return $q->total . ' Dh';
+        })->addColumn('statut2', function ($commende) {
+            $html = '';
+            $html .= '<select class="form-select commandestatut" commandeid="' . $commende->id . '"
+                                                            style="font-size: 14px;border-radius: 0">
+                                                        <option value="En confirmation"';
+            if ($commende->statut == 'En confirmation') {
+                $html .= 'selected="selected"';
+            }
+            $html .= '>En confirmation</option> <option value="En livraison"';
+            if ($commende->statut == 'En livraison') {
+                $html .= 'selected = "selected"';
+            }
+            $html .= '>En livraison</option><option value="Livré"';
+            if ($commende->statut == 'Livré') {
+                $html .= 'selected = "selected"';
+            }
+            $html .= '>Livré</option></select>';
+            return $html;
+
+        })->addColumn('products', function ($user) {
+            return url('eloquent/details-data/' . $user->id);
+        })->rawColumns(['statut2'])->make(true);
+
+    }
+
+    public function getDetailsajaxcommades($id)
+    {
+
+//        $commandes = Commandeitem::find($id);
+        $commandes = Commandeitem::with(['pane' => function ($q2) {
+            $q2->with(['color', 'product' => function ($q) {
+                $q->with(['childcategory', 'company', 'images']);
+            }]);
+        }])->where('commade_id', $id)->
+        get();
+
+        return Datatables::of($commandes)
+            ->addColumn('images', function ($q) {
+                $images = '';
+                foreach ($q->pane->product->images as $image) {
+                    $images .= '<img src="' . asset('storage/products/' . $image->name) . '" class="img-fluid" style="width:200px"/>';
+                }
+                return $images;
+            })->addColumn('panecolor', function ($q) {
+                if (isset($q->pane->color->name)) {
+                    $color = '';
+                    $color .= '<div class="me-1" style="border-radius:100px;height: 25px;width: 25px;background-color:' . $q->pane->color->name . ';"></div>';
+                    return $color;
+                } else {
+                    return '';
+                }
+
+            })
+            ->editColumn('pane.product.price', function ($q) {
+                return $q->pane->product->price . ' Dh';
+            })->rawColumns(['images', 'panecolor'])
+            ->make(true);
     }
 
     public function updatecommandestatut(Request $req)
@@ -49,8 +131,17 @@ class AdminController extends Controller
     /********category*******/
     public function categories()
     {
-        $categories = Category::get()->all();
-        return view('admin.categories.categories', compact('categories'));
+        return view('admin.categories.categories');
+    }
+
+    public function ajaxcategories()
+    {
+        $categories = Category::get();
+        return Datatables::of($categories)->editColumn('created_at', function ($q) {
+            return $q->created_at->format('d M Y');
+        })->addColumn('action', function ($q) {
+            return '<p class="btn btn-danger delete" categoriid="' . $q->id . '" style="border-radius: 0">Supprimer</p>';
+        })->make();
     }
 
     public function addcategorypage()
@@ -78,8 +169,20 @@ class AdminController extends Controller
 
     public function souscategories()
     {
+        return view('admin.sousCategories.categories');
+    }
+
+    public function ajaxsouscategories()
+    {
         $childcategories = Child_category::with('Category')->get()->all();
-        return view('admin.sousCategories.categories', compact('childcategories'));
+        return Datatables::of($childcategories)->editColumn('created_at', function ($q) {
+            return $q->created_at->format('d M Y');
+        })->addColumn('category', function ($q) {
+            return $q->Category->name;
+        })->addColumn('action', function ($q) {
+            return '<p class="btn btn-danger delete" childcategoriid="' . $q->id . '" style="border-radius: 0">Supprimer</p>';
+        })->make();
+
     }
 
     public function addsouscategoriespage()
@@ -109,14 +212,26 @@ class AdminController extends Controller
 
     public function messages()
     {
-        $messages = Message::get()->all();
-        return view('admin.message.messages', compact('messages'));
+        return view('admin.message.messages');
+    }
+
+    public function ajaxmessages()
+    {
+        $messages = Message::get();
+        return Datatables::of($messages)->editColumn('created_at', function ($q) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $q->created_at)->format('d M Y');
+        })->addColumn('downloadfile', function ($message) {
+            return '<form method="post" action="' . url('admin/downlaodmessagefile') . '"> <input type="hidden" name="_token" value="' . csrf_token() . '"><input type="hidden" name="messagefileid" value="' . $message->file . '"/><button style="background-color: transparent;border: none"><img style="height:30px;cursor:pointer" src="' . asset('media/icons/download.svg') . '"/></button></form>';
+        })->addColumn('action', function ($message) {
+            return '<img style="height:30px;cursor:pointer" class="delete" messageid="' . $message->id . '" src="' . asset('media/icons/remove.svg') . '"/>';
+        })->rawColumns(['downloadfile', 'action'])
+            ->make(true);
     }
 
     public function downlaodmessagefile(Request $req)
     {
 
-        return Storage::download('public/messafefiles/'.$req->messagefileid);
+        return Storage::download('public/messafefiles/' . $req->messagefileid);
     }
 
     public function deletemessage(Request $req)
@@ -134,20 +249,33 @@ class AdminController extends Controller
         return view('admin.clients.clients');
 
     }
+
     public function ajaxclients()
     {
-        $users = User::select(['id','name','email','created_at'])->get();
-        return Datatables::of($users)->editColumn('created_at', function ($users) {
-            return $users->created_at->format('Y/m/d');
+        $users = User::select(['id', 'name', 'email', 'created_at'])->get();
+        return Datatables::of($users)->editColumn('created_at', function ($q) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $q->created_at)->format('d M Y');
         })->make(true);
 
     }
+
     /***company***/
 
     public function companies()
     {
-        $companies = Company::get()->all();
-        return view('admin.companies.companies', compact('companies'));
+        return view('admin.companies.companies');
+    }
+
+    public function ajaxcompanies()
+    {
+        $companies = Company::get();
+        return Datatables::of($companies)->editColumn('created_at', function ($q) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $q->created_at)->format('d M Y');
+        })->editColumn('logo', function ($q) {
+            return '<img src="' . asset('storage/companies/' . $q->logo) . '" style="height: 40px"/>';
+        })->addColumn('action', function ($company) {
+            return '<a href="' . url('admin/modifycompanypage/' . $company->id) . '" class="btn text-light mt-0"companyid="' . $company->id . '" style="border-radius: 0;background-color: #204f8c">Modifier</a><p class="btn btn-danger delete mb-0" companyid="' . $company->id . '" style="border-radius: 0">Supprimer</p>';
+        })->rawColumns(['logo', 'action'])->make(true);
     }
 
     public function addcompanypage()
@@ -230,8 +358,37 @@ class AdminController extends Controller
     /******products*******/
     public function products()
     {
-        $products = Product::with(['childcategory', 'company', 'images', 'colors'])->get()->all();
-        return view('admin.products.products', compact('products'));
+        return view('admin.products.products');
+    }
+
+    public function ajaxproducts()
+    {
+        $products = Product::with(['childcategory', 'company', 'images', 'colors'])->get();
+        return Datatables::of($products)->editColumn('created_at', function ($q) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $q->created_at)->format('d M Y');
+        })->addColumn('images', function ($q) {
+            $images = '';
+            foreach ($q->images as $image) {
+                $images .= '<img src="' . asset('storage/products/' . $image->name) . '" class="img-fluid"/>';
+            }
+            return $images;
+        })->addColumn('colors', function ($q) {
+            $colors = '';
+            foreach ($q->colors as $color) {
+                $colors .= '<div class="me-1" style="border-radius:100px;height: 25px;width: 25px;background-color:' . $color->name . ';"></div>';
+            }
+            return $colors;
+        })->addColumn('action', function ($product) {
+            return ' <a href="' . url('admin/modifyproductpage/' . $product->id) . '" class="btn btn-sm text-light update" productid="' . $product->id . '"
+                                   style="background-color: #204f8c;border-radius: 0">Modifier</a> <button class="btn btn-sm btn-danger delete" productid="' . $product->id . '" style="border-radius: 0">Supprimer</button>';
+        })->editColumn('child_category_id', function ($product) {
+            return $product->childcategory->name;
+        })->editColumn('company_id', function ($product) {
+            return $product->company->name;
+        })->editColumn('price', function ($product) {
+            return $product->price . ' Dh';
+        })->rawColumns(['images', 'colors', 'action', 'presentation', 'specification'])->make(true);
+
     }
 
     public function addproductpage()
@@ -375,13 +532,70 @@ class AdminController extends Controller
 
     public function bestproducts()
     {
-        $bestproducts = Best_product::with('product')->get()->all();
-        return view('admin.bestProducts.bestproducts', compact('bestproducts'));
+        return view('admin.bestProducts.bestproducts');
+    }
+
+    public function ajaxbestproducts()
+    {
+//        $products = Product::with(['childcategory', 'company', 'images', 'colors'])->get();
+//        return Datatables::of($products)->editColumn('created_at', function ($q) {
+//            return Carbon::createFromFormat('Y-m-d H:i:s', $q->created_at)->format('d M Y');
+//        })->addColumn('images',function ($q){
+//            $images='';
+//            foreach ($q->images as $image){
+//                $images.='<img src="'.asset('storage/products/'.$image->name).'" class="img-fluid"/>';
+//            }
+//            return $images;
+//        })->addColumn('colors',function ($q){
+//            $colors='';
+//            foreach ($q->colors as $color){
+//                $colors.='<div class="me-1" style="border-radius:100px;height: 25px;width: 25px;background-color:'.$color->name.';"></div>';
+//            }
+//            return $colors;
+//        })->addColumn('action', function ($product) {
+//            return ' <a href="'.url('admin/modifyproductpage/'.$product->id).'" class="btn btn-sm text-light update" productid="'.$product->id.'"
+//                                   style="background-color: #204f8c;border-radius: 0">Modifier</a> <button class="btn btn-sm btn-danger delete" productid="'.$product->id.'" style="border-radius: 0">Supprimer</button>';
+//        })->editColumn('child_category_id', function ($product) {
+//            return $product->childcategory->name;
+//        })->editColumn('company_id', function ($product) {
+//            return $product->company->name;
+//        })->editColumn('price', function ($product) {
+//            return $product->price.' Dh';
+//        })->rawColumns(['images','colors','action','presentation','specification'])->make(true);
+
+
+        $products = Best_product::with(['product' => function ($q) {
+            $q->with(['childcategory', 'company', 'images', 'colors']);
+        }])->get();
+        return Datatables::of($products)->editColumn('product.created_at', function ($q) {
+            return Carbon::createFromFormat('Y-m-d H:i:s', $q->created_at)->format('d M Y');
+        })->addColumn('images', function ($q) {
+            $images = '';
+            foreach ($q->product->images as $image) {
+                $images .= '<img src="' . asset('storage/products/' . $image->name) . '" class="img-fluid"/>';
+            }
+            return $images;
+        })->addColumn('colors', function ($q) {
+            $colors = '';
+            foreach ($q->product->colors as $color) {
+                $colors .= '<div class="me-1" style="border-radius:100px;height: 25px;width: 25px;background-color:' . $color->name . ';"></div>';
+            }
+            return $colors;
+        })->addColumn('action', function ($product) {
+            return '  <button class="btn btn-sm btn-danger delete" style="border-radius:0" bestproductid="' . $product->id . '">Supprimer</button>';
+        })->editColumn('product.child_category_id', function ($product) {
+            return $product->product->childcategory->name;
+        })->editColumn('product.company_id', function ($product) {
+            return $product->product->company->name;
+        })->editColumn('product.price', function ($product) {
+            return $product->product->price . ' Dh';
+        })->rawColumns(['images', 'colors', 'action', 'product.presentation', 'product.specification'])->make(true);
+
     }
 
     public function addbestproductpage()
     {
-         return $products = Product::get()->all()->whereDoesntHave('topproducts');
+        $products = Product::whereDoesntHave('topproducts')->get();
         return view('admin.bestProducts.add', compact('products'));
     }
 

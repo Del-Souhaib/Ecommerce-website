@@ -22,13 +22,14 @@
 
 
 {{--<script src="https://cdn.ckeditor.com/ckeditor5/28.0.0/classic/ckeditor.js"></script>--}}
-<script src="{{asset('ckeditor5/ckeditor.js')}}"></script>
+{{--<script src="{{asset('ckeditor5/ckeditor.js')}}"></script>--}}
+<script src="https://cdn.ckeditor.com/ckeditor5/29.2.0/classic/ckeditor.js"></script>
 
 {{--yajra--}}
 <link rel="stylesheet" type="text/css" href="{{asset('yajra/yajra.css')}}">
 
 <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.11.2/js/jquery.dataTables.js"></script>
-
+<script src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.7/handlebars.js" integrity="sha512-c7SfJeKRl8g7wgL+zMGX78faYVGp+NZVQ587mRLrqeLySX/qHCQOKw/iZ5Pp64DaPjvedixWC/Fe73upnhBaRA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <style>
     * {
         font-family: 'Lato', sans-serif;    }

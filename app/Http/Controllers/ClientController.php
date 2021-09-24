@@ -114,9 +114,15 @@ class ClientController extends Controller
 
     public function pay(Request $request)
     {
+        $total = 0;
+        $panes = Pane::with('product')->where('client_id', Auth::guard('client')->id())->get()->all();
+        foreach ($panes as $pane) {
+            $total += $pane->product->price * $pane->quantity;
+        }
+         $total =$total/10.5;
         $url = "https://eu-test.oppwa.com/v1/checkouts";
         $data = "entityId=8a8294174b7ecb28014b9699220015ca" .
-            "&amount=92.00" .
+            "&amount=".(int)$total .
             "&currency=EUR" .
             "&paymentType=DB";
 
@@ -133,29 +139,14 @@ class ClientController extends Controller
             return curl_error($ch);
         }
         curl_close($ch);
-         $responseData=json_decode($responseData,true);
+        $responseData = json_decode($responseData, true);
 
-        return view('client.payement',compact('responseData'));
-//        $commande = Commande::create([
-//            'client_id' => Auth::guard('client')->id(),
-//            'created_at' => date('Y-m-d h:i:s')
-//        ]);
-//        $total = 0;
-//        $panes = Pane::with('product')->where('client_id', Auth::guard('client')->id())->get()->all();
-//        foreach ($panes as $pane) {
-//            Commandeitem::create([
-//                'commade_id' => $commande->id,
-//                'pane_id' => $pane->id,
-//                'created_at' => date('Y-m-d h:i:s')
-//            ]);
-//            $total += $pane->product->price * $pane->quantity;
-//        }
-//        $commande->total = $total;
-//        $commande->save();
-//        return redirect()->back()->with('statut', 'commandepassed');
+        return view('client.payement', compact('responseData'));
     }
-    function test($id) {
-        $url = "https://eu-test.oppwa.com/v1/checkouts/".$id."/payment";
+
+    function test($id)
+    {
+        $url = "https://eu-test.oppwa.com/v1/checkouts/" . $id . "/payment";
         $url .= "?entityId=8a8294174b7ecb28014b9699220015ca";
 
         $ch = curl_init();
@@ -165,18 +156,38 @@ class ClientController extends Controller
         curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);// this should be set to true in production
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-         $responseData = curl_exec($ch);
-        if(curl_errno($ch)) {
+        $responseData = curl_exec($ch);
+        if (curl_errno($ch)) {
             return curl_error($ch);
         }
         curl_close($ch);
-          $responseData= json_decode($responseData,true);
-        if($responseData['result']['code']=='000.100.110'){
-            return redirect('/mescommande')->with('etat','success');
-        }
-        else{
+        $responseData = json_decode($responseData, true);
+        if ($responseData['result']['code'] == '000.100.110') {
+            /*********/
+            $commande = Commande::create([
+                'client_id' => Auth::guard('client')->id(),
+                'created_at' => date('Y-m-d h:i:s')
+            ]);
+            $total = 0;
+             $panes = Pane::with('product')->where('client_id', Auth::guard('client')->id())->get()->all();
+            foreach ($panes as $pane) {
+                Commandeitem::create([
+                    'commade_id'=>$commande->id,
+                    'product_id' => $pane->product_id,
+                    'color_id' => $pane->color_id,
+                    'quantity' => $pane->quantity,
+                ]);
+                $total += $pane->product->price * $pane->quantity;
+                $pane->delete();
+            }
+            $commande->total = $total;
+            $commande->save();
+
+
+            return redirect('/mescommande')->with('etat', 'success');
+        } else {
             return $responseData;
-            return redirect('/mescommande')->with('etat','failed');
+            return redirect('/mescommande')->with('etat', 'failed');
         }
     }
 

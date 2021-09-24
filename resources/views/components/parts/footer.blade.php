@@ -56,52 +56,8 @@
             </div>
         </div>
         <div class="row mt-5">
-            <div class="col-12 text-center" style="font-size: 14px;color: #878686">
-                <p class="mb-1">
-                    ULTRAPC est une société spécialisée dans la vente et achat de matériel informatique au Maroc, que se
-                    soit des pc de bureau ou pc portables ou pc gamer, composants ou périphérique.
-                </p>
-                <p class="mb-1">
-                    Nous vous proposants une multitude de choix en vous aidant a trouver le pc qui convient a vos
-                    besoins.
-                </p>
-                <p class="mb-1">
-                    Ainsi, vous trouverez dans nos catégories : des pc professionnels destines aux travaux de
-                    modélisation,
-                    de simulation de rendu 3D, Programmation, et calcul scientifique.
-                </p>
-                <p class="mb-1">
-                    Des Pc Gamers standard, avancé, et ultra pc gamer pas cher conséquent de votre budget.
-                </p>
-                <p class="mb-1">
-                    Des Pc portable bureautique, professionnel, ou gamer avec les marque les plus connus sur le marché.
-                </p>
-                <p class="mb-1">
-                    Des composants pc dernier génération 8ème génération et 9ème génération ( 8700K , 9700k , 9900k ,
-                    8400 )
-                </p>
-                <p class="mb-1">
-                    – ( processeur, carte mère, carte graphique, Ram, disque dur, SSD, refroidissement et water cooling,
-                    alimentation pc, boitier pc …… )
-                </p>
-                <p class="mb-1">
-                    Des périphérique de grandes marques ( Razer, HyperX, Steelseries, Logitech, Benq, Asus, Intel, AMD,
-                    NVIDIA, Gigabyte, Msi, DXracer, ZOTAC, Palit, Cooler Master, Corsair, NZXT …..)
-                </p>
-                <p class="mb-1">
-                    Nous vous proposons aussi la catégorie nouveautés pou découvrir les toutes derniers innovation du
-                    marché
-                    de l’informatique,
-                </p>
-                <p class="mb-1">
-                    Et pour conclure en beauté, on vous invite a visiter et saisir l’opportunité des promotions offertes
-                    avec des prix très réduit
-                </p>
-                <p class="mb-1">
-                    - Livraison partout au Maroc ( Marrakech, Casablanca, Rabat, Sale, Fès, Tanger, Tétouan, Oujda,
-                    Dakhla,
-                    Agadir, El-Jadida, Essaouira …… )
-                </p>
+            <div class="col-12">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d13588.060337299205!2d-8.076099285410459!3d31.633437369460733!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xdafe94304b4754d%3A0xf91f554007bb711d!2sMassira%20II%2C%20Marrakesh!5e0!3m2!1sen!2sma!4v1632423620254!5m2!1sen!2sma"  height="450" style="border:0;width: 100%" allowfullscreen="" loading="lazy"></iframe>
             </div>
         </div>
 

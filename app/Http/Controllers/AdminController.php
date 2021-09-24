@@ -36,12 +36,19 @@ class AdminController extends Controller
     public function dashboard()
     {
 //        return User::groupBy('created_at')->get();
-        $categories = Statics_category::with('category')->select('child_category')->selectRaw('count(id) as nb')->groupBy('child_category')->get();
+        $categories = Statics_category::with('category')->select('child_category')
+            ->selectRaw('count(id) as nb')->groupBy('child_category')->get();
         $categories = Child_category::with(['statics' => function ($q) {
             return $q->select('child_category')->selectRaw('count(id) as nb')->groupBy('child_category')->get();
         }])->get();
-        return $users = User::select('created_at')->selectRaw('count(id) as nb ')->groupBy()->get();
-        return view('admin.admin.dashboard', compact('categories', 'users'));
+        $users = User::select(DB::raw('DATE_FORMAT(created_at, "%d %b %Y") as created_at2'))
+            ->selectRaw('count(id) as nb ')->groupBy('created_at2')->get();
+
+         $products=Commandeitem::with(['product'=>function($q){
+            $q->select('title','id');
+        }])->select(DB::raw('count(*) as nb,product_id'))->groupBy('product_id')->get();
+
+        return view('admin.admin.dashboard', compact('categories', 'users','products'));
 
     }
 
@@ -53,11 +60,7 @@ class AdminController extends Controller
 
     public function ajaxcommades()
     {
-        $commendes = Commande::with(['client', 'items' => function ($q) {
-            $q->with(['pane' => function ($q2) {
-                $q2->with(['product', 'color']);
-            }]);
-        }])->orderBy('id', 'desc')->get()->all();
+        $commendes = Commande::with('client')->orderBy('id', 'desc')->get()->all();
         return Datatables::of($commendes)->editColumn('created_at', function ($q) {
             return Carbon::createFromFormat('Y-m-d H:i:s', $q->created_at)->format('d M Y');
         })->editColumn('total', function ($q) {
@@ -91,24 +94,24 @@ class AdminController extends Controller
     {
 
 //        $commandes = Commandeitem::find($id);
-        $commandes = Commandeitem::with(['pane' => function ($q2) {
-            $q2->with(['color', 'product' => function ($q) {
-                $q->with(['childcategory', 'company', 'images']);
-            }]);
+        $commandes = Commandeitem::with(['color', 'product' => function ($q) {
+            $q->with(['childcategory', 'company', 'images']);
         }])->where('commade_id', $id)->
         get();
 
         return Datatables::of($commandes)
             ->addColumn('images', function ($q) {
                 $images = '';
-                foreach ($q->pane->product->images as $image) {
-                    $images .= '<img src="' . asset('storage/products/' . $image->name) . '" class="img-fluid" style="width:200px"/>';
+                foreach ($q->product->images as $key => $image) {
+                    if ($key == 1 || $key == 2) {
+                        $images .= '<img src="' . asset('storage/products/' . $image->name) . '" class="img-fluid" style="width:200px"/>';
+                    }
                 }
                 return $images;
             })->addColumn('panecolor', function ($q) {
-                if (isset($q->pane->color->name)) {
+                if (isset($q->color->name)) {
                     $color = '';
-                    $color .= '<div class="me-1" style="border-radius:100px;height: 25px;width: 25px;background-color:' . $q->pane->color->name . ';"></div>';
+                    $color .= '<div class="me-1" style="border-radius:100px;height: 25px;width: 25px;background-color:' . $q->color->name . ';"></div>';
                     return $color;
                 } else {
                     return '';
@@ -116,7 +119,7 @@ class AdminController extends Controller
 
             })
             ->editColumn('pane.product.price', function ($q) {
-                return $q->pane->product->price . ' Dh';
+                return $q->product->price . ' Dh';
             })->rawColumns(['images', 'panecolor'])
             ->make(true);
     }

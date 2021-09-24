@@ -81,7 +81,7 @@
                     <p class="mb-0 " style="font-size: 19px;"><span class="totalprice">{{$total}}</span> MAD</p>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">
-                    <p>Livraison</p>
+                    <p>Livraison<br>(entre 5 et 10 jours)</p>
                     <p style="font-size: 19px;">gratuit</p>
                 </div>
                 <div class="d-flex justify-content-between align-items-center">

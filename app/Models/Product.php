@@ -34,4 +34,7 @@ class Product extends Model
     public function pane(){
         return $this->hasMany(Pane::class,'product_id');
     }
+    public function commandeitems(){
+        return $this->hasMany(Commandeitem::class,'product_id','id');
+    }
 }

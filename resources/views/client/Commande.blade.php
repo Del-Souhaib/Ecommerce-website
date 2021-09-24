@@ -41,7 +41,7 @@
                         @foreach($commande->items as $item)
                             <div class="d-flex pb-2 pt-2">
                                 <a href="{{url('product/'.$item->product_id)}}" class="imagearticle">
-                                    @foreach($item->pane->product->images as $image)
+                                    @foreach($item->product->images as $image)
                                         @if($loop->first)
                                             <img src="{{asset('storage/products/'.$image->name)}}" style="height: 100px"
                                                  class="img-fluid">
@@ -49,11 +49,11 @@
                                     @endforeach
                                 </a>
                                 <div class="ms-5 d-flex flex-wrap justify-content-between" style="width: 100%">
-                                    <a href="{{url('product/'.$item->pane->product_id)}}"
+                                    <a href="{{url('product/'.$item->product_id)}}"
                                        style="text-decoration: none;">
                                         <p class="mb-1"
-                                           style="color: #204f8c;font-size: 20px">{{substr($item->pane->product->title,0,30)}}</p>
-                                        <p style="color: #f69c14;">{{$item->pane->product->price}} MAD</p>
+                                           style="color: #204f8c;font-size: 20px">{{substr($item->product->title,0,30)}}</p>
+                                        <p style="color: #f69c14;">{{$item->product->price}} MAD</p>
                                     </a>
                                     <div class="d-flex flex-column align-items-end">
                                         {{--                                        <input type="number" disabled="disabled"--}}
@@ -64,14 +64,14 @@
                                         <table class="table table-borderless" style="color: #6c6767">
                                             <tr>
                                                 <td class="ps-0 ps-sm-1">Quantité</td>
-                                                <td>{{$item->pane->quantity}}</td>
+                                                <td>{{$item->quantity}}</td>
                                             </tr>
-                                            @if($item->pane->color)
+                                            @if($item->color)
                                                 <tr>
                                                     <td class="ps-0 ps-sm-1"> Coleur</td>
                                                     <td>
                                                         <div class="ms-1"
-                                                             style="width:20px;height:20px;border-radius: 100px;background-color: {{$item->pane->color->name}}"></div>
+                                                             style="width:20px;height:20px;border-radius: 100px;background-color: {{$item->color->name}}"></div>
                                                     </td>
                                                 </tr>
                                             @endif

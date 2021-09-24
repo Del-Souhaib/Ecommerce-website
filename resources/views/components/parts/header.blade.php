@@ -116,7 +116,7 @@
         <form method="get" action="{{url('/search')}}" class="col-sm-6 col-md-3 d-flex dropdown"
               style="color: #6c6767;">
             <input type="text" class="form-control searchinput" data-bs-toggle="dropdown" aria-expanded="false"
-                   style="border-radius: 0 !important;background-color: #f3f1f1;font-size: 13px!important;"
+                   style="border-radius: 0 !important;background-color: #f3f1f1;font-size: 13px!important;" autocomplete="off"
                    name="inputdata"
                    placeholder="Rechercher un produit..." autocomplete="false">
             <ul class="dropdown-menu searchsuggestions" aria-labelledby="dropdownMenuButton1"

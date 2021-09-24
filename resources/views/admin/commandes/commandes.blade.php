@@ -149,14 +149,14 @@
                     serverSide: true,
                     ajax: $url,
                     columns: [
-                        { data: 'pane.product.title', name: 'pane.product.title' },
-                        { data: 'pane.product.childcategory.name', name: 'pane.product.childcategory.name' },
-                        { data: 'pane.product.company.name', name: 'pane.product.company.name' },
+                        { data: 'product.title', name: 'product.title' },
+                        { data: 'product.childcategory.name', name: 'product.childcategory.name' },
+                        { data: 'product.company.name', name: 'product.company.name' },
                         { data: 'images', name: 'images' },
                         { data: 'panecolor', name: 'panecolor' },
-                        { data: 'pane.product.statut', name: 'pane.product.statut' },
-                        { data: 'pane.product.quantity', name: 'pane.product.quantity' },
-                        { data: 'pane.product.price', name: 'pane.product.price' },
+                        { data: 'product.statut', name: 'product.statut' },
+                        { data: 'product.quantity', name: 'product.quantity' },
+                        { data: 'product.price', name: 'product.price' },
 
                     ]
                 })

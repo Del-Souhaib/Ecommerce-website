@@ -250,6 +250,343 @@
                         @endif
                     </div>
                 @endforeach
+                    @foreach($products as $product)
+                        <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6 card text-center mb-4 pb-2">
+                            <div>
+                                @foreach($product->product->images as $img)
+                                    @if($loop->first)
+                                        <a href="{{url('product/'.$product->product->id)}}" class="articleimage">
+                                            <img src="{{asset('storage/products/'.$img->name)}}"
+                                                 class="img-fluid" style="max-height: 40vh"/>
+                                        </a>
+                                    @endif
+                                @endforeach
+                                <button class="btn btn-sm rapide" productid="{{$product->product->id}}"
+                                        style="display:none;left:25%;z-index:100;top:20%;position:absolute;background-color:#f0f0f0;color:rgb(29,28,28);border-radius: 0;border: solid 1px #f0f0f0 ">
+                                    Aperçu rapide
+                                </button>
+                            </div>
+                            <a href="{{url('product/'.$product->product->id)}}" class="mt-1"
+                               style="font-size: 14px;text-decoration: none;color: #6c6767">
+                                {{substr($product->product->title,0,20)}}
+                            </a>
+                            <span class="mt-1" style="color:#204f8c;font-size: 20px ">
+                            {{$product->product->price}} MAD
+                        </span>
+                            @if($product->product->quantity>=1)
+
+                                <span style="color: #559f45;font-size: 12.5px">
+                            <img src="{{asset('media/icons/correct.svg')}}" style="width: 10px">
+                                Produit en stock ({{$product->product->quantity}})
+                        </span>
+                            @else
+                                <span class="text-danger" style="font-size: 12.5px">
+                            <img src="{{asset('media/icons/wrong.svg')}}" style="width: 10px">
+                            Produit n'est pas en stock
+                            </span>
+                            @endif
+                            {{--                        @foreach($product->product->pane as $pane2)--}}
+                            {{--                            @if($pane2->client_id==\Illuminate\Support\Facades\Auth::guard('client')->id())--}}
+                            {{--                                @php--}}
+                            {{--                                    $alreadyexist=True--}}
+                            {{--                                @endphp--}}
+                            {{--                            @else--}}
+                            {{--                                @php--}}
+                            {{--                                    $alreadyexist=False--}}
+                            {{--                                @endphp--}}
+                            {{--                            @endif--}}
+                            {{--                        @endforeach--}}
+                            @if($product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first())
+                                <div class="d-flex">
+                                    <button class="btn btn-danger deletebutton addbuttontype2 addbutton3"
+                                            paneid="{{$product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
+                                            style="border-radius: 0 !important;height: 38px;width: 20% ">
+                                        <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
+                                    </button>
+                                    <button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"
+                                            paneid="{{$product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
+                                            style="border-radius: 0 !important;width: 80%">
+                                        Supprimer
+                                    </button>
+                                </div>
+                            @else
+                                <form method="post" action="{{url('/addtopane')}}" class="d-flex">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{$product->product->id}}">
+                                    @foreach($product->product->colors as $color)
+                                        @if($loop->first)
+                                            <input type="hidden" name="selectedcolor" value="{{$color->id}}">
+                                        @endif
+                                    @endforeach
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button @if($product->product->quantity<=0) disabled="disabled"
+                                            @endif class="btn addbutton addbutton1" productid="{{$product->product->id}}"
+                                            style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 20% ">
+                                        <img src="{{asset('media/icons/plus.svg')}}" style="width: 18px">
+                                    </button>
+                                    <button @if($product->product->quantity<=0) disabled="disabled"
+                                            @endif class="btn addbutton addbutton2" productid="{{$product->product->id}}"
+                                            style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c;width: 80%">
+                                        Ajouter au panier
+                                    </button>
+                                </form>
+
+                            @endif
+                        </div>
+                    @endforeach
+                    @foreach($products as $product)
+                        <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6 card text-center mb-4 pb-2">
+                            <div>
+                                @foreach($product->product->images as $img)
+                                    @if($loop->first)
+                                        <a href="{{url('product/'.$product->product->id)}}" class="articleimage">
+                                            <img src="{{asset('storage/products/'.$img->name)}}"
+                                                 class="img-fluid" style="max-height: 40vh"/>
+                                        </a>
+                                    @endif
+                                @endforeach
+                                <button class="btn btn-sm rapide" productid="{{$product->product->id}}"
+                                        style="display:none;left:25%;z-index:100;top:20%;position:absolute;background-color:#f0f0f0;color:rgb(29,28,28);border-radius: 0;border: solid 1px #f0f0f0 ">
+                                    Aperçu rapide
+                                </button>
+                            </div>
+                            <a href="{{url('product/'.$product->product->id)}}" class="mt-1"
+                               style="font-size: 14px;text-decoration: none;color: #6c6767">
+                                {{substr($product->product->title,0,20)}}
+                            </a>
+                            <span class="mt-1" style="color:#204f8c;font-size: 20px ">
+                            {{$product->product->price}} MAD
+                        </span>
+                            @if($product->product->quantity>=1)
+
+                                <span style="color: #559f45;font-size: 12.5px">
+                            <img src="{{asset('media/icons/correct.svg')}}" style="width: 10px">
+                                Produit en stock ({{$product->product->quantity}})
+                        </span>
+                            @else
+                                <span class="text-danger" style="font-size: 12.5px">
+                            <img src="{{asset('media/icons/wrong.svg')}}" style="width: 10px">
+                            Produit n'est pas en stock
+                            </span>
+                            @endif
+                            {{--                        @foreach($product->product->pane as $pane2)--}}
+                            {{--                            @if($pane2->client_id==\Illuminate\Support\Facades\Auth::guard('client')->id())--}}
+                            {{--                                @php--}}
+                            {{--                                    $alreadyexist=True--}}
+                            {{--                                @endphp--}}
+                            {{--                            @else--}}
+                            {{--                                @php--}}
+                            {{--                                    $alreadyexist=False--}}
+                            {{--                                @endphp--}}
+                            {{--                            @endif--}}
+                            {{--                        @endforeach--}}
+                            @if($product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first())
+                                <div class="d-flex">
+                                    <button class="btn btn-danger deletebutton addbuttontype2 addbutton3"
+                                            paneid="{{$product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
+                                            style="border-radius: 0 !important;height: 38px;width: 20% ">
+                                        <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
+                                    </button>
+                                    <button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"
+                                            paneid="{{$product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
+                                            style="border-radius: 0 !important;width: 80%">
+                                        Supprimer
+                                    </button>
+                                </div>
+                            @else
+                                <form method="post" action="{{url('/addtopane')}}" class="d-flex">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{$product->product->id}}">
+                                    @foreach($product->product->colors as $color)
+                                        @if($loop->first)
+                                            <input type="hidden" name="selectedcolor" value="{{$color->id}}">
+                                        @endif
+                                    @endforeach
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button @if($product->product->quantity<=0) disabled="disabled"
+                                            @endif class="btn addbutton addbutton1" productid="{{$product->product->id}}"
+                                            style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 20% ">
+                                        <img src="{{asset('media/icons/plus.svg')}}" style="width: 18px">
+                                    </button>
+                                    <button @if($product->product->quantity<=0) disabled="disabled"
+                                            @endif class="btn addbutton addbutton2" productid="{{$product->product->id}}"
+                                            style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c;width: 80%">
+                                        Ajouter au panier
+                                    </button>
+                                </form>
+
+                            @endif
+                        </div>
+                    @endforeach
+                    @foreach($products as $product)
+                        <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6 card text-center mb-4 pb-2">
+                            <div>
+                                @foreach($product->product->images as $img)
+                                    @if($loop->first)
+                                        <a href="{{url('product/'.$product->product->id)}}" class="articleimage">
+                                            <img src="{{asset('storage/products/'.$img->name)}}"
+                                                 class="img-fluid" style="max-height: 40vh"/>
+                                        </a>
+                                    @endif
+                                @endforeach
+                                <button class="btn btn-sm rapide" productid="{{$product->product->id}}"
+                                        style="display:none;left:25%;z-index:100;top:20%;position:absolute;background-color:#f0f0f0;color:rgb(29,28,28);border-radius: 0;border: solid 1px #f0f0f0 ">
+                                    Aperçu rapide
+                                </button>
+                            </div>
+                            <a href="{{url('product/'.$product->product->id)}}" class="mt-1"
+                               style="font-size: 14px;text-decoration: none;color: #6c6767">
+                                {{substr($product->product->title,0,20)}}
+                            </a>
+                            <span class="mt-1" style="color:#204f8c;font-size: 20px ">
+                            {{$product->product->price}} MAD
+                        </span>
+                            @if($product->product->quantity>=1)
+
+                                <span style="color: #559f45;font-size: 12.5px">
+                            <img src="{{asset('media/icons/correct.svg')}}" style="width: 10px">
+                                Produit en stock ({{$product->product->quantity}})
+                        </span>
+                            @else
+                                <span class="text-danger" style="font-size: 12.5px">
+                            <img src="{{asset('media/icons/wrong.svg')}}" style="width: 10px">
+                            Produit n'est pas en stock
+                            </span>
+                            @endif
+                            {{--                        @foreach($product->product->pane as $pane2)--}}
+                            {{--                            @if($pane2->client_id==\Illuminate\Support\Facades\Auth::guard('client')->id())--}}
+                            {{--                                @php--}}
+                            {{--                                    $alreadyexist=True--}}
+                            {{--                                @endphp--}}
+                            {{--                            @else--}}
+                            {{--                                @php--}}
+                            {{--                                    $alreadyexist=False--}}
+                            {{--                                @endphp--}}
+                            {{--                            @endif--}}
+                            {{--                        @endforeach--}}
+                            @if($product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first())
+                                <div class="d-flex">
+                                    <button class="btn btn-danger deletebutton addbuttontype2 addbutton3"
+                                            paneid="{{$product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
+                                            style="border-radius: 0 !important;height: 38px;width: 20% ">
+                                        <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
+                                    </button>
+                                    <button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"
+                                            paneid="{{$product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
+                                            style="border-radius: 0 !important;width: 80%">
+                                        Supprimer
+                                    </button>
+                                </div>
+                            @else
+                                <form method="post" action="{{url('/addtopane')}}" class="d-flex">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{$product->product->id}}">
+                                    @foreach($product->product->colors as $color)
+                                        @if($loop->first)
+                                            <input type="hidden" name="selectedcolor" value="{{$color->id}}">
+                                        @endif
+                                    @endforeach
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button @if($product->product->quantity<=0) disabled="disabled"
+                                            @endif class="btn addbutton addbutton1" productid="{{$product->product->id}}"
+                                            style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 20% ">
+                                        <img src="{{asset('media/icons/plus.svg')}}" style="width: 18px">
+                                    </button>
+                                    <button @if($product->product->quantity<=0) disabled="disabled"
+                                            @endif class="btn addbutton addbutton2" productid="{{$product->product->id}}"
+                                            style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c;width: 80%">
+                                        Ajouter au panier
+                                    </button>
+                                </form>
+
+                            @endif
+                        </div>
+                    @endforeach
+                    @foreach($products as $product)
+                        <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-6 col-sm-6 col-6 card text-center mb-4 pb-2">
+                            <div>
+                                @foreach($product->product->images as $img)
+                                    @if($loop->first)
+                                        <a href="{{url('product/'.$product->product->id)}}" class="articleimage">
+                                            <img src="{{asset('storage/products/'.$img->name)}}"
+                                                 class="img-fluid" style="max-height: 40vh"/>
+                                        </a>
+                                    @endif
+                                @endforeach
+                                <button class="btn btn-sm rapide" productid="{{$product->product->id}}"
+                                        style="display:none;left:25%;z-index:100;top:20%;position:absolute;background-color:#f0f0f0;color:rgb(29,28,28);border-radius: 0;border: solid 1px #f0f0f0 ">
+                                    Aperçu rapide
+                                </button>
+                            </div>
+                            <a href="{{url('product/'.$product->product->id)}}" class="mt-1"
+                               style="font-size: 14px;text-decoration: none;color: #6c6767">
+                                {{substr($product->product->title,0,20)}}
+                            </a>
+                            <span class="mt-1" style="color:#204f8c;font-size: 20px ">
+                            {{$product->product->price}} MAD
+                        </span>
+                            @if($product->product->quantity>=1)
+
+                                <span style="color: #559f45;font-size: 12.5px">
+                            <img src="{{asset('media/icons/correct.svg')}}" style="width: 10px">
+                                Produit en stock ({{$product->product->quantity}})
+                        </span>
+                            @else
+                                <span class="text-danger" style="font-size: 12.5px">
+                            <img src="{{asset('media/icons/wrong.svg')}}" style="width: 10px">
+                            Produit n'est pas en stock
+                            </span>
+                            @endif
+                            {{--                        @foreach($product->product->pane as $pane2)--}}
+                            {{--                            @if($pane2->client_id==\Illuminate\Support\Facades\Auth::guard('client')->id())--}}
+                            {{--                                @php--}}
+                            {{--                                    $alreadyexist=True--}}
+                            {{--                                @endphp--}}
+                            {{--                            @else--}}
+                            {{--                                @php--}}
+                            {{--                                    $alreadyexist=False--}}
+                            {{--                                @endphp--}}
+                            {{--                            @endif--}}
+                            {{--                        @endforeach--}}
+                            @if($product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first())
+                                <div class="d-flex">
+                                    <button class="btn btn-danger deletebutton addbuttontype2 addbutton3"
+                                            paneid="{{$product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
+                                            style="border-radius: 0 !important;height: 38px;width: 20% ">
+                                        <img src="{{asset('media/icons/wrong2.svg')}}" style="width: 18px">
+                                    </button>
+                                    <button class="btn text-danger deletebutton addbuttontype2 addbutton4 border-danger"
+                                            paneid="{{$product->product->pane->where('client_id',\Illuminate\Support\Facades\Auth::guard('client')->id())->first()->id}}"
+                                            style="border-radius: 0 !important;width: 80%">
+                                        Supprimer
+                                    </button>
+                                </div>
+                            @else
+                                <form method="post" action="{{url('/addtopane')}}" class="d-flex">
+                                    @csrf
+                                    <input type="hidden" name="product_id" value="{{$product->product->id}}">
+                                    @foreach($product->product->colors as $color)
+                                        @if($loop->first)
+                                            <input type="hidden" name="selectedcolor" value="{{$color->id}}">
+                                        @endif
+                                    @endforeach
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button @if($product->product->quantity<=0) disabled="disabled"
+                                            @endif class="btn addbutton addbutton1" productid="{{$product->product->id}}"
+                                            style="border-radius: 0 !important;background-color:#204f8c;height: 38px;width: 20% ">
+                                        <img src="{{asset('media/icons/plus.svg')}}" style="width: 18px">
+                                    </button>
+                                    <button @if($product->product->quantity<=0) disabled="disabled"
+                                            @endif class="btn addbutton addbutton2" productid="{{$product->product->id}}"
+                                            style="border-radius: 0 !important;border-color: #204f8c;color: #204f8c;width: 80%">
+                                        Ajouter au panier
+                                    </button>
+                                </form>
+
+                            @endif
+                        </div>
+                    @endforeach
+
             </div>
         </div>
     </div>
